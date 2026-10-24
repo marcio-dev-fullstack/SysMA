@@ -1,46 +1,57 @@
 import React from 'react';
-import { ShieldAlert, AlertOctagon, Plus, CheckCircle, MapPin } from 'lucide-react';
 import { MOCK_VISTORIAS } from '../mock/data';
+import { ClipboardCheck, Plus, MapPin, Calendar, User } from 'lucide-react';
 
 export const Fiscalizacao: React.FC = () => {
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Fiscalização & Vistorias em Campo</h1>
-          <p className="text-sm text-slate-500">Emissão de autos de infração, laudos de vistoria e ordens de serviço.</p>
+          <h2 className="text-lg font-bold text-slate-800">Fiscalização e Vistorias de Campo</h2>
+          <p className="text-xs text-slate-500">
+            Orgens de serviço, emissão de Autos de Infração e formulários de vistoria.
+          </p>
         </div>
-        <button className="flex items-center space-x-2 px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 shadow-sm transition">
-          <Plus className="h-4 w-4" />
-          <span>Nova Ordem de Vistoria</span>
+        <button className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors shadow-xs">
+          <Plus className="w-4 h-4" />
+          Nova Ordem de Vistoria
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {MOCK_VISTORIAS.map((vist) => (
-          <div key={vist.id} className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+        {MOCK_VISTORIAS.map((vistoria) => (
+          <div key={vistoria.id} className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <span className="font-bold text-slate-900 text-base">{vist.numeroAuto}</span>
-              <span className={`px-2.5 py-0.5 rounded text-xs font-bold ${
-                vist.gravidade === 'Gravíssima' ? 'bg-red-100 text-red-700' :
-                'bg-amber-100 text-amber-700'
-              }`}>
-                Gravidade: {vist.gravidade}
+              <span className="font-bold text-slate-800 font-mono text-sm">{vistoria.numero_auto}</span>
+              <span
+                className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                  vistoria.status === 'Concluída'
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-blue-100 text-blue-800'
+                }`}
+              >
+                {vistoria.status}
               </span>
             </div>
 
-            <div className="space-y-1 text-sm text-slate-700">
-              <p className="font-semibold text-slate-900">Infração: {vist.tipoInfracao}</p>
-              <p className="text-xs text-slate-500 flex items-center">
-                <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                {vist.local}
-              </p>
-              <p className="text-xs text-slate-600 pt-2">{vist.observacoes}</p>
+            <div>
+              <h3 className="font-bold text-slate-900 text-base">{vistoria.alvo}</h3>
+              <p className="text-xs text-slate-500 mt-1">{vistoria.tipo_infracao}</p>
             </div>
 
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-              <span>Fiscal: <strong>{vist.fiscalResponsavel}</strong></span>
-              <span>Data: {vist.dataVistoria}</span>
+            <div className="pt-2 text-xs text-slate-600 space-y-1.5 border-t border-slate-100">
+              <div className="flex items-center gap-2">
+                <User className="w-4 h-4 text-slate-400" />
+                <span>Fiscal: <strong>{vistoria.fiscal}</strong></span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-slate-400" />
+                <span>Data agendada: {vistoria.data_vistoria}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-emerald-600" />
+                <span>Coordenadas PostGIS disponíveis</span>
+              </div>
             </div>
           </div>
         ))}

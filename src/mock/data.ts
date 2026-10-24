@@ -1,150 +1,119 @@
-import { ProcessoLicenciamento, VistoriaFiscalizacao, DenunciaAmbiental, ZonaAmbientalGIS } from '../types';
+import { ProcessoLicenciamento, Vistoria, Denuncia, ZonaGIS, LogAuditoria } from '../types';
 
 export const MOCK_PROCESSOS: ProcessoLicenciamento[] = [
   {
-    id: 'proc-1',
-    numeroProcesso: 'SISMA-2026-00101',
-    requerente: 'Loteamentos Ecoville Ltda',
-    cpfCnpj: '12.345.678/0001-90',
-    tipoLicenca: 'LI',
-    atividade: 'Parcelamento do Solo Urbano (Loteamento)',
-    nivelImpacto: 'Alto',
+    id: '1',
+    numero_processo: 'PROC-2026-0089',
+    requerente: 'Indústria Metalúrgica do Vale S.A.',
+    cpf_cnpj: '12.345.678/0001-90',
+    tipo_licenca: 'LO',
     status: 'Em Análise',
-    dataSolicitacao: '2026-10-12',
-    bairro: 'Jardim das Palmeiras',
-    lat: -23.5505,
-    lng: -46.6333,
-    descricaoArea: 'Área total de 45.000m² com necessidade de supressão vegetal parcial.'
+    atividades: 'Operação de Fundição e Tratamento Térmico de Metais',
+    data_solicitacao: '2026-02-10',
+    coordenadas: [-23.5505, -46.6333],
   },
   {
-    id: 'proc-2',
-    numeroProcesso: 'SISMA-2026-00088',
-    requerente: 'Posto de Combustíveis Alvorada',
-    cpfCnpj: '98.765.432/0001-11',
-    tipoLicenca: 'LO',
-    atividade: 'Armazenamento de Combustíveis Derivados do Petróleo',
-    nivelImpacto: 'Médio',
-    status: 'Aprovado',
-    dataSolicitacao: '2026-09-28',
-    bairro: 'Centro',
-    lat: -23.5580,
-    lng: -46.6410,
-    descricaoArea: 'Renovação de Licença de Operação com laudo de estanqueidade atualizado.'
+    id: '2',
+    numero_processo: 'PROC-2026-0102',
+    requerente: 'Loteamento Residencial EcoPark',
+    cpf_cnpj: '98.765.432/0001-11',
+    tipo_licenca: 'LI',
+    status: 'Deferido',
+    atividades: 'Instalação de Loteamento Urbano de Interesse Social',
+    data_solicitacao: '2026-01-15',
+    coordenadas: [-23.5600, -46.6500],
   },
   {
-    id: 'proc-3',
-    numeroProcesso: 'SISMA-2026-00120',
-    requerente: 'Cerâmica São José S.A.',
-    cpfCnpj: '44.555.666/0001-22',
-    tipoLicenca: 'LP',
-    atividade: 'Extração e Beneficiamento de Argila',
-    nivelImpacto: 'Alto',
-    status: 'Vistoria Agendada',
-    dataSolicitacao: '2026-10-20',
-    bairro: 'Distrito Industrial',
-    lat: -23.5420,
-    lng: -46.6200,
-    descricaoArea: 'Pedido de Licença Prévia para expansão da jazida minerária.'
+    id: '3',
+    numero_processo: 'PROC-2026-0118',
+    requerente: 'Posto de Combustíveis Rota Verde',
+    cpf_cnpj: '45.123.890/0001-44',
+    tipo_licenca: 'LP',
+    status: 'Pendente Doc',
+    atividades: 'Planejamento de Instalação de Tanques Subterrâneos',
+    data_solicitacao: '2026-02-18',
+    coordenadas: [-23.5400, -46.6200],
   },
-  {
-    id: 'proc-4',
-    numeroProcesso: 'SISMA-2026-00135',
-    requerente: 'Lava Rápido EcoClean',
-    cpfCnpj: '33.222.111/0001-55',
-    tipoLicenca: 'LAS',
-    atividade: 'Lava-Rápido Automotivo com Caixa Separadora de Água e Óleo',
-    nivelImpacto: 'Baixo',
-    status: 'Pendência Documental',
-    dataSolicitacao: '2026-10-22',
-    bairro: 'Vila Nova',
-    lat: -23.5610,
-    lng: -46.6500,
-    descricaoArea: 'Solicitante precisa apresentar outorga de poço artesiano.'
-  }
 ];
 
-export const MOCK_VISTORIAS: VistoriaFiscalizacao[] = [
+export const MOCK_VISTORIAS: Vistoria[] = [
   {
-    id: 'vist-101',
-    numeroAuto: 'AUTO-2026-042',
-    fiscalResponsavel: 'Eng. Carlos Eduardo Viana',
-    dataVistoria: '2026-10-21',
-    tipoInfracao: 'Desmatamento',
-    local: 'APP do Córrego Verde - Lote 14',
-    status: 'Autuado',
-    gravidade: 'Gravíssima',
-    lat: -23.5530,
-    lng: -46.6280,
-    observacoes: 'Supressão vegetal não autorizada em área de preservação permanente (margem de rio).'
+    id: 'v1',
+    numero_auto: 'VIS-2026-0041',
+    alvo: 'Aterro Sanitário Municipal Norte',
+    fiscal: 'Dr. Carlos Eduardo Silva',
+    tipo_infracao: 'Monitoramento de Chorume e Queimadores de Methane',
+    status: 'Concluída',
+    data_vistoria: '2026-02-20',
+    coordenadas: [-23.5300, -46.6100],
   },
   {
-    id: 'vist-102',
-    numeroAuto: 'AUTO-2026-045',
-    fiscalResponsavel: 'Dra. Mariana Souza',
-    dataVistoria: '2026-10-23',
-    tipoInfracao: 'Resíduos Sólidos',
-    local: 'Rua das Indústrias, 500',
-    status: 'Pendente',
-    gravidade: 'Grave',
-    lat: -23.5480,
-    lng: -46.6380,
-    observacoes: 'Descarte irregular de entulho e resíduos industriais em terreno baldio.'
-  }
+    id: 'v2',
+    numero_auto: 'VIS-2026-0055',
+    alvo: 'Pedreira Serra Azul Ltda',
+    fiscal: 'Engª. Amanda Oliveira',
+    tipo_infracao: 'Verificação de Níveis de Ruído e Supressão Vegetal',
+    status: 'Em Andamento',
+    data_vistoria: '2026-02-24',
+    coordenadas: [-23.5700, -46.6800],
+  },
 ];
 
-export const MOCK_DENUNCIAS: DenunciaAmbiental[] = [
+export const MOCK_DENUNCIAS: Denuncia[] = [
   {
-    id: 'den-1',
-    protocolo: 'DEN-2026-099',
-    categoria: 'Queimada',
-    descricao: 'Queimada urbana em terreno baldio gerando fumaça densa nas residências.',
-    bairro: 'Bairro Alto',
-    dataRegistro: '2026-10-24',
-    status: 'Recebida',
-    anonima: true,
-    lat: -23.5560,
-    lng: -46.6350
+    id: 'd1',
+    protocolo: 'DEN-2026-8801',
+    categoria: 'Descarte Irregular de Resíduos',
+    bairro: 'Jardim das Oliveiras',
+    descricao: 'Caçambas descartando entulho de obra nas margens do Córrego Limpo.',
+    status: 'Em Triagem',
+    data_registro: '2026-02-23',
+    anonimo: true,
   },
   {
-    id: 'den-2',
-    protocolo: 'DEN-2026-085',
-    categoria: 'Poluição Hídrica',
-    descricao: 'Efluente colorido com forte cheiro químico descartado diretamente na galeria pluvial.',
-    bairro: 'Distrito Industrial',
-    dataRegistro: '2026-10-22',
-    status: 'Em Investigação',
-    anonima: false,
-    lat: -23.5430,
-    lng: -46.6220
-  }
+    id: 'd2',
+    protocolo: 'DEN-2026-8805',
+    categoria: 'Desmatamento Sem Autorização',
+    bairro: 'Parque das Árvores',
+    descricao: 'Corte de vegetação nativa em área de APP por trator de esteira.',
+    status: 'Em Investigacao',
+    data_registro: '2026-02-22',
+    anonimo: false,
+  },
 ];
 
-export const MOCK_ZONAS_GIS: ZonaAmbientalGIS[] = [
+export const MOCK_ZONAS_GIS: ZonaGIS[] = [
   {
-    id: 'zona-1',
-    nome: 'Área de Preservação Permanente (APP Córrego Principal)',
+    id: 'z1',
+    nome_zona: 'APP Córrego das Pedras',
     categoria: 'APP',
-    areaHectares: 120.5,
-    corHex: '#16a34a',
-    restricoes: ['Proibida edificação', 'Vegetação nativa protegida', 'Faixa não edificável de 30 metros'],
-    coordenadasCentro: [-23.5530, -46.6280]
+    restricao: 'Alta',
+    area_ha: 45.8,
   },
   {
-    id: 'zona-2',
-    nome: 'Parque Ecológico Municipal das Aves',
-    categoria: 'Unidade de Conservação',
-    areaHectares: 340.0,
-    corHex: '#0d9488',
-    restricoes: ['Apenas uso sustentável e ecoturismo', 'Pesquisas científicas autorizadas'],
-    coordenadasCentro: [-23.5650, -46.6450]
+    id: 'z2',
+    nome_zona: 'Reserva Ecológica Municipal',
+    categoria: 'Unidade de Conservacao',
+    restricao: 'Alta',
+    area_ha: 312.4,
+  },
+];
+
+export const MOCK_LOGS: LogAuditoria[] = [
+  {
+    id: 'l1',
+    usuario: 'carlos.silva@meioambiente.gov.br',
+    acao: 'Aprovação de Licença de Instalação (LI-2026-0102)',
+    modulo: 'Licenciamento',
+    ip: '192.168.1.104',
+    timestamp: '2026-02-24 10:14:22',
   },
   {
-    id: 'zona-3',
-    nome: 'Distrito Industrial Sustentável - Zona B',
-    categoria: 'Zona Industrial',
-    areaHectares: 210.8,
-    corHex: '#d97706',
-    restricoes: ['Exige caixa separadora de óleo', 'Tratamento primário de efluentes obrigatório'],
-    coordenadasCentro: [-23.5420, -46.6200]
-  }
+    id: 'l2',
+    usuario: 'amanda.oliveira@meioambiente.gov.br',
+    acao: 'Emissão de Auto de Vistoria (VIS-2026-0041)',
+    modulo: 'Fiscalização',
+    ip: '192.168.1.112',
+    timestamp: '2026-02-24 09:45:01',
+  },
 ];

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Navbar } from './components/Layout/Navbar';
 import { Sidebar } from './components/Layout/Sidebar';
+import { Navbar } from './components/Layout/Navbar';
 import { Dashboard } from './pages/Dashboard';
 import { Licenciamento } from './pages/Licenciamento';
 import { Fiscalizacao } from './pages/Fiscalizacao';
@@ -9,10 +9,10 @@ import { ZoneamentoGIS } from './pages/ZoneamentoGIS';
 import { Auditoria } from './pages/Auditoria';
 
 export function App() {
-  const [currentTab, setCurrentTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   const renderContent = () => {
-    switch (currentTab) {
+    switch (activeTab) {
       case 'dashboard':
         return <Dashboard />;
       case 'licenciamento':
@@ -31,13 +31,11 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-sans">
-      <Navbar activeTab={currentTab} />
-      <div className="flex flex-1">
-        <Sidebar currentTab={currentTab} setCurrentTab={setCurrentTab} />
-        <main className="flex-1 p-6 max-w-7xl mx-auto w-full overflow-y-auto">
-          {renderContent()}
-        </main>
+    <div className="flex min-h-screen bg-slate-50 font-sans">
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className="flex-1 flex flex-col min-w-0">
+        <Navbar currentModule={activeTab} />
+        <main className="flex-1 p-6 overflow-y-auto">{renderContent()}</main>
       </div>
     </div>
   );

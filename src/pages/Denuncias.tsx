@@ -1,37 +1,47 @@
 import React from 'react';
-import { AlertTriangle, ShieldCheck, MapPin } from 'lucide-react';
 import { MOCK_DENUNCIAS } from '../mock/data';
+import { AlertTriangle, MapPin, Eye, ShieldCheck } from 'lucide-react';
 
 export const Denuncias: React.FC = () => {
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Canal de Denúncias Ambientais</h1>
-          <p className="text-sm text-slate-500">Acompanhamento e triagem de relatos anônimos e identificados do cidadão.</p>
+          <h2 className="text-lg font-bold text-slate-800">Portal do Cidadão - Denúncias Ambientais</h2>
+          <p className="text-xs text-slate-500">
+            Triagem, investigação e protocolo público de ocorrências ecológicas.
+          </p>
         </div>
       </div>
 
       <div className="space-y-4">
-        {MOCK_DENUNCIAS.map((den) => (
-          <div key={den.id} className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-emerald-700 text-sm bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200">
-                {den.protocolo}
-              </span>
-              <span className="text-xs text-slate-500">{den.dataRegistro}</span>
+        {MOCK_DENUNCIAS.map((denuncia) => (
+          <div key={denuncia.id} className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs font-bold bg-amber-50 text-amber-800 px-2 py-0.5 rounded border border-amber-200">
+                  {denuncia.protocolo}
+                </span>
+                <span className="text-xs font-semibold text-slate-500">{denuncia.categoria}</span>
+                {denuncia.anonimo && (
+                  <span className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3" /> Anônima
+                  </span>
+                )}
+              </div>
+              <p className="text-sm font-semibold text-slate-800">{denuncia.descricao}</p>
+              <p className="text-xs text-slate-500 flex items-center gap-1">
+                <MapPin className="w-3.5 h-3.5 text-slate-400" /> Bairro: {denuncia.bairro}
+              </p>
             </div>
 
-            <h3 className="font-semibold text-slate-800 text-base">{den.categoria} - {den.bairro}</h3>
-            <p className="text-sm text-slate-600">{den.descricao}</p>
-
-            <div className="flex items-center justify-between pt-3 text-xs text-slate-500">
-              <span className="flex items-center">
-                <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" /> Lat {den.lat}, Lng {den.lng}
+            <div className="flex items-center gap-3 self-end md:self-center">
+              <span className="px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-900">
+                {denuncia.status}
               </span>
-              <span className="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-semibold">
-                Status: {den.status}
-              </span>
+              <button className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
+                <Eye className="w-4 h-4" />
+              </button>
             </div>
           </div>
         ))}

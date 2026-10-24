@@ -1,9 +1,8 @@
-name: Deploy SisMA Front-End to GitHub Pages
+name: Deploy Front-End SisMA no GitHub Pages
 
 on:
   push:
-    branches: [ main, master ]
-  workflow_dispatch:
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -15,31 +14,31 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build React Application
+      - name: Build project
         run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload Build Artifacts
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'

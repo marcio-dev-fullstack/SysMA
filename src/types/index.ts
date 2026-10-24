@@ -1,56 +1,53 @@
-export type TipoLicenca = 'LP' | 'LI' | 'LO' | 'LAS' | 'Dispensa';
-
-export type StatusProcesso = 'Em Análise' | 'Vistoria Agendada' | 'Aprovado' | 'Indeferido' | 'Pendência Documental';
+export type StatusProcesso = 'Em Análise' | 'Deferido' | 'Indeferido' | 'Pendente Doc';
+export type TipoLicenca = 'LP' | 'LI' | 'LO' | 'LAS';
 
 export interface ProcessoLicenciamento {
   id: string;
-  numeroProcesso: string;
+  numero_processo: string;
   requerente: string;
-  cpfCnpj: string;
-  tipoLicenca: TipoLicenca;
-  atividade: string;
-  nivelImpacto: 'Baixo' | 'Médio' | 'Alto';
+  cpf_cnpj: string;
+  tipo_licenca: TipoLicenca;
   status: StatusProcesso;
-  dataSolicitacao: string;
-  bairro: string;
-  lat: number;
-  lng: number;
-  descricaoArea?: string;
+  atividades: string;
+  data_solicitacao: string;
+  coordenadas?: [number, number];
 }
 
-export interface VistoriaFiscalizacao {
+export interface Vistoria {
   id: string;
-  numeroAuto: string;
-  fiscalResponsavel: string;
-  dataVistoria: string;
-  tipoInfracao: 'Desmatamento' | 'Poluição Sonora' | 'Resíduos Sólidos' | 'Esgoto Irregular' | 'Obra Sem Licença';
-  local: string;
-  status: 'Pendente' | 'Concluída' | 'Autuado' | 'Arquivado';
-  gravidade: 'Leve' | 'Grave' | 'Gravíssima';
-  lat: number;
-  lng: number;
-  observacoes: string;
+  numero_auto: string;
+  alvo: string;
+  fiscal: string;
+  tipo_infracao: string;
+  status: 'Agendada' | 'Concluída' | 'Em Andamento' | 'Notificado';
+  data_vistoria: string;
+  coordenadas?: [number, number];
 }
 
-export interface DenunciaAmbiental {
+export interface Denuncia {
   id: string;
   protocolo: string;
-  categoria: 'Queimada' | 'Desmatamento' | 'Poluição Hídrica' | 'Maus Tratos Animais' | 'Barulho Excessivo';
-  descricao: string;
+  categoria: string;
   bairro: string;
-  dataRegistro: string;
-  status: 'Recebida' | 'Em Investigação' | 'Resolvida' | 'Improcedente';
-  anonima: boolean;
-  lat: number;
-  lng: number;
+  descricao: string;
+  status: 'Em Triagem' | 'Em Investigacao' | 'Arquivada' | 'Resolvida';
+  data_registro: string;
+  anonimo: boolean;
 }
 
-export interface ZonaAmbientalGIS {
+export interface ZonaGIS {
   id: string;
-  nome: string;
-  categoria: 'APP' | 'Unidade de Conservação' | 'Zona Industrial' | 'Perímetro Urbano';
-  areaHectares: number;
-  corHex: string;
-  restricoes: string[];
-  coordenadasCentro: [number, number];
+  nome_zona: string;
+  categoria: 'APP' | 'Reserva Legal' | 'Unidade de Conservacao' | 'Zona Urbana';
+  restricao: 'Alta' | 'Media' | 'Baixa';
+  area_ha: number;
+}
+
+export interface LogAuditoria {
+  id: string;
+  usuario: string;
+  acao: string;
+  modulo: string;
+  ip: string;
+  timestamp: string;
 }
