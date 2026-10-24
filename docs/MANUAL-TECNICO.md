@@ -1,4 +1,4 @@
-# Manual Técnico de Arquitetura e Implementação —SysMA (Sistema de Meio Ambiente)
+# Manual Técnico de Arquitetura e Implementação 
 
 ---
 
