@@ -1,23 +1,21 @@
 <div align="center">
 
-  <br />
-  
-  <h1 align="center">🌿 SisMA</h1>
+  <img src="https://img.shields.io/badge/SysMA-Sistema%20de%20Gest%C3%A3o%20Ambiental-tree?style=for-the-badge&color=2e7d32" alt="SysMA Header Banner" width="100%" />
 
-  <p align="center">
-    <strong>Sistema Integrado de Gestão e Licenciamento Ambiental Municipal</strong>
-    <br />
-    <i>Modernização, transparência e eficiência na gestão pública de recursos ambientais.</i>
-  </p>
+  # 🌿 SysMA — Sistema de Licenciamento Ambiental Municipal
 
-  <p align="center">
-    <a href="https://github.com/marcio-dev-fullstack/SysMA/stargazers"><img src="https://img.shields.io/github/stars/marcio-dev-fullstack/SysMA?style=for-the-badge&logo=github&color=2e7d32" alt="Stars"></a>
-    <a href="https://github.com/marcio-dev-fullstack/SysMA/network/members"><img src="https://img.shields.io/github/forks/marcio-dev-fullstack/SysMA?style=for-the-badge&logo=github&color=2e7d32" alt="Forks"></a>
-    <a href="https://github.com/marcio-dev-fullstack/SysMA/issues"><img src="https://img.shields.io/github/issues/marcio-dev-fullstack/SysMA?style=for-the-badge&logo=github&color=2e7d32" alt="Issues"></a>
-    <a href="https://github.com/marcio-dev-fullstack/SysMA/blob/main/LICENSE"><img src="https://img.shields.io/github/license/marcio-dev-fullstack/SysMA?style=for-the-badge&logo=github&color=2e7d32" alt="License"></a>
-  </p>
+  **Plataforma moderna, eficiente e escalável para automação e gestão de licenças e processos ambientais.**
 
-  <br />
+  [![GitHub Stars](https://img.shields.io/github/stars/marcio-dev-fullstack/SysMA?style=flat-square&color=388e3c)](https://github.com/marcio-dev-fullstack/SysMA/stargazers)
+  [![GitHub Forks](https://img.shields.io/github/forks/marcio-dev-fullstack/SysMA?style=flat-square&color=388e3c)](https://github.com/marcio-dev-fullstack/SysMA/network/members)
+  [![GitHub License](https://img.shields.io/github/license/marcio-dev-fullstack/SysMA?style=flat-square&color=388e3c)](LICENSE)
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
+  [Sobre](#-sobre-o-projeto) •
+  [Funcionalidades](#-funcionalidades-em-destaque) •
+  [Tecnologias](#%EF%B8%8F-arquitetura-e-tecnologias) •
+  [Instalação](#-como-executar-o-projeto) •
+  [Contribuição](#-contribuição)
 
 </div>
 
@@ -25,7 +23,7 @@
 
 ## 🎯 Sobre o Projeto
 
-O **SisMA** é uma plataforma *Full Stack* desenvolvida para digitalizar e otimizar todo o ciclo de vida do licenciamento ambiental em secretarias e órgãos municipais. O sistema substitui processos físicos por fluxos totalmente digitais, garantindo maior agilidade para empreendedores e rigor técnico para os analistas ambientais.
+O **SysMA** é uma plataforma *Full Stack* desenvolvida para digitalizar e otimizar todo o ciclo de vida do licenciamento ambiental em secretarias e órgãos municipais. O sistema substitui processos físicos por fluxos totalmente digitais, garantindo maior agilidade para empreendedores e rigor técnico para os analistas ambientais.
 
 ### 💡 Principais Impactos
 
@@ -37,32 +35,13 @@ O **SisMA** é uma plataforma *Full Stack* desenvolvida para digitalizar e otimi
 
 ## ⚡ Funcionalidades em Destaque
 
-<details open>
-  <summary><b>📜 Módulo de Licenciamento & Processos</b></summary>
-  <ul>
-    <li>Gestão unificada de Licença Prévia (LP), Licença de Instalação (LI) e Licença de Operação (LO).</li>
-    <li>Anexação e validação de documentos técnicos (CAR, ART, Memorial Desritivo, RIMA).</li>
-    <li>Emissão automatizada de certidões e licenças com verificação por QR Code / Hash.</li>
-  </ul>
-</details>
-
-<details open>
-  <summary><b>📊 Dashboard & Relatórios Gerenciais</b></summary>
-  <ul>
-    <li>Visão geral em tempo real com métricas de processos deferidos, indeferidos e em análise.</li>
-    <li>Alertas automáticos de vencimento de licenças vigentes.</li>
-    <li>Relatórios consolidados para prestação de contas e fiscalização.</li>
-  </ul>
-</details>
-
-<details open>
-  <summary><b>🔐 Controle de Acesso & Perfis (RBAC)</b></summary>
-  <ul>
-    <li><b>Requerente / Empreendedor:</b> Acompanhamento e abertura de solicitações.</li>
-    <li><b>Analista Técnico:</b> Emissão de pareceres, vistorias e solicitação de readequações.</li>
-    <li><b>Administrador:</b> Gestão de usuários, parâmetros municipais e auditoria do sistema.</li>
-  </ul>
-</details>
+| Módulo | Descrição |
+| :--- | :--- |
+| 📜 **Licenciamento Simplificado** | Emissão e acompanhamento de LP (Prévia), LI (Instalação) e LO (Operação). |
+| 📁 **Gestão do Histórico** | Controle digital e centralizado de todos os processos e pareceres técnicos. |
+| 📊 **Dashboard Analítico** | Visão geral de processos ativos, licenças vigentes, pendências e prazos de vencimento. |
+| 🛡️ **Segurança & Controle** | Níveis de acesso granulares (Administrador, Analista e Requerente). |
+| 📍 **Georreferenciamento** | Suporte para dados espaciais e mapeamento básico das áreas licenciadas. |
 
 ---
 
@@ -117,7 +96,7 @@ cd SysMA
 
 ## 🤝 Contribuição
 
-Contribuições para o **SisMA** são bem-vindas! Siga os passos abaixo:
+Contribuições para o **SysMA** são bem-vindas! Siga os passos abaixo:
 
 1. Faça um **Fork** deste repositório.
 2. Crie uma branch para sua funcionalidade: `git checkout -b feature/minha-funcionalidade`
@@ -131,10 +110,8 @@ Contribuições para o **SisMA** são bem-vindas! Siga os passos abaixo:
 
 Este projeto está sob a licença **MIT** — consulte o arquivo [LICENSE](LICENSE) para obter mais detalhes.
 
----
-
 <div align="center">
 
-  <sub>Desenvolvido com carinho por <strong><a href="https://github.com/marcio-dev-fullstack">Márcio Rodrigues de Oliveira</a></strong></sub>
+Desenvolvido por **[Márcio Rodrigues de Oliveira](https://github.com/marcio-dev-fullstack)**
 
 </div>
