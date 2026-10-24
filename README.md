@@ -1,109 +1,101 @@
-<div align="center">
+# 🌳 SisMA - Sistema de Meio Ambiente (v2.0)
 
-  <img src="https://img.shields.io/badge/SysMA-Sistema%20de%20Gest%C3%A3o%20Ambiental-tree?style=for-the-badge&color=2e7d32" alt="SysMA Header Banner" width="100%" />
+> **Stack Moderno**: `React 19` | `TypeScript 5.7` | `Vite 6.0` | `Tailwind CSS v4` | `Supabase (PostGIS)` | `GitHub Pages`
 
-  # 🌿 SysMA — Sistema de Licenciamento Ambiental Municipal
-
-  **Plataforma moderna, eficiente e escalável para automação e gestão de licenças e processos ambientais.**
-
-  [![GitHub Stars](https://img.shields.io/github/stars/marcio-dev-fullstack/SysMA?style=flat-square&color=388e3c)](https://github.com/marcio-dev-fullstack/SysMA/stargazers)
-  [![GitHub Forks](https://img.shields.io/github/forks/marcio-dev-fullstack/SysMA?style=flat-square&color=388e3c)](https://github.com/marcio-dev-fullstack/SysMA/network/members)
-  [![GitHub License](https://img.shields.io/github/license/marcio-dev-fullstack/SysMA?style=flat-square&color=388e3c)](LICENSE)
-  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-
-  [Sobre](#-sobre-o-projeto) •
-  [Funcionalidades](#-funcionalidades-em-destaque) •
-  [Tecnologias](#%EF%B8%8F-arquitetura-e-tecnologias) •
-  [Instalação](#-como-executar-o-projeto) •
-  [Contribuição](#-contribuição)
-
-</div>
+O **SisMA (Sistema de Meio Ambiente)** é uma solução digital moderna e integrada para gestão, licenciamento e fiscalização ambiental municipal. Reconstruído na versão **v2.0** como uma **Single Page Application (SPA)** serverless desacoplada em **React 19, TypeScript e Supabase (PostGIS)**.
 
 ---
 
-## 🎯 Sobre o Projeto
+## ✨ Funcionalidades Principais
 
-O **SysMA** é uma plataforma *Full Stack* desenvolvida para digitalizar e otimizar todo o ciclo de vida do licenciamento ambiental em secretarias e órgãos municipais. O sistema substitui processos físicos por fluxos totalmente digitais, garantindo maior agilidade para empreendedores e rigor técnico para os analistas ambientais.
-
-### 💡 Principais Impactos
-
-* **Redução de Prazos:** Agilização na tramitação de pareceres técnicos e emissão de licenças.
-* **Auditabilidade:** Histórico imutável de movimentações de cada processo.
-* **Sustentabilidade:** Processos 100% digitais (zero papel).
+- 📄 **Licenciamento Ambiental Digital**: Gestão completa de solicitações e emissão de Licença Prévia (LP), Licença de Instalação (LI), Licença de Operação (LO) e Licença Ambiental Simplificada (LAS).
+- 🔍 **Fiscalização & Vistorias em Campo**: Emissão de ordens de serviço, registro de autos de infração e vistorias georreferenciadas com fotos.
+- 📣 **Portal do Cidadão & Denúncias**: Canal público para envio anônimo ou identificado de denúncias ambientais e acompanhamento por protocolo.
+- 🗺️ **WebGIS & Zoneamento Ambiental**: Mapeamento espacial interativo com integração PostGIS para acompanhamento de APPs (Áreas de Preservação Permanente) e Unidades de Conservação.
+- 📊 **Dashboard & Indicadores (ESG)**: Painéis com métricas em tempo real, volume de licenças emitidas e status de chamados.
+- 🛡️ **Trilha de Auditoria**: Registro detalhado e imutável de todas as ações de fiscais, analistas e administradores.
 
 ---
 
-## ⚡ Funcionalidades em Destaque
+## 🛠️ Stack Tecnológica
 
-| Módulo | Descrição |
+| Camada | Tecnologia |
 | :--- | :--- |
-| 📜 **Licenciamento Simplificado** | Emissão e acompanhamento de LP (Prévia), LI (Instalação) e LO (Operação). |
-| 📁 **Gestão do Histórico** | Controle digital e centralizado de todos os processos e pareceres técnicos. |
-| 📊 **Dashboard Analítico** | Visão geral de processos ativos, licenças vigentes, pendências e prazos de vencimento. |
-| 🛡️ **Segurança & Controle** | Níveis de acesso granulares (Administrador, Analista e Requerente). |
-| 📍 **Georreferenciamento** | Suporte para dados espaciais e mapeamento básico das áreas licenciadas. |
+| **Front-End / UI** | React 19 + TypeScript 5.7 + Vite 6 |
+| **Estilização** | Tailwind CSS v4 + Lucide Icons |
+| **Bancos de Dados & Backend** | Supabase (PostgreSQL 16 + Extensão PostGIS) |
+| **Hospedagem & CI/CD** | GitHub Pages + GitHub Actions (`.github/workflows/deploy.yml`) |
 
 ---
 
-## 🛠️ Arquitetura e Tecnologias
+## 📂 Estrutura do Repositório
 
 ```text
- ┌─────────────────────────────────────────────────────────────┐
- │                      CAMADA DE CLIENTE                      │
- │                     Interface Web / PWA                     │
- └──────────────────────────────┬──────────────────────────────┘
-                                │  HTTPS / Rest API
-                                ▼
- ┌─────────────────────────────────────────────────────────────┐
- │                      CAMADA DE NEGÓCIO                      │
- │               Serviços de Autenticação & Regras             │
- └──────────────────────────────┬──────────────────────────────┘
-                                │
-                                ▼
- ┌─────────────────────────────────────────────────────────────┐
- │                      PERSISTÊNCIA & DADOS                   │
- │           PostgreSQL / Supabase Storage & Database          │
- └─────────────────────────────────────────────────────────────┘
+.
+├── .github/workflows/deploy.yml # Workflow de deploy automático no GitHub Pages
+├── src/
+│   ├── components/Layout/      # Navbar, Sidebar e elementos de navegação
+│   ├── lib/supabase.ts         # Cliente Supabase tipado
+│   ├── mock/data.ts            # Dados simulados para execução estática
+│   ├── pages/                  # Páginas dos módulos (Dashboard, Licenciamento, etc.)
+│   ├── types/index.ts          # Interfaces TypeScript do sistema
+│   ├── App.tsx
+│   └── main.tsx
+├── supabase/
+│   ├── schema.sql              # DDL das tabelas e funções PostGIS
+│   └── README.md               # Guia de configuração do banco
+├── index.html
+├── package.json
+├── tsconfig.json
+└── vite.config.ts              # Configuração do Vite (base: '/SisMA/')
 ```
-
-| Camada | Tecnologia / Ferramenta | Uso |
-| :--- | :--- | :--- |
-| **Frontend** | HTML5 / CSS3 / JavaScript | Interface de usuário responsiva e dinâmica |
-| **Backend / BaaS** | Supabase / PostgreSQL | Autenticação, banco de dados relacional e file storage |
-| **Deploy / CI-CD** | GitHub Pages / Actions | Integração e entrega contínua |
 
 ---
 
 ## 🚀 Como Executar o Projeto
 
 ### 1. Pré-requisitos
-* Git instalado na máquina.
-* Navegador moderno (Google Chrome, Mozilla Firefox, Microsoft Edge ou Safari).
+- **Node.js**: v20.x ou superior
+- **npm** ou **pnpm**
 
-### 2. Clonando e Executando
+### 2. Instalação e Execução Local
 
 ```bash
-# Clone o repositório
-git clone https://github.com/marcio-dev-fullstack/SysMA.git
+# Clonar o repositório
+git clone marcio-dev-fullstack/SisMA
+cd SisMA
 
-# Acesse o diretório
-cd SysMA
+# Instalar as dependências
+npm install
 
-# Abra o arquivo index.html no seu navegador ou utilize a extensão Live Server no VS Code
+# Rodar em modo de desenvolvimento
+npm run dev
 ```
+
+O aplicativo estará acessível localmente.
 
 ---
 
-<div align="center">
+## 🗄️ Configuração do Supabase (Opcional para Modo Conectado)
 
-**SysMA — Sistema de Licenciamento Ambiental Municipal**  
-*Tecnologia e inovação para uma gestão ambiental mais ágil, transparente e eficiente.*
+Para conectar a aplicação ao seu próprio banco de dados Supabase:
 
-### 📜 Licença
+1. Acesse o **SQL Editor** do seu projeto no Supabase e execute o conteúdo do arquivo `supabase/schema.sql`.
+2. Crie um arquivo `.env.local` na raiz do projeto com as credenciais do seu projeto.
 
-Software Proprietário.  
-Desenvolvido por: [Zentix Tecnologia](https://zentix.eng.br)
+---
 
-Todos os direitos reservados © 2026.
+## 🌐 Deploy Automático no GitHub Pages
 
-</div>
+O projeto já inclui um fluxo de integração contínua (`.github/workflows/deploy.yml`). Para ativar a publicação automática:
+
+1. Faça push do código para a branch `main` ou `master`.
+2. No GitHub, vá em **Settings > Pages**.
+3. Em **Source**, selecione **GitHub Actions**.
+4. Cada commit irá compilar e atualizar automaticamente o site publicado.
+
+---
+
+## 📄 Licença
+
+Este projeto é distribuído sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.

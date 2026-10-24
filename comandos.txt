@@ -1,0 +1,9 @@
+
+Para correções simples:
+
+git add . && git commit -m "fix: correções gerais de bugs e ajustes" && git push
+
+
+Para novas funcionalidades:
+
+git add . && git commit -m "feat: adição de novos recursos e funcionalidades" && git push
