@@ -114,10 +114,3 @@ Desenvolvido por: https://zentix.eng.br
 
 Todos os direitos reservados © 2026.
 
----
-
-<div align="center">
-
-### 🚍 Educação Inteligente • Gestão Eficiente • Transparência Pública
-
-</div>
