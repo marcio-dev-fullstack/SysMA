@@ -20,7 +20,7 @@ O **SysMA (Sistema de Meio Ambiente)** foi rearquitetado para operar sob o parad
 ## 2. Estrutura Completa de Diretórios e Arquivos do Pacote (`SysMA`)
 
 ```text
-sysma-completo/
+sysma/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml          # Workflow do GitHub Actions para build e deploy no GitHub Pages
