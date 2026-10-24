@@ -96,22 +96,28 @@ cd SysMA
 
 ## 🤝 Contribuição
 
-Contribuições para o **SysMA** são bem-vindas! Siga os passos abaixo:
+Contribuições devem ser propostas por meio de branches ou pull requests. Toda alteração deve incluir descrição objetiva, testes compatíveis e atualização da documentação quando necessário.
 
-1. Faça um **Fork** deste repositório.
-2. Crie uma branch para sua funcionalidade: `git checkout -b feature/minha-funcionalidade`
-3. Salve suas alterações e crie uma mensagem de commit: `git commit -m 'feat: Adiciona nova funcionalidade'`
-4. Envie suas alterações: `git push origin feature/minha-funcionalidade`
-5. Abra um **Pull Request**.
+## Licença
+
+A licença e os termos de uso deste projeto devem ser definidos pelo responsável pelo repositório. Enquanto essa definição não estiver disponível, o uso, a cópia e a distribuição do código devem ser tratados conforme as permissões formalmente estabelecidas para o projeto.
 
 ---
 
-## 📄 Licença
+**Sistema de Monitoramento Inteligente da Frota Escolar** — tecnologia para uma operação mais segura, rastreável e eficiente.
 
-Este projeto está sob a licença **MIT** — consulte o arquivo [LICENSE](LICENSE) para obter mais detalhes.
+# 📜 Licença
+
+Software Proprietário.
+
+Desenvolvido por: https://zentix.eng.br
+
+Todos os direitos reservados © 2026.
+
+---
 
 <div align="center">
 
-Desenvolvido por **[Márcio Rodrigues de Oliveira](https://github.com/marcio-dev-fullstack)**
+### 🚍 Educação Inteligente • Gestão Eficiente • Transparência Pública
 
 </div>
