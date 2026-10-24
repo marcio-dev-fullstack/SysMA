@@ -17,7 +17,7 @@ O **SysMA (Sistema de Meio Ambiente)** foi rearquitetado para operar sob o parad
 
 ---
 
-## 2. Estrutura Completa de Diretórios e Arquivos do Pacote (`sysma-completo.zip`)
+## 2. Estrutura Completa de Diretórios e Arquivos do Pacote (`SysMA`)
 
 ```text
 sysma-completo/
