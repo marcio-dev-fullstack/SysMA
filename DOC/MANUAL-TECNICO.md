@@ -1,10 +1,10 @@
-# Manual Técnico de Arquitetura e Implementação — SisMA (Sistema de Meio Ambiente)
+# Manual Técnico de Arquitetura e Implementação —SysMA (Sistema de Meio Ambiente)
 
 ---
 
 ## 1. Visão Geral do Sistema e Arquitetura
 
-O **SisMA (Sistema de Meio Ambiente)** foi rearquitetado para operar sob o paradigma **API-First e Desacoplado**, garantindo alta escalabilidade, custo operacional mínimo e total conformidade com os padrões modernos de engenharia de software para a gestão pública ambiental.
+O **SysMA (Sistema de Meio Ambiente)** foi rearquitetado para operar sob o paradigma **API-First e Desacoplado**, garantindo alta escalabilidade, custo operacional mínimo e total conformidade com os padrões modernos de engenharia de software para a gestão pública ambiental.
 
 ### Stack Tecnológica
 * **Front-End / Interface Web**: React 19 + Vite + TypeScript + Tailwind CSS v4.
@@ -17,10 +17,10 @@ O **SisMA (Sistema de Meio Ambiente)** foi rearquitetado para operar sob o parad
 
 ---
 
-## 2. Estrutura Completa de Diretórios e Arquivos do Pacote (`sisma-completo.zip`)
+## 2. Estrutura Completa de Diretórios e Arquivos do Pacote (`sysma-completo.zip`)
 
 ```text
-sisma-completo/
+sysma-completo/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml          # Workflow do GitHub Actions para build e deploy no GitHub Pages
@@ -53,18 +53,18 @@ sisma-completo/
 ├── package.json                # Manifesto de dependências e scripts de build
 ├── README.md                   # Documentação geral do repositório
 ├── tsconfig.json               # Configurações do compilador TypeScript
-└── vite.config.ts              # Configuração do bundler Vite com rota base '/SisMA/'
+└── vite.config.ts              # Configuração do bundler Vite com rota base '/SysMA/'
 ```
 
 ---
 
 ## 3. Configuração do Banco de Dados no Supabase (Schema SQL & PostGIS)
 
-Para provisionar a infraestrutura de dados geoespaciais e relacionais do SisMA, execute o script SQL abaixo no **SQL Editor** do projeto no Supabase:
+Para provisionar a infraestrutura de dados geoespaciais e relacionais do SysMA, execute o script SQL abaixo no **SQL Editor** do projeto no Supabase:
 
 ```sql
 -- ============================================================================
--- SCRIPT DE INFRAESTRUTURA E BANCO DE DADOS - SisMA (SISTEMA DE MEIO AMBIENTE)
+-- SCRIPT DE INFRAESTRUTURA E BANCO DE DADOS - SysMA (SISTEMA DE MEIO AMBIENTE)
 -- ============================================================================
 
 -- 1. Habilitar a extensão Geoespacial PostGIS
@@ -213,7 +213,7 @@ O arquivo `.github/workflows/deploy.yml` gerencia o ciclo de integração contí
 ### Conteúdo do Workflow (`.github/workflows/deploy.yml`)
 
 ```yaml
-name: Deploy SisMA Front-End to GitHub Pages
+name: Deploy SysMA Front-End to GitHub Pages
 
 on:
   push:
@@ -253,7 +253,7 @@ jobs:
 ```
 
 ### Passos para Configuração no Repositório
-1. Suba o código extraído do `sisma-completo.zip` para o seu repositório no GitHub (`marcio-dev-fullstack/SisMA`).
+1. Suba o código extraído do `sysma-completo.zip` para o seu repositório no GitHub (`marcio-dev-fullstack/SysMA`).
 2. No GitHub, navegue até **Settings > Secrets and variables > Actions** e cadastre as chaves:
    * `VITE_SUPABASE_URL`: URL do seu projeto no Supabase.
    * `VITE_SUPABASE_ANON_KEY`: Chave pública `anon` do Supabase.

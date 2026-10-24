@@ -94,23 +94,16 @@ cd SysMA
 
 ---
 
-## 🤝 Contribuição
+<div align="center">
 
-Contribuições devem ser propostas por meio de branches ou pull requests. Toda alteração deve incluir descrição objetiva, testes compatíveis e atualização da documentação quando necessário.
+**SysMA — Sistema de Licenciamento Ambiental Municipal**  
+*Tecnologia e inovação para uma gestão ambiental mais ágil, transparente e eficiente.*
 
-## Licença
+### 📜 Licença
 
-A licença e os termos de uso deste projeto devem ser definidos pelo responsável pelo repositório. Enquanto essa definição não estiver disponível, o uso, a cópia e a distribuição do código devem ser tratados conforme as permissões formalmente estabelecidas para o projeto.
-
----
-
-**Sistema de Monitoramento Inteligente da Frota Escolar** — tecnologia para uma operação mais segura, rastreável e eficiente.
-
-# 📜 Licença
-
-Software Proprietário.
-
-Desenvolvido por: https://zentix.eng.br
+Software Proprietário.  
+Desenvolvido por: [Zentix Tecnologia](https://zentix.eng.br)
 
 Todos os direitos reservados © 2026.
 
+</div>
