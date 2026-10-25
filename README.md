@@ -1,101 +1,49 @@
-# 🌳 SisMA - Sistema de Meio Ambiente (v2.0)
+# 🌳 SisMA - Sistema de Meio Ambiente (v5.0)
 
 > **Stack Moderno**: `React 19` | `TypeScript 5.7` | `Vite 6.0` | `Tailwind CSS v4` | `Supabase (PostGIS)` | `GitHub Pages`
 
-O **SisMA (Sistema de Meio Ambiente)** é uma solução digital moderna e integrada para gestão, licenciamento e fiscalização ambiental municipal. Reconstruído na versão **v2.0** como uma **Single Page Application (SPA)** serverless desacoplada em **React 19, TypeScript e Supabase (PostGIS)**.
+O **SisMA (Sistema de Meio Ambiente)** é uma solução digital municipal para gestão, licenciamento e fiscalização ambiental.
 
 ---
 
-## ✨ Funcionalidades Principais
+## 🆕 Novidades da Versão v5.0 (Gestão de Licenciamento & Validade)
 
-- 📄 **Licenciamento Ambiental Digital**: Gestão completa de solicitações e emissão de Licença Prévia (LP), Licença de Instalação (LI), Licença de Operação (LO) e Licença Ambiental Simplificada (LAS).
-- 🔍 **Fiscalização & Vistorias em Campo**: Emissão de ordens de serviço, registro de autos de infração e vistorias georreferenciadas com fotos.
-- 📣 **Portal do Cidadão & Denúncias**: Canal público para envio anônimo ou identificado de denúncias ambientais e acompanhamento por protocolo.
-- 🗺️ **WebGIS & Zoneamento Ambiental**: Mapeamento espacial interativo com integração PostGIS para acompanhamento de APPs (Áreas de Preservação Permanente) e Unidades de Conservação.
-- 📊 **Dashboard & Indicadores (ESG)**: Painéis com métricas em tempo real, volume de licenças emitidas e status de chamados.
-- 🛡️ **Trilha de Auditoria**: Registro detalhado e imutável de todas as ações de fiscais, analistas e administradores.
-
----
-
-## 🛠️ Stack Tecnológica
-
-| Camada | Tecnologia |
-| :--- | :--- |
-| **Front-End / UI** | React 19 + TypeScript 5.7 + Vite 6 |
-| **Estilização** | Tailwind CSS v4 + Lucide Icons |
-| **Bancos de Dados & Backend** | Supabase (PostgreSQL 16 + Extensão PostGIS) |
-| **Hospedagem & CI/CD** | GitHub Pages + GitHub Actions (`.github/workflows/deploy.yml`) |
+- 🔑 **Chave de Licença de Uso**: Painel de gerenciamento de licença integrado na barra inferior da Tela de Login.
+- ⏳ **Relógio em Contagem Regressiva (90 a 0 dias)**: Monitoramento contínuo em dias da validade da chave do sistema.
+- 🚫 **Regra de Bloqueio Automático (0 Dias Restantes)**:
+  - Quando a licença atinge **0 dias**, o acesso aos perfis de **Analista Ambiental** e **Fiscal Ambiental** é automaticamente suspenso por segurança.
+  - **Exceção de Acesso**: O perfil **Administrador (ADM)** mantém autorização de entrada para gerenciar e realizar a renovação da chave.
+- ⚠️ **Alerta em Tela (Faltando <= 5 Dias)**:
+  - Banner proeminente na tela de login e no cabeçalho interno avisando sobre a proximidade do vencimento.
+- 📲 **Avisos Diários via WhatsApp (Do 5º ao 0º Dia)**:
+  - Disparador de notificações automáticas via WhatsApp para os telefones dos usuários cadastrados (ADM, Analistas e Fiscais), enviando 1 mensagem por dia do dia 5 até o dia do bloqueio.
+- 🧪 **Simulador Interativo de Teste**: Botões na tela de login para testar instantaneamente cenários de 90 dias, 15 dias, 5 dias, 1 dia e 0 dias (expirada), além da opção de renovação por +90 dias.
 
 ---
 
-## 📂 Estrutura do Repositório
+## ✨ Módulos e Funcionalidades do Sistema
 
-```text
-.
-├── .github/workflows/deploy.yml # Workflow de deploy automático no GitHub Pages
-├── src/
-│   ├── components/Layout/      # Navbar, Sidebar e elementos de navegação
-│   ├── lib/supabase.ts         # Cliente Supabase tipado
-│   ├── mock/data.ts            # Dados simulados para execução estática
-│   ├── pages/                  # Páginas dos módulos (Dashboard, Licenciamento, etc.)
-│   ├── types/index.ts          # Interfaces TypeScript do sistema
-│   ├── App.tsx
-│   └── main.tsx
-├── supabase/
-│   ├── schema.sql              # DDL das tabelas e funções PostGIS
-│   └── README.md               # Guia de configuração do banco
-├── index.html
-├── package.json
-├── tsconfig.json
-└── vite.config.ts              # Configuração do Vite (base: '/SisMA/')
-```
+- 🔑 **Autenticação & Seleção de Perfis (`Login.tsx`)**: Login com 3 perfis predefinidos (**ADM**, **Analista** e **Fiscal**) com simulação de licença e avisos WhatsApp.
+- 📊 **Painel Geral (`Dashboard.tsx`)**: Indicadores ambientais em tempo real, licenças concedidas, vistorias agendadas e mapa georreferenciado.
+- 📄 **Licenciamento Ambiental (`Licenciamento.tsx`)**: Tabela de processos com filtros de busca e status.
+- 🧙‍♂️ **Wizard de Nova Licença (`NovaLicencaWizard.tsx`)**: Formulário em 4 etapas (Requerente, Localização WebGIS, Atividade/Porte e Upload em PDF).
+- 📜 **Análise & Licença Digital (`DetalheProcesso.tsx`)**: Emissão de parecer técnico e geração de certificado de licença em PDF com QR Code de autenticidade.
+- 🔍 **Fiscalização de Campo (`Fiscalizacao.tsx`)**: Ordens de serviço e vistorias.
+- ⚖️ **Lavratura de Auto de Infração (`NovoAutoInfracao.tsx`)**: Formulário de autuação com cálculo de multa e fotos georreferenciadas.
+- 📣 **Portal do Cidadão (`Denuncias.tsx`)**: Registro anônimo de denúncias ecológicas com acompanhamento por protocolo.
+- 🗺️ **WebGIS & Zoneamento (`ZoneamentoGIS.tsx`)**: Consulta de sobreposição com APPs e Unidades de Conservação em PostGIS.
+- 👥 **Gestão de Servidores (`GestaoUsuarios.tsx`)**: Controle de permissões (RBAC) e telefones WhatsApp.
+- 🏷️ **Tabela de Taxas Ambientais (`EnquadramentoAtividades.tsx`)**: Classificação por Potencial Poluidor (PMP) e Porte.
+- 🔍 **Portal de Transparência (`ConsultaPublica.tsx`)**: Validação pública de licenças emitida por CNPJ/Processo.
+- 🛡️ **Trilha de Auditoria (`Auditoria.tsx`)**: Registro imutável de todas as ações de segurança.
 
 ---
 
-## 🚀 Como Executar o Projeto
-
-### 1. Pré-requisitos
-- **Node.js**: v20.x ou superior
-- **npm** ou **pnpm**
-
-### 2. Instalação e Execução Local
+## 🚀 Como Executar o Projeto Localmente
 
 ```bash
-# Clonar o repositório
-git clone marcio-dev-fullstack/SisMA
-cd SisMA
-
-# Instalar as dependências
 npm install
-
-# Rodar em modo de desenvolvimento
 npm run dev
 ```
 
-O aplicativo estará acessível localmente.
-
----
-
-## 🗄️ Configuração do Supabase (Opcional para Modo Conectado)
-
-Para conectar a aplicação ao seu próprio banco de dados Supabase:
-
-1. Acesse o **SQL Editor** do seu projeto no Supabase e execute o conteúdo do arquivo `supabase/schema.sql`.
-2. Crie um arquivo `.env.local` na raiz do projeto com as credenciais do seu projeto.
-
----
-
-## 🌐 Deploy Automático no GitHub Pages
-
-O projeto já inclui um fluxo de integração contínua (`.github/workflows/deploy.yml`). Para ativar a publicação automática:
-
-1. Faça push do código para a branch `main` ou `master`.
-2. No GitHub, vá em **Settings > Pages**.
-3. Em **Source**, selecione **GitHub Actions**.
-4. Cada commit irá compilar e atualizar automaticamente o site publicado.
-
----
-
-## 📄 Licença
-
-Este projeto é distribuído sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+Acesse no navegador: `http://localhost:5173/`

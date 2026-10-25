@@ -1,20 +1,27 @@
 import React from 'react';
 import { MOCK_VISTORIAS } from '../mock/data';
-import { ClipboardCheck, Plus, MapPin, Calendar, User } from 'lucide-react';
+import { ClipboardCheck, Plus, MapPin, Calendar, User, FileText } from 'lucide-react';
 
-export const Fiscalizacao: React.FC = () => {
+interface FiscalizacaoProps {
+  onNewAuto?: () => void;
+}
+
+export const Fiscalizacao: React.FC<FiscalizacaoProps> = ({ onNewAuto }) => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
         <div>
           <h2 className="text-lg font-bold text-slate-800">Fiscalização e Vistorias de Campo</h2>
           <p className="text-xs text-slate-500">
-            Orgens de serviço, emissão de Autos de Infração e formulários de vistoria.
+            Ordens de serviço, emissão de Autos de Infração e formulários de vistoria georreferenciada.
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors shadow-xs">
+        <button
+          onClick={onNewAuto}
+          className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors shadow-xs cursor-pointer"
+        >
           <Plus className="w-4 h-4" />
-          Nova Ordem de Vistoria
+          Lavrar Auto de Infração / Vistoria
         </button>
       </div>
 
@@ -22,7 +29,10 @@ export const Fiscalizacao: React.FC = () => {
         {MOCK_VISTORIAS.map((vistoria) => (
           <div key={vistoria.id} className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <span className="font-bold text-slate-800 font-mono text-sm">{vistoria.numero_auto}</span>
+              <span className="font-bold text-slate-800 font-mono text-sm flex items-center gap-1.5">
+                <FileText className="w-4 h-4 text-amber-600" />
+                {vistoria.numero_auto}
+              </span>
               <span
                 className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                   vistoria.status === 'Concluída'
@@ -42,15 +52,15 @@ export const Fiscalizacao: React.FC = () => {
             <div className="pt-2 text-xs text-slate-600 space-y-1.5 border-t border-slate-100">
               <div className="flex items-center gap-2">
                 <User className="w-4 h-4 text-slate-400" />
-                <span>Fiscal: <strong>{vistoria.fiscal}</strong></span>
+                <span>Fiscal Responsável: <strong>{vistoria.fiscal}</strong></span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-slate-400" />
-                <span>Data agendada: {vistoria.data_vistoria}</span>
+                <span>Data: {vistoria.data_vistoria}</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-emerald-600" />
-                <span>Coordenadas PostGIS disponíveis</span>
+                <span>Geolocalização PostGIS registrada</span>
               </div>
             </div>
           </div>

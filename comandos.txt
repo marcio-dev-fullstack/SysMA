@@ -1,9 +1,15 @@
+\# 1\. Verificar o status dos novos arquivos e alterações 
+git status 
 
-Para correções simples:
+# 2\. Adicionar todos os arquivos da versão v5.0 
+git add . 
 
-git add . && git commit -m "fix: correções gerais de bugs e ajustes" && git push
+# 3\. Criar o commit registrado da versão 5.0 
 
+git commit -m "feat(v5.0): controle de licença de 90 dias, bloqueio no dia 0 e notificações via WhatsApp" 
 
-Para novas funcionalidades:
+# 4\. Garantir que está na branch principal 
+git branch -M main 
 
-git add . && git commit -m "feat: adição de novos recursos e funcionalidades" && git push
+# 5\. Enviar as alterações para o repositório no GitHub 
+git push -u origin main

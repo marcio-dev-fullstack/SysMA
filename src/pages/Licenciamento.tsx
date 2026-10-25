@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { MOCK_PROCESSOS } from '../mock/data';
 import { ProcessoLicenciamento } from '../types';
-import { Plus, Search, Filter, FileText, CheckCircle, Clock } from 'lucide-react';
+import { Plus, Search, Filter, CheckCircle, Clock, Eye } from 'lucide-react';
 
-export const Licenciamento: React.FC = () => {
+interface LicenciamentoProps {
+  onSelectProcesso?: (processo: ProcessoLicenciamento) => void;
+  onNewLicenca?: () => void;
+}
+
+export const Licenciamento: React.FC<LicenciamentoProps> = ({ onSelectProcesso, onNewLicenca }) => {
   const [processos] = useState<ProcessoLicenciamento[]>(MOCK_PROCESSOS);
   const [filtro, setFiltro] = useState('');
 
@@ -22,7 +27,10 @@ export const Licenciamento: React.FC = () => {
             Acompanhamento, análise técnica e emissão de Licenças (LP, LI, LO e LAS).
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors shadow-xs">
+        <button
+          onClick={onNewLicenca}
+          className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors shadow-xs cursor-pointer"
+        >
           <Plus className="w-4 h-4" />
           Novo Processo
         </button>
@@ -94,8 +102,11 @@ export const Licenciamento: React.FC = () => {
                     </span>
                   </td>
                   <td className="py-3.5 px-4 text-right">
-                    <button className="text-xs font-semibold text-emerald-600 hover:text-emerald-800 hover:underline">
-                      Analisar Processo
+                    <button
+                      onClick={() => onSelectProcesso && onSelectProcesso(proc)}
+                      className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-800 hover:underline cursor-pointer"
+                    >
+                      <Eye className="w-3.5 h-3.5" /> Analisar
                     </button>
                   </td>
                 </tr>

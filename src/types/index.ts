@@ -1,3 +1,31 @@
+export type PerfilUsuario = 'adm' | 'analista' | 'fiscal';
+
+export interface Usuario {
+  id: string;
+  nome: string;
+  email: string;
+  perfil: PerfilUsuario;
+  cargo: string;
+  orgao: string;
+  avatar: string;
+  telefone_whatsapp?: string;
+}
+
+export interface LicencaSistema {
+  chave: string;
+  diasRestantes: number;
+  dataExpiracao: string;
+  status: 'ativa' | 'expirando' | 'expirada';
+  notificacoesWhatsappEnviadas: Array<{
+    dia: number;
+    dataHora: string;
+    destinatario: string;
+    telefone: string;
+    mensagem: string;
+    status: 'Enviado' | 'Falha';
+  }>;
+}
+
 export type StatusProcesso = 'Em Análise' | 'Deferido' | 'Indeferido' | 'Pendente Doc';
 export type TipoLicenca = 'LP' | 'LI' | 'LO' | 'LAS';
 
@@ -11,6 +39,10 @@ export interface ProcessoLicenciamento {
   atividades: string;
   data_solicitacao: string;
   coordenadas?: [number, number];
+  parecer_tecnico?: string;
+  validade_anos?: number;
+  data_emissao?: string;
+  condicionantes?: string[];
 }
 
 export interface Vistoria {
@@ -22,6 +54,9 @@ export interface Vistoria {
   status: 'Agendada' | 'Concluída' | 'Em Andamento' | 'Notificado';
   data_vistoria: string;
   coordenadas?: [number, number];
+  valor_multa?: number;
+  observacoes?: string;
+  fotos_urls?: string[];
 }
 
 export interface Denuncia {
@@ -50,4 +85,13 @@ export interface LogAuditoria {
   modulo: string;
   ip: string;
   timestamp: string;
+}
+
+export interface AtividadeAmbiental {
+  id: string;
+  codigo: string;
+  descricao: string;
+  potencial_poluidor: 'Pequeno' | 'Médio' | 'Grande';
+  porte: 'Pequeno' | 'Médio' | 'Grande';
+  taxa_base: number;
 }
