@@ -1,1 +1,1 @@
-git add . && git commit -m "fix: substitui npm ci por npm install e ajusta deploy" && git push origin main
+git add . && git commit -m "fix(v8.0): inclui package-lock.json e ajusta deploy.yml para Node 22 sem bloqueio de cache" git push origin main 
