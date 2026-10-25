@@ -1,1 +1,3 @@
 git add . && git commit -m "fix(v8.0): inclui package-lock.json e ajusta deploy.yml para Node 22 sem bloqueio de cache" git push origin main 
+
+npm run build && git add . && git commit -m "fix: corrige importacao no main.tsx" && git push origin main
