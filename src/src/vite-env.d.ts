@@ -5,7 +5,3 @@ interface ImportMetaEnv {
   readonly VITE_SUPABASE_ANON_KEY: string
   // Adicione outras variáveis de ambiente personalizadas aqui se necessário
 }
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv
-}
