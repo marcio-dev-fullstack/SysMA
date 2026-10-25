@@ -2,7 +2,7 @@ name: Deploy Front-End SisMA no GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "master"]
 
 permissions:
   contents: read
@@ -37,6 +37,11 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Add .nojekyll and 404 fallback
+        run: |
+          touch dist/.nojekyll
+          cp dist/index.html dist/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
