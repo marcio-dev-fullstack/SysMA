@@ -1,15 +1,1 @@
-\# 1\. Verificar o status dos novos arquivos e alterações 
-git status 
-
-# 2\. Adicionar todos os arquivos da versão v5.0 
-git add . 
-
-# 3\. Criar o commit registrado da versão 5.0 
-
-git commit -m "fix(v7.0): fallback do supabase, error boundary e suporte nojekyll no github pages"
-
-# 4\. Garantir que está na branch principal 
-git branch -M main 
-
-# 5\. Enviar as alterações para o repositório no GitHub 
-git push -u origin main
+git add . && git commit -m "fix: substitui npm ci por npm install e ajusta deploy" && git push origin main
