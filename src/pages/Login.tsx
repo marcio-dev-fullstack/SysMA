@@ -1,98 +1,123 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>SisMA - Login</title>
-    <!-- Adicione seus estilos CSS aqui -->
-    <style>
-        body {
-            background-color: #0b132b;
-            font-family: Arial, sans-serif;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-container {
-            background-color: #1c2541;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            width: 100%;
-            max-width: 400px;
-        }
-        .login-container h2 {
-            text-align: center;
-            margin-bottom: 24px;
-            color: #4cc9f0;
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #3a506b;
-            background-color: #0b132b;
-            color: #fff;
-            box-sizing: border-box;
-        }
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background-color: #4cc9f0;
-            border: none;
-            border-radius: 6px;
-            color: #0b132b;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .btn-login:hover {
-            background-color: #3fa5c4;
-        }
-    </style>
-</head>
-<body>
+import React, { useState } from 'react';
 
-    <div class="login-container">
-        <h2>SisMA - Acesso ao Sistema</h2>
-        <form id="loginForm" onsubmit="realizarLogin(event)">
-            <div class="input-group">
-                <label for="email">E-mail do Servidor</label>
-                <input type="email" id="email" required placeholder="admin@semma.gov.br">
-            </div>
-            
-            <div class="input-group">
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" required placeholder="••••••••">
-            </div>
+export const Login: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
 
-            <button type="submit" class="btn-login">Entrar</button>
+  const realizarLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Autenticando utilizador:', email, senha);
+    // Aqui entra a chamada de autenticação do Supabase
+  };
+
+  return (
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <div style={styles.header}>
+          <h1 style={styles.title}>SisMA</h1>
+          <p style={styles.subtitle}>Sistema Municipal de Meio Ambiente</p>
+        </div>
+
+        <form onSubmit={realizarLogin}>
+          <div style={styles.inputGroup}>
+            <label style={styles.label} htmlFor="email">E-mail do Servidor</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@semma.gov.br"
+              required
+              style={styles.input}
+            />
+          </div>
+
+          <div style={styles.inputGroup}>
+            <label style={styles.label} htmlFor="senha">Senha</label>
+            <input
+              id="senha"
+              type="password"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              placeholder="••••••••"
+              required
+              style={styles.input}
+            />
+          </div>
+
+          <button type="submit" style={styles.button}>
+            Entrar no Sistema
+          </button>
         </form>
+      </div>
     </div>
+  );
+};
 
-    <script>
-        function realizarLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const senha = document.getElementById('senha').value;
+export default Login;
 
-            // Lógica de autenticação com Supabase ou backend correspondente
-            // O nível de permissão (Admin, Analista ou Fiscal) deve ser consultado
-            // na tabela de usuários após o login, direcionando para o dashboard correto.
-            console.log("Autenticando usuário:", email);
-        }
-    </script>
-
-</body>
-</html>
+// Estilos rápidos em linha para manter o tema escuro do SisMA
+const styles: { [key: string]: React.CSSProperties } = {
+  container: {
+    backgroundColor: '#0b132b',
+    minHeight: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    color: '#ffffff',
+  },
+  card: {
+    backgroundColor: '#1c2541',
+    padding: '40px',
+    borderRadius: '12px',
+    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
+    width: '100%',
+    maxWidth: '400px',
+    border: '1px solid #3a506b',
+  },
+  header: {
+    textAlign: 'center',
+    marginBottom: '24px',
+  },
+  title: {
+    fontSize: '28px',
+    color: '#4cc9f0',
+    margin: '0 0 8px 0',
+  },
+  subtitle: {
+    color: '#8d99ae',
+    fontSize: '14px',
+    margin: 0,
+  },
+  inputGroup: {
+    marginBottom: '20px',
+  },
+  label: {
+    display: 'block',
+    marginBottom: '8px',
+    fontSize: '14px',
+  },
+  input: {
+    width: '100%',
+    padding: '12px',
+    borderRadius: '6px',
+    border: '1px solid #3a506b',
+    backgroundColor: '#0b132b',
+    color: '#ffffff',
+    fontSize: '14px',
+    boxSizing: 'border-box',
+  },
+  button: {
+    width: '100%',
+    padding: '12px',
+    backgroundColor: '#4cc9f0',
+    border: 'none',
+    border-radius: '6px',
+    color: '#0b132b',
+    fontWeight: 'bold',
+    fontSize: '16px',
+    cursor: 'pointer',
+    marginTop: '10px',
+  },
+};
