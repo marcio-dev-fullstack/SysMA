@@ -5,10 +5,7 @@ import {
   User, 
   LogIn, 
   ShieldCheck, 
-  KeyRound,
-  AlertTriangle,
-  Clock,
-  CheckCircle2
+  AlertTriangle 
 } from 'lucide-react';
 import { PerfilUsuario, Usuario } from '../types';
 
@@ -60,19 +57,17 @@ export const Login: React.FC<LoginProps> = ({
   chaveLicenca,
   setChaveLicenca
 }) => {
-  const [cpf, setCpf] = useState('123.456.789-00');
-  const [senha, setSenha] = useState('••••••••');
-  const [perfilSelecionado, setPerfilSelecionado] = useState<PerfilUsuario>('adm');
+  const [cpf, setCpf] = useState('');
+  const [senha, setSenha] = useState('');
   const [lembrar, setLembrar] = useState(true);
   const [modalBloqueado, setModalBloqueado] = useState(false);
   const [erroForm, setErroForm] = useState('');
 
-  // Formata CPF conforme o usuário digita
+  // Formata CPF conforme o usuário digita (máscara 000.000.000-00)
   const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, '');
     if (value.length > 11) value = value.slice(0, 11);
     
-    // Aplica máscara 000.000.000-00
     if (value.length > 9) {
       value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
     } else if (value.length > 6) {
@@ -85,11 +80,19 @@ export const Login: React.FC<LoginProps> = ({
     setErroForm('');
   };
 
+  // Máscara e restrição da Senha: Alfanumérica de até 8 caracteres (A-Z, a-z, 0-9)
+  const handleSenhaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
+    if (value.length > 8) value = value.slice(0, 8);
+    setSenha(value);
+    setErroForm('');
+  };
+
   const handleEntrar = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!cpf || cpf.length < 11) {
-      setErroForm('Por favor, informe um CPF válido.');
+      setErroForm('Por favor, informe um CPF válido com 11 dígitos.');
       return;
     }
 
@@ -98,14 +101,19 @@ export const Login: React.FC<LoginProps> = ({
       return;
     }
 
-    // Bloqueio no Dia 0 para não-ADM
-    if (diasLicenca <= 0 && perfilSelecionado !== 'adm') {
+    if (senha.length < 8) {
+      setErroForm('A senha deve ser alfanumérica e conter exatamente 8 caracteres.');
+      return;
+    }
+
+    // Regra de Bloqueio no Dia 0 se necessário
+    if (diasLicenca <= 0) {
       setModalBloqueado(true);
       return;
     }
 
-    // Loga com o perfil selecionado
-    onLogin(usuariosExemplo[perfilSelecionado]);
+    // Efetua login como Administrador por padrão
+    onLogin(usuariosExemplo.adm);
   };
 
   return (
@@ -153,7 +161,7 @@ export const Login: React.FC<LoginProps> = ({
                 onChange={handleCpfChange}
                 placeholder="000.000.000-00"
                 maxLength={14}
-                className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all"
+                className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all font-mono"
                 required
               />
             </div>
@@ -176,39 +184,16 @@ export const Login: React.FC<LoginProps> = ({
               <input
                 type="password"
                 value={senha}
-                onChange={(e) => { setSenha(e.target.value); setErroForm(''); }}
-                placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all"
+                onChange={handleSenhaChange}
+                placeholder="Ex: A1b2C3d4"
+                maxLength={8}
+                className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all font-mono tracking-widest"
                 required
               />
             </div>
-          </div>
-
-          {/* Seletor Rápido de Perfil para Demonstração/Teste */}
-          <div className="pt-1 space-y-1.5">
-            <label className="block text-[11px] font-bold text-slate-400">
-              Perfil para Acesso de Teste:
-            </label>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { id: 'adm' as PerfilUsuario, label: 'ADM' },
-                { id: 'analista' as PerfilUsuario, label: 'Analista' },
-                { id: 'fiscal' as PerfilUsuario, label: 'Fiscal' },
-              ].map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => setPerfilSelecionado(p.id)}
-                  className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border ${
-                    perfilSelecionado === p.id
-                      ? 'bg-emerald-600 text-white border-emerald-500 shadow-md shadow-emerald-900/30'
-                      : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
-                  }`}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
+            <p className="text-[11px] text-slate-400 font-medium flex items-center gap-1 mt-1">
+              ℹ️ A senha deve ser alfanumérica e conter exatamente <strong>8 dígitos</strong>.
+            </p>
           </div>
 
           {/* Lembrar Acesso */}
@@ -254,23 +239,14 @@ export const Login: React.FC<LoginProps> = ({
             <div className="text-center space-y-1">
               <h3 className="text-lg font-bold text-white">Licença do Sistema Expirada</h3>
               <p className="text-xs text-slate-400">
-                O prazo de validade de 90 dias do SisMA expirou. O acesso para Analistas e Fiscais está temporariamente suspenso.
-              </p>
-            </div>
-            <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-1">
-              <p>💡 <strong>Como desbloquear:</strong></p>
-              <p className="text-slate-400">
-                Selecione o perfil <strong>ADM (Administrador)</strong> no login para acessar o sistema e realizar a renovação da licença.
+                O prazo de validade de 90 dias do SisMA expirou. Entre em contato com o Administrador para renovação.
               </p>
             </div>
             <button
-              onClick={() => {
-                setPerfilSelecionado('adm');
-                setModalBloqueado(false);
-              }}
+              onClick={() => setModalBloqueado(false)}
               className="w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl transition-all"
             >
-              Mudar para Perfil ADM
+              Fechar
             </button>
           </div>
         </div>
