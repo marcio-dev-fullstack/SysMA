@@ -6,7 +6,7 @@ export const Login: React.FC = () => {
 
   const realizarLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Autenticando utilizador:', email, senha);
+    console.log('A autenticar utilizador:', email, senha);
     // Aqui entra a chamada de autenticação do Supabase
   };
 
@@ -56,7 +56,6 @@ export const Login: React.FC = () => {
 
 export default Login;
 
-// Estilos rápidos em linha para manter o tema escuro do SisMA
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     backgroundColor: '#0b132b',
@@ -113,7 +112,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     padding: '12px',
     backgroundColor: '#4cc9f0',
     border: 'none',
-    border-radius: '6px',
+    borderRadius: '6px',
     color: '#0b132b',
     fontWeight: 'bold',
     fontSize: '16px',
