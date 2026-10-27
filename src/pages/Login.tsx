@@ -5,8 +5,7 @@ import {
   User, 
   LogIn, 
   ShieldCheck, 
-  AlertTriangle,
-  UserCheck
+  AlertTriangle 
 } from 'lucide-react';
 import { Usuario } from '../types';
 
@@ -87,17 +86,11 @@ export const Login: React.FC<LoginProps> = ({
     setErroForm('');
   };
 
-  const selecionarUsuarioAtalho = (u: Usuario) => {
-    setLoginInput(u.cpf || u.nome);
-    setSenha('12345678');
-    setErroForm('');
-  };
-
   const handleEntrar = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!loginInput.trim()) {
-      setErroForm('Por favor, informe o CPF ou nome do servidor.');
+      setErroForm('Por favor, informe o CPF ou login do servidor.');
       return;
     }
 
@@ -107,7 +100,7 @@ export const Login: React.FC<LoginProps> = ({
     }
 
     if (senha.length < 8) {
-      setErroForm('A senha deve ser alfanumérica e conter exatamente 8 dígitos (Ex: 12345678).');
+      setErroForm('A senha deve conter exatamente 8 dígitos alfanuméricos.');
       return;
     }
 
@@ -125,7 +118,6 @@ export const Login: React.FC<LoginProps> = ({
       );
     });
 
-    // Se não encontrou exato, verifica se é algum dos analistas específicos
     if (!usuarioEncontrado) {
       if (termoLower.includes('ailton')) {
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('ailton'));
@@ -172,35 +164,8 @@ export const Login: React.FC<LoginProps> = ({
           </p>
         </div>
 
-        {/* Atalhos Rápidos de Seleção de Usuários */}
-        <div className="space-y-1.5 pt-1 border-t border-slate-800/80">
-          <label className="block text-[11px] font-bold text-slate-400">
-            Acesso Rápido para Testes:
-          </label>
-          <div className="grid grid-cols-2 gap-1.5">
-            {LISTA_USUARIOS.map((u) => (
-              <button
-                key={u.id}
-                type="button"
-                onClick={() => selecionarUsuarioAtalho(u)}
-                className={`p-2 rounded-xl text-left border text-[11px] transition-all cursor-pointer flex items-center justify-between ${
-                  loginInput === u.cpf || loginInput === u.nome
-                    ? 'bg-emerald-600/20 border-emerald-500 text-emerald-300 font-bold'
-                    : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
-                }`}
-              >
-                <div className="truncate">
-                  <p className="font-bold truncate">{u.nome}</p>
-                  <p className="text-[9px] text-slate-400 uppercase font-semibold">{u.perfil}</p>
-                </div>
-                <UserCheck className="w-3.5 h-3.5 shrink-0 text-emerald-400 opacity-80" />
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Formulário de Login (CPF/Nome e Senha) */}
-        <form onSubmit={handleEntrar} className="space-y-4 pt-1">
+        {/* Formulário de Login (CPF e Senha) */}
+        <form onSubmit={handleEntrar} className="space-y-4">
           
           {erroForm && (
             <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-400 text-xs font-semibold flex items-center gap-2">
@@ -209,10 +174,10 @@ export const Login: React.FC<LoginProps> = ({
             </div>
           )}
 
-          {/* Campo CPF ou Nome */}
+          {/* Campo CPF do Servidor */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-slate-300">
-              CPF ou Nome do Servidor
+              CPF do Servidor
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
@@ -222,7 +187,7 @@ export const Login: React.FC<LoginProps> = ({
                 type="text"
                 value={loginInput}
                 onChange={handleLoginInputChange}
-                placeholder="Ex: 633.740.302-97 ou ailton.bartolomeu"
+                placeholder="000.000.000-00"
                 className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all font-mono"
                 required
               />
@@ -247,14 +212,14 @@ export const Login: React.FC<LoginProps> = ({
                 type="password"
                 value={senha}
                 onChange={handleSenhaChange}
-                placeholder="12345678"
+                placeholder="••••••••"
                 maxLength={8}
                 className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all font-mono tracking-widest"
                 required
               />
             </div>
             <p className="text-[11px] text-slate-400 font-medium flex items-center gap-1 mt-1">
-              ℹ️ A senha padrão para todos os servidores é <strong>12345678</strong>.
+              ℹ️ A senha de acesso possui <strong>8 dígitos alfanuméricos</strong>.
             </p>
           </div>
 
@@ -287,7 +252,7 @@ export const Login: React.FC<LoginProps> = ({
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Acesso Seguro SSL</span>
           </div>
-          <span>Versão 20.0</span>
+          <span>Versão 2.0</span>
         </div>
       </div>
 
