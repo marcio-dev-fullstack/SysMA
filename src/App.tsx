@@ -27,7 +27,7 @@ export function App() {
   const [chaveLicenca, setChaveLicenca] = useState('SISMA-2026-LIC-90D-PREMIUM-8F92A');
   const [modalLicenca, setModalLicenca] = useState(false);
 
-  // Se não estiver autenticado, exibe a primeira tela de Seleção de Perfil (Login)
+  // Se não estiver autenticado, exibe a tela de Login
   if (!usuario) {
     return (
       <Login
@@ -63,7 +63,15 @@ export function App() {
 
     switch (activeTab) {
       case 'dashboard':
-        return <Dashboard />;
+        return (
+          <Dashboard
+            usuario={usuario}
+            onNavigate={(tab) => {
+              setSelectedProcesso(null);
+              setActiveTab(tab);
+            }}
+          />
+        );
       case 'licenciamento':
         return (
           <Licenciamento
@@ -104,7 +112,15 @@ export function App() {
       case 'auditoria':
         return <Auditoria />;
       default:
-        return <Dashboard />;
+        return (
+          <Dashboard
+            usuario={usuario}
+            onNavigate={(tab) => {
+              setSelectedProcesso(null);
+              setActiveTab(tab);
+            }}
+          />
+        );
     }
   };
 

@@ -6,29 +6,32 @@ export const GestaoUsuarios: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([
     {
       id: 'usr-1',
-      nome: 'Carlos Eduardo Silva',
-      email: 'carlos.silva@semma.gov.br',
+      nome: 'MÁRCIO RODRIGUES DE OLIVEIRA',
+      email: 'cda.marcio@gmail.com',
+      cpf: '633.740.302-97',
       perfil: 'adm',
-      cargo: 'Secretário Municipal de Meio Ambiente',
-      orgao: 'SEMMA',
-      avatar: 'C',
+      cargo: 'Administrador do Sistema & Secretário',
+      orgao: 'Secretaria Municipal de Meio Ambiente',
+      avatar: 'M',
     },
     {
       id: 'usr-2',
-      nome: 'Mariana Oliveira Ramos',
-      email: 'mariana.ramos@semma.gov.br',
+      nome: 'Dra. Mariana Fonseca',
+      email: 'mariana.analista@semma.gov.br',
+      cpf: '987.654.321-11',
       perfil: 'analista',
       cargo: 'Analista Ambiental Sênior',
-      orgao: 'Divisão de Licenciamento',
+      orgao: 'Coordenadoria de Licenciamento',
       avatar: 'M',
     },
     {
       id: 'usr-3',
-      nome: 'Roberto Mendes Costa',
-      email: 'roberto.costa@semma.gov.br',
+      nome: 'Sgt. Roberto Alves',
+      email: 'roberto.fiscal@semma.gov.br',
+      cpf: '456.789.123-22',
       perfil: 'fiscal',
-      cargo: 'Fiscal Ambiental de Campo',
-      orgao: 'Coordenadoria de Fiscalização',
+      cargo: 'Fiscal Ambiental Chefe de Campo',
+      orgao: 'Divisão de Fiscalização e Monitoramento',
       avatar: 'R',
     },
   ]);
@@ -37,9 +40,10 @@ export const GestaoUsuarios: React.FC = () => {
   const [novoUsuario, setNovoUsuario] = useState({
     nome: '',
     email: '',
+    cpf: '',
     perfil: 'analista' as PerfilUsuario,
     cargo: '',
-    orgao: 'SEMMA - Gestão Ambiental',
+    orgao: 'Secretaria Municipal de Meio Ambiente',
   });
 
   const handleCadastrar = (e: React.FormEvent) => {
@@ -48,6 +52,7 @@ export const GestaoUsuarios: React.FC = () => {
       id: `usr-${Date.now()}`,
       nome: novoUsuario.nome,
       email: novoUsuario.email,
+      cpf: novoUsuario.cpf,
       perfil: novoUsuario.perfil,
       cargo: novoUsuario.cargo,
       orgao: novoUsuario.orgao,
@@ -55,7 +60,7 @@ export const GestaoUsuarios: React.FC = () => {
     };
     setUsuarios([...usuarios, userCreated]);
     setShowModal(false);
-    setNovoUsuario({ nome: '', email: '', perfil: 'analista', cargo: '', orgao: 'SEMMA - Gestão Ambiental' });
+    setNovoUsuario({ nome: '', email: '', cpf: '', perfil: 'analista', cargo: '', orgao: 'Secretaria Municipal de Meio Ambiente' });
   };
 
   return (
@@ -72,7 +77,7 @@ export const GestaoUsuarios: React.FC = () => {
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="px-4 py-2 bg-purple-600 text-white rounded-lg text-xs font-semibold hover:bg-purple-700 shadow-md flex items-center gap-2 self-start sm:self-auto"
+          className="px-4 py-2 bg-purple-600 text-white rounded-lg text-xs font-semibold hover:bg-purple-700 shadow-md flex items-center gap-2 self-start sm:self-auto cursor-pointer"
         >
           <UserPlus className="w-4 h-4" /> Cadastrar Novo Servidor
         </button>
@@ -85,7 +90,7 @@ export const GestaoUsuarios: React.FC = () => {
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              placeholder="Buscar por nome, e-mail..."
+              placeholder="Buscar por nome, e-mail, CPF..."
               className="w-full pl-9 pr-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:border-purple-500"
             />
           </div>
@@ -97,6 +102,7 @@ export const GestaoUsuarios: React.FC = () => {
             <thead className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 uppercase tracking-wider text-[10px]">
               <tr>
                 <th className="p-4">Servidor / E-mail</th>
+                <th className="p-4">CPF</th>
                 <th className="p-4">Cargo / Órgão</th>
                 <th className="p-4">Perfil de Acesso</th>
                 <th className="p-4 text-right">Ações</th>
@@ -113,6 +119,9 @@ export const GestaoUsuarios: React.FC = () => {
                       <p className="font-bold text-slate-800">{user.nome}</p>
                       <p className="text-[11px] text-slate-400">{user.email}</p>
                     </div>
+                  </td>
+                  <td className="p-4 font-mono text-slate-700 font-semibold">
+                    {user.cpf || '633.740.302-97'}
                   </td>
                   <td className="p-4">
                     <p className="text-slate-800 font-semibold">{user.cargo}</p>
@@ -164,6 +173,17 @@ export const GestaoUsuarios: React.FC = () => {
               />
             </div>
             <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">CPF do Servidor</label>
+              <input
+                type="text"
+                required
+                placeholder="000.000.000-00"
+                value={novoUsuario.cpf}
+                onChange={(e) => setNovoUsuario({ ...novoUsuario, cpf: e.target.value })}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500 font-mono"
+              />
+            </div>
+            <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">E-mail Institucional</label>
               <input
                 type="email"
@@ -206,7 +226,7 @@ export const GestaoUsuarios: React.FC = () => {
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 text-xs font-semibold bg-purple-600 text-white rounded-lg hover:bg-purple-700 shadow-sm"
+                className="px-4 py-2 text-xs font-semibold bg-purple-600 text-white rounded-lg hover:bg-purple-700 shadow-sm cursor-pointer"
               >
                 Salvar Servidor
               </button>

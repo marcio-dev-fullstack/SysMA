@@ -4,6 +4,7 @@ export interface Usuario {
   id: string;
   nome: string;
   email: string;
+  cpf?: string;
   perfil: PerfilUsuario;
   cargo: string;
   orgao: string;

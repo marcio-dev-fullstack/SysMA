@@ -20,18 +20,20 @@ interface LoginProps {
 export const usuariosExemplo: Record<PerfilUsuario, Usuario> = {
   adm: {
     id: 'usr-adm-01',
-    nome: 'Carlos Eduardo Mendes',
-    email: 'admin@semma.gov.br',
+    nome: 'MÁRCIO RODRIGUES DE OLIVEIRA',
+    email: 'cda.marcio@gmail.com',
+    cpf: '633.740.302-97',
     perfil: 'adm',
     cargo: 'Administrador do Sistema & Secretário',
     orgao: 'Secretaria Municipal de Meio Ambiente',
-    avatar: 'ADM',
+    avatar: 'M',
     telefone_whatsapp: '+55 (11) 98765-4321',
   },
   analista: {
     id: 'usr-ana-02',
     nome: 'Dra. Mariana Fonseca',
     email: 'mariana.analista@semma.gov.br',
+    cpf: '987.654.321-11',
     perfil: 'analista',
     cargo: 'Analista Ambiental Sênior',
     orgao: 'Coordenadoria de Licenciamento',
@@ -42,6 +44,7 @@ export const usuariosExemplo: Record<PerfilUsuario, Usuario> = {
     id: 'usr-fisc-03',
     nome: 'Sgt. Roberto Alves',
     email: 'roberto.fiscal@semma.gov.br',
+    cpf: '456.789.123-22',
     perfil: 'fiscal',
     cargo: 'Fiscal Ambiental Chefe de Campo',
     orgao: 'Divisão de Fiscalização e Monitoramento',
@@ -57,8 +60,8 @@ export const Login: React.FC<LoginProps> = ({
   chaveLicenca,
   setChaveLicenca
 }) => {
-  const [cpf, setCpf] = useState('');
-  const [senha, setSenha] = useState('');
+  const [cpf, setCpf] = useState('633.740.302-97');
+  const [senha, setSenha] = useState('mamst1ns');
   const [lembrar, setLembrar] = useState(true);
   const [modalBloqueado, setModalBloqueado] = useState(false);
   const [erroForm, setErroForm] = useState('');
@@ -91,7 +94,9 @@ export const Login: React.FC<LoginProps> = ({
   const handleEntrar = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!cpf || cpf.length < 11) {
+    const cleanCpf = cpf.replace(/\D/g, '');
+
+    if (!cpf || cleanCpf.length < 11) {
       setErroForm('Por favor, informe um CPF válido com 11 dígitos.');
       return;
     }
@@ -112,8 +117,15 @@ export const Login: React.FC<LoginProps> = ({
       return;
     }
 
-    // Efetua login como Administrador por padrão
-    onLogin(usuariosExemplo.adm);
+    // Efetua login vinculando o CPF digitado ao Administrador MÁRCIO RODRIGUES DE OLIVEIRA
+    const usuarioLogado: Usuario = {
+      ...usuariosExemplo.adm,
+      cpf: cpf || '633.740.302-97',
+      nome: 'MÁRCIO RODRIGUES DE OLIVEIRA',
+      email: 'cda.marcio@gmail.com',
+    };
+
+    onLogin(usuarioLogado);
   };
 
   return (

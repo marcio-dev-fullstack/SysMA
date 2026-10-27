@@ -1,14 +1,14 @@
 -- =========================================================
--- SisMA - Sistema de Meio Ambiente (v2.0 / v9.0)
+-- SisMA - Sistema de Meio Ambiente (v2.0 / v16.0)
 -- Script SQL para Inicialização do Banco de Dados Supabase (PostGIS)
 -- =========================================================
 
 -- 1. Habilitar a extensão de Geoprocessamento (PostGIS)
 CREATE EXTENSION IF NOT EXISTS postgis;
 
--- 2. Tabela de Perfis de Usuários (vinculada ao Supabase Auth)
+-- 2. Tabela de Perfis de Usuários
 CREATE TABLE IF NOT EXISTS public.profiles (
-  id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   nome_completo TEXT NOT NULL,
   cpf_cnpj VARCHAR(18) UNIQUE,
   cargo VARCHAR(100) NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS public.logs_auditoria (
   timestamp TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Ativação de Politicas RLS (Row Level Security)
+-- Ativação de Políticas RLS (Row Level Security)
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.processos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.vistorias ENABLE ROW LEVEL SECURITY;
@@ -106,6 +106,25 @@ ALTER TABLE public.taxas_ambientais ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.logs_auditoria ENABLE ROW LEVEL SECURITY;
 
 -- Regras de Acesso para Consulta e Leitura Pública
+CREATE POLICY "Permitir leitura pública de perfis" ON public.profiles FOR SELECT USING (true);
 CREATE POLICY "Permitir leitura pública de processos" ON public.processos FOR SELECT USING (true);
+CREATE POLICY "Permitir leitura pública de vistorias" ON public.vistorias FOR SELECT USING (true);
 CREATE POLICY "Permitir leitura pública de zoneamento" ON public.zoneamento_gis FOR SELECT USING (true);
 CREATE POLICY "Permitir leitura pública de taxas" ON public.taxas_ambientais FOR SELECT USING (true);
+
+-- =========================================================
+-- SEED DATA: INSERÇÃO DOS PERFIS INICIAIS
+-- =========================================================
+
+INSERT INTO public.profiles (id, nome_completo, cpf_cnpj, cargo, perfil, orgao, telefone_whatsapp)
+VALUES 
+  ('00000000-0000-0000-0000-000000000001', 'MÁRCIO RODRIGUES DE OLIVEIRA', '633.740.302-97', 'Administrador do Sistema & Secretário', 'adm', 'Secretaria Municipal de Meio Ambiente', '+55 (11) 98765-4321'),
+  ('00000000-0000-0000-0000-000000000002', 'Dra. Mariana Fonseca', '987.654.321-11', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 (11) 99876-5432'),
+  ('00000000-0000-0000-0000-000000000003', 'Sgt. Roberto Alves', '456.789.123-22', 'Fiscal Ambiental Chefe de Campo', 'fiscal', 'Divisão de Fiscalização e Monitoramento', '+55 (11) 97654-3210')
+ON CONFLICT (cpf_cnpj) DO UPDATE 
+SET 
+  nome_completo = EXCLUDED.nome_completo,
+  cargo = EXCLUDED.cargo,
+  perfil = EXCLUDED.perfil,
+  orgao = EXCLUDED.orgao,
+  telefone_whatsapp = EXCLUDED.telefone_whatsapp;

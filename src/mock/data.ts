@@ -102,7 +102,7 @@ export const MOCK_ZONAS_GIS: ZonaGIS[] = [
 export const MOCK_LOGS: LogAuditoria[] = [
   {
     id: 'l1',
-    usuario: 'carlos.silva@meioambiente.gov.br',
+    usuario: 'cda.marcio@gmail.com',
     acao: 'Aprovação de Licença de Instalação (LI-2026-0102)',
     modulo: 'Licenciamento',
     ip: '192.168.1.104',
