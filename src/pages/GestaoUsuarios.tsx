@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, UserPlus, Shield, Check, Search, Trash2, Edit2, Lock } from 'lucide-react';
+import { Users, UserPlus, Search, Trash2, Edit2, Phone, Mail } from 'lucide-react';
 import { Usuario, PerfilUsuario } from '../types';
 
 export const GestaoUsuarios: React.FC = () => {
@@ -13,37 +13,52 @@ export const GestaoUsuarios: React.FC = () => {
       cargo: 'Administrador do Sistema & Secretário',
       orgao: 'Secretaria Municipal de Meio Ambiente',
       avatar: 'M',
+      telefone_whatsapp: '+55 65 9231-2739',
     },
     {
       id: 'usr-2',
-      nome: 'Dra. Mariana Fonseca',
-      email: 'mariana.analista@semma.gov.br',
-      cpf: '987.654.321-11',
+      nome: 'ailton.bartolomeu',
+      email: 'cda.marcio@gmail.com',
+      cpf: '111.949.113-98',
       perfil: 'analista',
       cargo: 'Analista Ambiental Sênior',
       orgao: 'Coordenadoria de Licenciamento',
-      avatar: 'M',
+      avatar: 'A',
+      telefone_whatsapp: '+55 94 9113-9883',
     },
     {
       id: 'usr-3',
-      nome: 'Sgt. Roberto Alves',
-      email: 'roberto.fiscal@semma.gov.br',
-      cpf: '456.789.123-22',
-      perfil: 'fiscal',
-      cargo: 'Fiscal Ambiental Chefe de Campo',
-      orgao: 'Divisão de Fiscalização e Monitoramento',
-      avatar: 'R',
+      nome: 'fernanda.baccaro',
+      email: 'cda.marcio@gmail.com',
+      cpf: '222.949.305-12',
+      perfil: 'analista',
+      cargo: 'Analista Ambiental Sênior',
+      orgao: 'Coordenadoria de Licenciamento',
+      avatar: 'F',
+      telefone_whatsapp: '+55 94 9305-1234',
+    },
+    {
+      id: 'usr-4',
+      nome: 'flavio.watanabe',
+      email: 'cda.marcio@gmail.com',
+      cpf: '333.949.182-88',
+      perfil: 'analista',
+      cargo: 'Analista Ambiental Sênior',
+      orgao: 'Coordenadoria de Licenciamento',
+      avatar: 'F',
+      telefone_whatsapp: '+55 94 9182-8854',
     },
   ]);
 
   const [showModal, setShowModal] = useState(false);
   const [novoUsuario, setNovoUsuario] = useState({
     nome: '',
-    email: '',
+    email: 'cda.marcio@gmail.com',
     cpf: '',
     perfil: 'analista' as PerfilUsuario,
-    cargo: '',
-    orgao: 'Secretaria Municipal de Meio Ambiente',
+    cargo: 'Analista Ambiental Sênior',
+    orgao: 'Coordenadoria de Licenciamento',
+    telefone_whatsapp: '',
   });
 
   const handleCadastrar = (e: React.FormEvent) => {
@@ -57,10 +72,11 @@ export const GestaoUsuarios: React.FC = () => {
       cargo: novoUsuario.cargo,
       orgao: novoUsuario.orgao,
       avatar: novoUsuario.nome.charAt(0).toUpperCase(),
+      telefone_whatsapp: novoUsuario.telefone_whatsapp,
     };
     setUsuarios([...usuarios, userCreated]);
     setShowModal(false);
-    setNovoUsuario({ nome: '', email: '', cpf: '', perfil: 'analista', cargo: '', orgao: 'Secretaria Municipal de Meio Ambiente' });
+    setNovoUsuario({ nome: '', email: 'cda.marcio@gmail.com', cpf: '', perfil: 'analista', cargo: 'Analista Ambiental Sênior', orgao: 'Coordenadoria de Licenciamento', telefone_whatsapp: '' });
   };
 
   return (
@@ -102,6 +118,7 @@ export const GestaoUsuarios: React.FC = () => {
             <thead className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 uppercase tracking-wider text-[10px]">
               <tr>
                 <th className="p-4">Servidor / E-mail</th>
+                <th className="p-4">WhatsApp</th>
                 <th className="p-4">CPF</th>
                 <th className="p-4">Cargo / Órgão</th>
                 <th className="p-4">Perfil de Acesso</th>
@@ -117,11 +134,20 @@ export const GestaoUsuarios: React.FC = () => {
                     </div>
                     <div>
                       <p className="font-bold text-slate-800">{user.nome}</p>
-                      <p className="text-[11px] text-slate-400">{user.email}</p>
+                      <p className="text-[11px] text-slate-400 flex items-center gap-1">
+                        <Mail className="w-3 h-3 text-slate-400" />
+                        {user.email}
+                      </p>
+                    </div>
+                  </td>
+                  <td className="p-4 font-mono text-emerald-700 font-bold">
+                    <div className="flex items-center gap-1">
+                      <Phone className="w-3 h-3 text-emerald-600" />
+                      <span>{user.telefone_whatsapp || '—'}</span>
                     </div>
                   </td>
                   <td className="p-4 font-mono text-slate-700 font-semibold">
-                    {user.cpf || '633.740.302-97'}
+                    {user.cpf || '—'}
                   </td>
                   <td className="p-4">
                     <p className="text-slate-800 font-semibold">{user.cargo}</p>
@@ -163,13 +189,25 @@ export const GestaoUsuarios: React.FC = () => {
               Cadastrar Servidor no Supabase Auth
             </h3>
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Nome Completo</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Nome / Usuário</label>
               <input
                 type="text"
                 required
+                placeholder="Ex: ailton.bartolomeu"
                 value={novoUsuario.nome}
                 onChange={(e) => setNovoUsuario({ ...novoUsuario, nome: e.target.value })}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">WhatsApp</label>
+              <input
+                type="text"
+                required
+                placeholder="+55 65 9231-2739"
+                value={novoUsuario.telefone_whatsapp}
+                onChange={(e) => setNovoUsuario({ ...novoUsuario, telefone_whatsapp: e.target.value })}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500 font-mono"
               />
             </div>
             <div>
@@ -210,7 +248,7 @@ export const GestaoUsuarios: React.FC = () => {
               <input
                 type="text"
                 required
-                placeholder="Ex: Engenheiro Ambiental"
+                placeholder="Ex: Analista Ambiental Sênior"
                 value={novoUsuario.cargo}
                 onChange={(e) => setNovoUsuario({ ...novoUsuario, cargo: e.target.value })}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500"

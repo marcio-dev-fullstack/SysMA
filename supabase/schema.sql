@@ -1,5 +1,5 @@
 -- =========================================================
--- SisMA - Sistema de Meio Ambiente (v2.0 / v16.0)
+-- SisMA - Sistema de Meio Ambiente (v2.0 / v20.0)
 -- Script SQL para Inicialização do Banco de Dados Supabase (PostGIS)
 -- =========================================================
 
@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   perfil VARCHAR(20) CHECK (perfil IN ('adm', 'analista', 'fiscal')),
   orgao TEXT DEFAULT 'Secretaria Municipal de Meio Ambiente',
   telefone_whatsapp VARCHAR(30),
+  email VARCHAR(255) DEFAULT 'cda.marcio@gmail.com',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -113,18 +114,20 @@ CREATE POLICY "Permitir leitura pública de zoneamento" ON public.zoneamento_gis
 CREATE POLICY "Permitir leitura pública de taxas" ON public.taxas_ambientais FOR SELECT USING (true);
 
 -- =========================================================
--- SEED DATA: INSERÇÃO DOS PERFIS INICIAIS
+-- SEED DATA: INSERÇÃO DOS PERFIS OFICIAIS (ADMIN + 3 ANALISTAS)
 -- =========================================================
 
-INSERT INTO public.profiles (id, nome_completo, cpf_cnpj, cargo, perfil, orgao, telefone_whatsapp)
+INSERT INTO public.profiles (id, nome_completo, cpf_cnpj, cargo, perfil, orgao, telefone_whatsapp, email)
 VALUES 
-  ('00000000-0000-0000-0000-000000000001', 'MÁRCIO RODRIGUES DE OLIVEIRA', '633.740.302-97', 'Administrador do Sistema & Secretário', 'adm', 'Secretaria Municipal de Meio Ambiente', '+55 (11) 98765-4321'),
-  ('00000000-0000-0000-0000-000000000002', 'Dra. Mariana Fonseca', '987.654.321-11', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 (11) 99876-5432'),
-  ('00000000-0000-0000-0000-000000000003', 'Sgt. Roberto Alves', '456.789.123-22', 'Fiscal Ambiental Chefe de Campo', 'fiscal', 'Divisão de Fiscalização e Monitoramento', '+55 (11) 97654-3210')
+  ('00000000-0000-0000-0000-000000000001', 'MÁRCIO RODRIGUES DE OLIVEIRA', '633.740.302-97', 'Administrador do Sistema & Secretário', 'adm', 'Secretaria Municipal de Meio Ambiente', '+55 65 9231-2739', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000002', 'ailton.bartolomeu', '111.949.113-98', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9113-9883', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000003', 'fernanda.baccaro', '222.949.305-12', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9305-1234', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000004', 'flavio.watanabe', '333.949.182-88', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9182-8854', 'cda.marcio@gmail.com')
 ON CONFLICT (cpf_cnpj) DO UPDATE 
 SET 
   nome_completo = EXCLUDED.nome_completo,
   cargo = EXCLUDED.cargo,
   perfil = EXCLUDED.perfil,
   orgao = EXCLUDED.orgao,
-  telefone_whatsapp = EXCLUDED.telefone_whatsapp;
+  telefone_whatsapp = EXCLUDED.telefone_whatsapp,
+  email = EXCLUDED.email;

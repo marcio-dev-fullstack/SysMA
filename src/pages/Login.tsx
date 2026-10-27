@@ -5,9 +5,10 @@ import {
   User, 
   LogIn, 
   ShieldCheck, 
-  AlertTriangle 
+  AlertTriangle,
+  UserCheck
 } from 'lucide-react';
-import { PerfilUsuario, Usuario } from '../types';
+import { Usuario } from '../types';
 
 interface LoginProps {
   onLogin: (usuario: Usuario) => void;
@@ -17,8 +18,8 @@ interface LoginProps {
   setChaveLicenca: (chave: string) => void;
 }
 
-export const usuariosExemplo: Record<PerfilUsuario, Usuario> = {
-  adm: {
+export const LISTA_USUARIOS: Usuario[] = [
+  {
     id: 'usr-adm-01',
     nome: 'MÁRCIO RODRIGUES DE OLIVEIRA',
     email: 'cda.marcio@gmail.com',
@@ -27,63 +28,58 @@ export const usuariosExemplo: Record<PerfilUsuario, Usuario> = {
     cargo: 'Administrador do Sistema & Secretário',
     orgao: 'Secretaria Municipal de Meio Ambiente',
     avatar: 'M',
-    telefone_whatsapp: '+55 (11) 98765-4321',
+    telefone_whatsapp: '+55 65 9231-2739',
   },
-  analista: {
-    id: 'usr-ana-02',
-    nome: 'Dra. Mariana Fonseca',
-    email: 'mariana.analista@semma.gov.br',
-    cpf: '987.654.321-11',
+  {
+    id: 'usr-ana-01',
+    nome: 'ailton.bartolomeu',
+    email: 'cda.marcio@gmail.com',
+    cpf: '111.949.113-98',
     perfil: 'analista',
     cargo: 'Analista Ambiental Sênior',
     orgao: 'Coordenadoria de Licenciamento',
-    avatar: 'ANA',
-    telefone_whatsapp: '+55 (11) 99876-5432',
+    avatar: 'A',
+    telefone_whatsapp: '+55 94 9113-9883',
   },
-  fiscal: {
-    id: 'usr-fisc-03',
-    nome: 'Sgt. Roberto Alves',
-    email: 'roberto.fiscal@semma.gov.br',
-    cpf: '456.789.123-22',
-    perfil: 'fiscal',
-    cargo: 'Fiscal Ambiental Chefe de Campo',
-    orgao: 'Divisão de Fiscalização e Monitoramento',
-    avatar: 'FISC',
-    telefone_whatsapp: '+55 (11) 97654-3210',
+  {
+    id: 'usr-ana-02',
+    nome: 'fernanda.baccaro',
+    email: 'cda.marcio@gmail.com',
+    cpf: '222.949.305-12',
+    perfil: 'analista',
+    cargo: 'Analista Ambiental Sênior',
+    orgao: 'Coordenadoria de Licenciamento',
+    avatar: 'F',
+    telefone_whatsapp: '+55 94 9305-1234',
   },
-};
+  {
+    id: 'usr-ana-03',
+    nome: 'flavio.watanabe',
+    email: 'cda.marcio@gmail.com',
+    cpf: '333.949.182-88',
+    perfil: 'analista',
+    cargo: 'Analista Ambiental Sênior',
+    orgao: 'Coordenadoria de Licenciamento',
+    avatar: 'F',
+    telefone_whatsapp: '+55 94 9182-8854',
+  },
+];
 
 export const Login: React.FC<LoginProps> = ({
   onLogin,
-  diasLicenca,
-  setDiasLicenca,
-  chaveLicenca,
-  setChaveLicenca
+  diasLicenca
 }) => {
-  const [cpf, setCpf] = useState('633.740.302-97');
-  const [senha, setSenha] = useState('mamst1ns');
+  const [loginInput, setLoginInput] = useState('633.740.302-97');
+  const [senha, setSenha] = useState('12345678');
   const [lembrar, setLembrar] = useState(true);
   const [modalBloqueado, setModalBloqueado] = useState(false);
   const [erroForm, setErroForm] = useState('');
 
-  // Formata CPF conforme o usuário digita (máscara 000.000.000-00)
-  const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length > 11) value = value.slice(0, 11);
-    
-    if (value.length > 9) {
-      value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
-    } else if (value.length > 6) {
-      value = value.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
-    } else if (value.length > 3) {
-      value = value.replace(/(\d{3})(\d{1,3})/, '$1.$2');
-    }
-    
-    setCpf(value);
+  const handleLoginInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginInput(e.target.value);
     setErroForm('');
   };
 
-  // Máscara e restrição da Senha: Alfanumérica de até 8 caracteres (A-Z, a-z, 0-9)
   const handleSenhaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
     if (value.length > 8) value = value.slice(0, 8);
@@ -91,13 +87,17 @@ export const Login: React.FC<LoginProps> = ({
     setErroForm('');
   };
 
+  const selecionarUsuarioAtalho = (u: Usuario) => {
+    setLoginInput(u.cpf || u.nome);
+    setSenha('12345678');
+    setErroForm('');
+  };
+
   const handleEntrar = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const cleanCpf = cpf.replace(/\D/g, '');
-
-    if (!cpf || cleanCpf.length < 11) {
-      setErroForm('Por favor, informe um CPF válido com 11 dígitos.');
+    if (!loginInput.trim()) {
+      setErroForm('Por favor, informe o CPF ou nome do servidor.');
       return;
     }
 
@@ -107,25 +107,49 @@ export const Login: React.FC<LoginProps> = ({
     }
 
     if (senha.length < 8) {
-      setErroForm('A senha deve ser alfanumérica e conter exatamente 8 caracteres.');
+      setErroForm('A senha deve ser alfanumérica e conter exatamente 8 dígitos (Ex: 12345678).');
       return;
     }
 
-    // Regra de Bloqueio no Dia 0 se necessário
-    if (diasLicenca <= 0) {
+    // Busca usuário cadastrado por CPF ou Nome/Login
+    const termoLower = loginInput.trim().toLowerCase();
+    const cleanDigits = loginInput.replace(/\D/g, '');
+
+    let usuarioEncontrado = LISTA_USUARIOS.find((u) => {
+      const uCpfDigits = (u.cpf || '').replace(/\D/g, '');
+      const uNomeLower = u.nome.toLowerCase();
+      return (
+        (cleanDigits && cleanDigits.length >= 8 && uCpfDigits.includes(cleanDigits)) ||
+        uNomeLower.includes(termoLower) ||
+        termoLower.includes(uNomeLower)
+      );
+    });
+
+    // Se não encontrou exato, verifica se é algum dos analistas específicos
+    if (!usuarioEncontrado) {
+      if (termoLower.includes('ailton')) {
+        usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('ailton'));
+      } else if (termoLower.includes('fernanda')) {
+        usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('fernanda'));
+      } else if (termoLower.includes('flavio') || termoLower.includes('flávio')) {
+        usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('flavio'));
+      } else {
+        // Padrão Administrador MÁRCIO
+        usuarioEncontrado = LISTA_USUARIOS[0];
+      }
+    }
+
+    if (!usuarioEncontrado) {
+      usuarioEncontrado = LISTA_USUARIOS[0];
+    }
+
+    // Regra de Bloqueio no Dia 0 para não-ADM
+    if (diasLicenca <= 0 && usuarioEncontrado.perfil !== 'adm') {
       setModalBloqueado(true);
       return;
     }
 
-    // Efetua login vinculando o CPF digitado ao Administrador MÁRCIO RODRIGUES DE OLIVEIRA
-    const usuarioLogado: Usuario = {
-      ...usuariosExemplo.adm,
-      cpf: cpf || '633.740.302-97',
-      nome: 'MÁRCIO RODRIGUES DE OLIVEIRA',
-      email: 'cda.marcio@gmail.com',
-    };
-
-    onLogin(usuarioLogado);
+    onLogin(usuarioEncontrado);
   };
 
   return (
@@ -148,8 +172,35 @@ export const Login: React.FC<LoginProps> = ({
           </p>
         </div>
 
-        {/* Formulário de Login (CPF e Senha) */}
-        <form onSubmit={handleEntrar} className="space-y-4">
+        {/* Atalhos Rápidos de Seleção de Usuários */}
+        <div className="space-y-1.5 pt-1 border-t border-slate-800/80">
+          <label className="block text-[11px] font-bold text-slate-400">
+            Acesso Rápido para Testes:
+          </label>
+          <div className="grid grid-cols-2 gap-1.5">
+            {LISTA_USUARIOS.map((u) => (
+              <button
+                key={u.id}
+                type="button"
+                onClick={() => selecionarUsuarioAtalho(u)}
+                className={`p-2 rounded-xl text-left border text-[11px] transition-all cursor-pointer flex items-center justify-between ${
+                  loginInput === u.cpf || loginInput === u.nome
+                    ? 'bg-emerald-600/20 border-emerald-500 text-emerald-300 font-bold'
+                    : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
+                }`}
+              >
+                <div className="truncate">
+                  <p className="font-bold truncate">{u.nome}</p>
+                  <p className="text-[9px] text-slate-400 uppercase font-semibold">{u.perfil}</p>
+                </div>
+                <UserCheck className="w-3.5 h-3.5 shrink-0 text-emerald-400 opacity-80" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Formulário de Login (CPF/Nome e Senha) */}
+        <form onSubmit={handleEntrar} className="space-y-4 pt-1">
           
           {erroForm && (
             <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-400 text-xs font-semibold flex items-center gap-2">
@@ -158,10 +209,10 @@ export const Login: React.FC<LoginProps> = ({
             </div>
           )}
 
-          {/* Campo CPF */}
+          {/* Campo CPF ou Nome */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-slate-300">
-              CPF do Servidor
+              CPF ou Nome do Servidor
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
@@ -169,10 +220,9 @@ export const Login: React.FC<LoginProps> = ({
               </div>
               <input
                 type="text"
-                value={cpf}
-                onChange={handleCpfChange}
-                placeholder="000.000.000-00"
-                maxLength={14}
+                value={loginInput}
+                onChange={handleLoginInputChange}
+                placeholder="Ex: 633.740.302-97 ou ailton.bartolomeu"
                 className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all font-mono"
                 required
               />
@@ -185,7 +235,7 @@ export const Login: React.FC<LoginProps> = ({
               <label className="block text-xs font-bold text-slate-300">
                 Senha de Acesso
               </label>
-              <a href="#esqueci" onClick={(e) => { e.preventDefault(); alert('Contate o Administrador do SisMA para redefinir sua senha.'); }} className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
+              <a href="#esqueci" onClick={(e) => { e.preventDefault(); alert('Contate o Administrador MÁRCIO RODRIGUES DE OLIVEIRA (+55 65 9231-2739) para redefinir sua senha.'); }} className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
                 Esqueceu a senha?
               </a>
             </div>
@@ -197,14 +247,14 @@ export const Login: React.FC<LoginProps> = ({
                 type="password"
                 value={senha}
                 onChange={handleSenhaChange}
-                placeholder="Ex: A1b2C3d4"
+                placeholder="12345678"
                 maxLength={8}
                 className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all font-mono tracking-widest"
                 required
               />
             </div>
             <p className="text-[11px] text-slate-400 font-medium flex items-center gap-1 mt-1">
-              ℹ️ A senha deve ser alfanumérica e conter exatamente <strong>8 dígitos</strong>.
+              ℹ️ A senha padrão para todos os servidores é <strong>12345678</strong>.
             </p>
           </div>
 
@@ -237,7 +287,7 @@ export const Login: React.FC<LoginProps> = ({
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Acesso Seguro SSL</span>
           </div>
-          <span>Versão 2.0</span>
+          <span>Versão 20.0</span>
         </div>
       </div>
 
@@ -251,12 +301,12 @@ export const Login: React.FC<LoginProps> = ({
             <div className="text-center space-y-1">
               <h3 className="text-lg font-bold text-white">Licença do Sistema Expirada</h3>
               <p className="text-xs text-slate-400">
-                O prazo de validade de 90 dias do SisMA expirou. Entre em contato com o Administrador para renovação.
+                O prazo de validade do SisMA expirou. Entre em contato com o Administrador MÁRCIO RODRIGUES DE OLIVEIRA (+55 65 9231-2739) para renovação.
               </p>
             </div>
             <button
               onClick={() => setModalBloqueado(false)}
-              className="w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl transition-all"
+              className="w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
             >
               Fechar
             </button>
