@@ -15,7 +15,7 @@ import { GestaoUsuarios } from './pages/GestaoUsuarios';
 import { ConsultaPublica } from './pages/ConsultaPublica';
 import { EnquadramentoAtividades } from './pages/EnquadramentoAtividades';
 import { Usuario, ProcessoLicenciamento } from './types';
-import { KeyRound, RefreshCw, Clock, CheckCircle2 } from 'lucide-react';
+import { KeyRound, RefreshCw, Clock } from 'lucide-react';
 
 export function App() {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
@@ -104,7 +104,7 @@ export function App() {
       case 'gis':
         return <ZoneamentoGIS />;
       case 'usuarios':
-        return <GestaoUsuarios />;
+        return <GestaoUsuarios usuarioAtual={usuario} />;
       case 'enquadramento':
         return <EnquadramentoAtividades />;
       case 'consulta-publica':

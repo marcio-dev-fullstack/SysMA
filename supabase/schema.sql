@@ -1,18 +1,18 @@
 -- =========================================================
--- SisMA - Sistema de Meio Ambiente (v2.0 / v20.0)
+-- SisMA - Sistema de Meio Ambiente (v2.0 / v22.0)
 -- Script SQL para Inicialização do Banco de Dados Supabase (PostGIS)
 -- =========================================================
 
 -- 1. Habilitar a extensão de Geoprocessamento (PostGIS)
 CREATE EXTENSION IF NOT EXISTS postgis;
 
--- 2. Tabela de Perfis de Usuários
+-- 2. Tabela de Perfis de Usuários com Suporte aos 4 Papéis RBAC
 CREATE TABLE IF NOT EXISTS public.profiles (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   nome_completo TEXT NOT NULL,
   cpf_cnpj VARCHAR(18) UNIQUE,
   cargo VARCHAR(100) NOT NULL,
-  perfil VARCHAR(20) CHECK (perfil IN ('adm', 'analista', 'fiscal')),
+  perfil VARCHAR(20) CHECK (perfil IN ('adm', 'analista', 'fiscal', 'empresario')),
   orgao TEXT DEFAULT 'Secretaria Municipal de Meio Ambiente',
   telefone_whatsapp VARCHAR(30),
   email VARCHAR(255) DEFAULT 'cda.marcio@gmail.com',
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS public.processos (
   analista_id UUID REFERENCES public.profiles(id)
 );
 
--- 4. Tabela de Vistorias e Fiscalização de Campo
+-- 4. Tabela de Vistorias e Fiscalização de Campo (Com Fotos e Vídeos MP4)
 CREATE TABLE IF NOT EXISTS public.vistorias (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   numero_auto VARCHAR(50) UNIQUE NOT NULL,
@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS public.vistorias (
   status VARCHAR(30) CHECK (status IN ('Agendada', 'Concluída', 'Em Andamento', 'Notificado')),
   fiscal_responsavel UUID REFERENCES public.profiles(id),
   fotos_urls TEXT[],
+  videos_urls TEXT[],
   relatorio_fiscal TEXT,
   data_vistoria DATE NOT NULL
 );
@@ -87,13 +88,17 @@ CREATE TABLE IF NOT EXISTS public.taxas_ambientais (
   taxa_base NUMERIC(10,2) NOT NULL
 );
 
--- 8. Tabela de Trilha de Auditoria Imutável (Logs)
+-- 8. Tabela de Trilha de Auditoria Imutável (Logs com Geolocalização e IP)
 CREATE TABLE IF NOT EXISTS public.logs_auditoria (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   usuario TEXT NOT NULL,
+  cpf VARCHAR(18),
+  perfil VARCHAR(20) CHECK (perfil IN ('adm', 'analista', 'fiscal', 'empresario')),
   acao TEXT NOT NULL,
   modulo VARCHAR(50) NOT NULL,
   ip VARCHAR(45) NOT NULL,
+  geolocalizacao TEXT NOT NULL,
+  dispositivo TEXT,
   timestamp TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -112,9 +117,10 @@ CREATE POLICY "Permitir leitura pública de processos" ON public.processos FOR S
 CREATE POLICY "Permitir leitura pública de vistorias" ON public.vistorias FOR SELECT USING (true);
 CREATE POLICY "Permitir leitura pública de zoneamento" ON public.zoneamento_gis FOR SELECT USING (true);
 CREATE POLICY "Permitir leitura pública de taxas" ON public.taxas_ambientais FOR SELECT USING (true);
+CREATE POLICY "Permitir leitura pública de logs" ON public.logs_auditoria FOR SELECT USING (true);
 
 -- =========================================================
--- SEED DATA: INSERÇÃO DOS PERFIS OFICIAIS (ADMIN + 3 ANALISTAS)
+-- SEED DATA: INSERÇÃO DOS 4 PERFIS OFICIAIS RBAC
 -- =========================================================
 
 INSERT INTO public.profiles (id, nome_completo, cpf_cnpj, cargo, perfil, orgao, telefone_whatsapp, email)
@@ -122,7 +128,9 @@ VALUES
   ('00000000-0000-0000-0000-000000000001', 'MÁRCIO RODRIGUES DE OLIVEIRA', '633.740.302-97', 'Administrador do Sistema & Secretário', 'adm', 'Secretaria Municipal de Meio Ambiente', '+55 65 9231-2739', 'cda.marcio@gmail.com'),
   ('00000000-0000-0000-0000-000000000002', 'ailton.bartolomeu', '111.949.113-98', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9113-9883', 'cda.marcio@gmail.com'),
   ('00000000-0000-0000-0000-000000000003', 'fernanda.baccaro', '222.949.305-12', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9305-1234', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000004', 'flavio.watanabe', '333.949.182-88', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9182-8854', 'cda.marcio@gmail.com')
+  ('00000000-0000-0000-0000-000000000004', 'flavio.watanabe', '333.949.182-88', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9182-8854', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000005', 'Sgt. Roberto Alves', '456.789.123-22', 'Fiscal Ambiental Chefe de Campo', 'fiscal', 'Divisão de Fiscalização e Monitoramento', '+55 65 98888-1234', 'roberto.fiscal@semma.gov.br'),
+  ('00000000-0000-0000-0000-000000000006', 'Indústria Metalúrgica do Vale S.A.', '12.345.678/0001-90', 'Requerente / Diretor Industrial', 'empresario', 'Setor Privado / Empreendedor', '+55 65 97777-5555', 'contato@metalurgicavale.com.br')
 ON CONFLICT (cpf_cnpj) DO UPDATE 
 SET 
   nome_completo = EXCLUDED.nome_completo,

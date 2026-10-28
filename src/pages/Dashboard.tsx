@@ -13,9 +13,7 @@ import {
   Search, 
   ClipboardCheck, 
   Building2, 
-  Mail, 
-  Phone, 
-  CheckCircle 
+  History 
 } from 'lucide-react';
 import { Usuario } from '../types';
 
@@ -30,7 +28,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
   const cpfUsuario = usuario?.cpf || '633.740.302-97';
   const cargoUsuario = usuario?.cargo || 'Administrador do Sistema & Secretário';
   const orgaoUsuario = usuario?.orgao || 'Secretaria Municipal de Meio Ambiente';
-  const perfilUsuario = (usuario?.perfil || 'adm').toUpperCase();
+  const perfilUsuario = usuario?.perfil || 'adm';
+
+  const perfilTitulos = {
+    adm: '1. Administrador (Acesso Total)',
+    analista: '2. Analista Ambiental (Licenciamento)',
+    fiscal: '3. Fiscal Ambiental (Campo & Vistorias)',
+    empresario: '4. Empresário (Requerente)',
+  };
+
+  const perfilBadges = {
+    adm: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+    analista: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+    fiscal: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+    empresario: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+  };
 
   return (
     <div className="space-y-6">
@@ -41,15 +53,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
           <div className="flex items-start sm:items-center gap-4">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 font-black text-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
-              {nomeUsuario.charAt(0)}
+              {nomeUsuario.charAt(0).toUpperCase()}
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-extrabold uppercase tracking-wider">
-                  Perfil: {perfilUsuario}
+                <span className={`px-2.5 py-0.5 rounded-md border text-[10px] font-extrabold uppercase tracking-wider ${perfilBadges[perfilUsuario]}`}>
+                  Perfil: {perfilTitulos[perfilUsuario]}
                 </span>
                 <span className="px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-extrabold flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3" /> Autenticado (SSL)
+                  <ShieldCheck className="w-3 h-3" /> Autenticado & Rastreado
                 </span>
               </div>
               <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white mt-1">
@@ -66,7 +78,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
           {/* Grid com Dados do Servidor Logado */}
           <div className="w-full lg:w-auto bg-slate-900/80 backdrop-blur-sm border border-slate-700/60 rounded-xl p-3.5 text-xs grid grid-cols-2 sm:grid-cols-3 gap-3 shadow-inner">
             <div>
-              <p className="text-[10px] text-slate-400 font-semibold uppercase">CPF do Servidor</p>
+              <p className="text-[10px] text-slate-400 font-semibold uppercase">CPF / CNPJ</p>
               <p className="font-mono font-bold text-emerald-400 mt-0.5">{cpfUsuario}</p>
             </div>
             <div>
@@ -74,43 +86,58 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
               <p className="font-medium text-slate-200 mt-0.5 truncate max-w-[160px]">{emailUsuario}</p>
             </div>
             <div className="col-span-2 sm:col-span-1">
-              <p className="text-[10px] text-slate-400 font-semibold uppercase">Sessão / Nível</p>
-              <p className="font-bold text-purple-300 mt-0.5 flex items-center gap-1">
-                <UserCheck className="w-3.5 h-3.5 text-purple-400" /> Nível 1 - Secretário
+              <p className="text-[10px] text-slate-400 font-semibold uppercase">Restrição de Deleção</p>
+              <p className="font-bold mt-0.5 text-[11px]">
+                {perfilUsuario === 'adm' ? (
+                  <span className="text-purple-300">Permissão Total (ADM)</span>
+                ) : (
+                  <span className="text-amber-400 font-extrabold">🔒 Bloqueado (Sem Deleção)</span>
+                )}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Atalhos de Ação Rápida no Banner */}
+        {/* Atalhos de Ação Rápida no Banner de Acordo com o Perfil */}
         {onNavigate && (
           <div className="mt-5 pt-4 border-t border-slate-700/60 flex items-center gap-2 overflow-x-auto">
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap mr-2">
-              Ações Rápidas:
+              Ações do Seu Perfil:
             </span>
+
+            {(perfilUsuario === 'adm' || perfilUsuario === 'analista') && (
+              <button
+                onClick={() => onNavigate('usuarios')}
+                className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
+              >
+                <Users className="w-3.5 h-3.5" />
+                {perfilUsuario === 'analista' ? 'Cadastrar Fiscal / Empresário' : 'Gestão de Usuários'}
+              </button>
+            )}
+
+            {(perfilUsuario === 'adm' || perfilUsuario === 'analista' || perfilUsuario === 'empresario') && (
+              <button
+                onClick={() => onNavigate('nova-licenca')}
+                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
+              >
+                <FilePlus className="w-3.5 h-3.5" /> Solicitar / Nova Licença
+              </button>
+            )}
+
+            {(perfilUsuario === 'adm' || perfilUsuario === 'fiscal') && (
+              <button
+                onClick={() => onNavigate('novo-auto')}
+                className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
+              >
+                <ClipboardCheck className="w-3.5 h-3.5" /> Enviar Vistoria (Fotos/Vídeos)
+              </button>
+            )}
+
             <button
-              onClick={() => onNavigate('usuarios')}
-              className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
+              onClick={() => onNavigate('auditoria')}
+              className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
             >
-              <Users className="w-3.5 h-3.5" /> Gestão de Servidores
-            </button>
-            <button
-              onClick={() => onNavigate('nova-licenca')}
-              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
-            >
-              <FilePlus className="w-3.5 h-3.5" /> Nova Licença
-            </button>
-            <button
-              onClick={() => onNavigate('fiscalizacao')}
-              className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
-            >
-              <ClipboardCheck className="w-3.5 h-3.5" /> Vistorias & Autos
-            </button>
-            <button
-              onClick={() => onNavigate('consulta-publica')}
-              className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
-            >
-              <Search className="w-3.5 h-3.5" /> Consulta Pública
+              <History className="w-3.5 h-3.5" /> Ver Auditoria & Rastreabilidade
             </button>
           </div>
         )}
@@ -120,9 +147,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase">Processos em Análise</p>
+            <p className="text-xs font-semibold text-slate-500 uppercase">Processos de Licenciamento</p>
             <p className="text-2xl font-bold text-slate-900 mt-1">14</p>
-            <span className="text-xs text-emerald-600 font-medium">+2 novos hoje</span>
+            <span className="text-xs text-emerald-600 font-medium">+2 em análise hoje</span>
           </div>
           <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
             <FileText className="w-6 h-6" />
@@ -131,9 +158,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
 
         <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase">Vistorias Agendadas</p>
+            <p className="text-xs font-semibold text-slate-500 uppercase">Vistorias Georreferenciadas</p>
             <p className="text-2xl font-bold text-slate-900 mt-1">8</p>
-            <span className="text-xs text-blue-600 font-medium">3 em campo</span>
+            <span className="text-xs text-blue-600 font-medium">Fotos e Vídeos MP4</span>
           </div>
           <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
             <CheckCircle2 className="w-6 h-6" />
@@ -142,9 +169,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
 
         <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase">Denúncias Pendentes</p>
+            <p className="text-xs font-semibold text-slate-500 uppercase">Denúncias Ambientais</p>
             <p className="text-2xl font-bold text-slate-900 mt-1">5</p>
-            <span className="text-xs text-amber-600 font-medium">Requer atenção</span>
+            <span className="text-xs text-amber-600 font-medium">Em investigação</span>
           </div>
           <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center">
             <AlertCircle className="w-6 h-6" />
@@ -153,12 +180,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
 
         <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase">Autos de Infração</p>
-            <p className="text-2xl font-bold text-slate-900 mt-1">12</p>
-            <span className="text-xs text-slate-500 font-medium">Este mês</span>
+            <p className="text-xs font-semibold text-slate-500 uppercase">Trilha de Auditoria (RLS)</p>
+            <p className="text-2xl font-bold text-purple-700 mt-1">100%</p>
+            <span className="text-xs text-purple-600 font-bold">Rastreabilidade Total</span>
           </div>
-          <div className="w-12 h-12 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center">
-            <ShieldAlert className="w-6 h-6" />
+          <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center">
+            <History className="w-6 h-6" />
           </div>
         </div>
       </div>

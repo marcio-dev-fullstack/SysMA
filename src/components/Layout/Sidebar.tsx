@@ -7,7 +7,6 @@ import {
   Map, 
   History, 
   TreePine,
-  UserCheck,
   LogOut,
   Users,
   Search,
@@ -25,16 +24,16 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, usuario, onLogout }) => {
   const allMenuItems = [
-    { id: 'dashboard', label: 'Painel Geral', icon: LayoutDashboard, perfis: ['adm', 'analista', 'fiscal'] },
-    { id: 'licenciamento', label: 'Licenciamento', icon: FileCheck2, perfis: ['adm', 'analista'] },
-    { id: 'nova-licenca', label: 'Nova Licença (Wizard)', icon: FilePlus, perfis: ['adm', 'analista'] },
+    { id: 'dashboard', label: 'Painel Geral', icon: LayoutDashboard, perfis: ['adm', 'analista', 'fiscal', 'empresario'] },
+    { id: 'licenciamento', label: 'Licenciamento', icon: FileCheck2, perfis: ['adm', 'analista', 'empresario'] },
+    { id: 'nova-licenca', label: 'Nova Licença (Wizard)', icon: FilePlus, perfis: ['adm', 'analista', 'empresario'] },
     { id: 'fiscalizacao', label: 'Fiscalização & Autos', icon: ClipboardCheck, perfis: ['adm', 'fiscal'] },
     { id: 'denuncias', label: 'Denúncias', icon: AlertTriangle, perfis: ['adm', 'analista', 'fiscal'] },
     { id: 'gis', label: 'Zoneamento GIS', icon: Map, perfis: ['adm', 'analista', 'fiscal'] },
-    { id: 'usuarios', label: 'Gestão de Usuários', icon: Users, perfis: ['adm'] },
-    { id: 'enquadramento', label: 'Tabela de Taxas', icon: Layers, perfis: ['adm', 'analista'] },
-    { id: 'consulta-publica', label: 'Consulta Pública', icon: Search, perfis: ['adm', 'analista', 'fiscal'] },
-    { id: 'auditoria', label: 'Auditoria & Logs', icon: History, perfis: ['adm'] },
+    { id: 'usuarios', label: 'Gestão de Usuários', icon: Users, perfis: ['adm', 'analista'] },
+    { id: 'enquadramento', label: 'Tabela de Taxas', icon: Layers, perfis: ['adm', 'analista', 'empresario'] },
+    { id: 'consulta-publica', label: 'Consulta Pública', icon: Search, perfis: ['adm', 'analista', 'fiscal', 'empresario'] },
+    { id: 'auditoria', label: 'Auditoria & Logs', icon: History, perfis: ['adm', 'analista', 'fiscal', 'empresario'] },
   ];
 
   // Filtrar itens do menu de acordo com o perfil do usuário
@@ -44,6 +43,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, usuar
     adm: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
     analista: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
     fiscal: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+    empresario: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+  };
+
+  const perfilLabels = {
+    adm: '1. Administrador (Acesso Total)',
+    analista: '2. Analista (Técnico)',
+    fiscal: '3. Fiscal (Campo)',
+    empresario: '4. Empresário (Requerente)',
   };
 
   return (
@@ -61,8 +68,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, usuar
       <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
         <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-3 mb-2 flex items-center justify-between">
           <span>Módulos ({usuario.perfil.toUpperCase()})</span>
-          <span className={`text-[9px] px-1.5 py-0.5 rounded border ${perfilBadges[usuario.perfil]}`}>
-            {usuario.perfil === 'adm' ? 'Acesso Total' : usuario.perfil === 'analista' ? 'Técnico' : 'Campo'}
+          <span className={`text-[9px] px-1.5 py-0.5 rounded border font-bold ${perfilBadges[usuario.perfil]}`}>
+            {usuario.perfil.toUpperCase()}
           </span>
         </div>
 

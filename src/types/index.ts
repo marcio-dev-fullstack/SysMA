@@ -1,4 +1,4 @@
-export type PerfilUsuario = 'adm' | 'analista' | 'fiscal';
+export type PerfilUsuario = 'adm' | 'analista' | 'fiscal' | 'empresario';
 
 export interface Usuario {
   id: string;
@@ -58,6 +58,7 @@ export interface Vistoria {
   valor_multa?: number;
   observacoes?: string;
   fotos_urls?: string[];
+  videos_urls?: string[];
 }
 
 export interface Denuncia {
@@ -82,9 +83,13 @@ export interface ZonaGIS {
 export interface LogAuditoria {
   id: string;
   usuario: string;
+  cpf?: string;
+  perfil: PerfilUsuario;
   acao: string;
   modulo: string;
   ip: string;
+  geolocalizacao: string;
+  dispositivo?: string;
   timestamp: string;
 }
 

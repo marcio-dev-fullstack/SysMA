@@ -62,6 +62,28 @@ export const LISTA_USUARIOS: Usuario[] = [
     avatar: 'F',
     telefone_whatsapp: '+55 94 9182-8854',
   },
+  {
+    id: 'usr-fisc-01',
+    nome: 'Sgt. Roberto Alves',
+    email: 'roberto.fiscal@semma.gov.br',
+    cpf: '456.789.123-22',
+    perfil: 'fiscal',
+    cargo: 'Fiscal Ambiental Chefe de Campo',
+    orgao: 'Divisão de Fiscalização e Monitoramento',
+    avatar: 'R',
+    telefone_whatsapp: '+55 65 98888-1234',
+  },
+  {
+    id: 'usr-emp-01',
+    nome: 'Indústria Metalúrgica do Vale S.A.',
+    email: 'contato@metalurgicavale.com.br',
+    cpf: '12.345.678/0001-90',
+    perfil: 'empresario',
+    cargo: 'Requerente / Diretor Industrial',
+    orgao: 'Setor Privado / Empreendedor',
+    avatar: 'I',
+    telefone_whatsapp: '+55 65 97777-5555',
+  },
 ];
 
 export const Login: React.FC<LoginProps> = ({
@@ -104,7 +126,7 @@ export const Login: React.FC<LoginProps> = ({
       return;
     }
 
-    // Busca usuário cadastrado por CPF ou Nome/Login
+    // Busca usuário cadastrado por CPF/CNPJ ou Nome/Login
     const termoLower = loginInput.trim().toLowerCase();
     const cleanDigits = loginInput.replace(/\D/g, '');
 
@@ -125,6 +147,10 @@ export const Login: React.FC<LoginProps> = ({
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('fernanda'));
       } else if (termoLower.includes('flavio') || termoLower.includes('flávio')) {
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('flavio'));
+      } else if (termoLower.includes('roberto') || termoLower.includes('fiscal')) {
+        usuarioEncontrado = LISTA_USUARIOS.find((u) => u.perfil === 'fiscal');
+      } else if (termoLower.includes('empresa') || termoLower.includes('vale')) {
+        usuarioEncontrado = LISTA_USUARIOS.find((u) => u.perfil === 'empresario');
       } else {
         // Padrão Administrador MÁRCIO
         usuarioEncontrado = LISTA_USUARIOS[0];
@@ -174,10 +200,10 @@ export const Login: React.FC<LoginProps> = ({
             </div>
           )}
 
-          {/* Campo CPF do Servidor */}
+          {/* Campo CPF / CNPJ do Servidor */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-slate-300">
-              CPF do Servidor
+              CPF do Servidor ou CNPJ
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
@@ -252,7 +278,7 @@ export const Login: React.FC<LoginProps> = ({
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Acesso Seguro SSL</span>
           </div>
-          <span>Versão 2.0</span>
+          <span>Versão 22.0 (4 Perfis RBAC)</span>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertTriangle, Camera, CheckCircle2, FileText, MapPin, ShieldAlert, ArrowLeft } from 'lucide-react';
+import { AlertTriangle, Camera, Video, CheckCircle2, MapPin, ShieldAlert, ArrowLeft } from 'lucide-react';
 
 interface NovoAutoInfracaoProps {
   onCancel: () => void;
@@ -11,13 +11,14 @@ export const NovoAutoInfracao: React.FC<NovoAutoInfracaoProps> = ({ onCancel, on
     alvo: 'Madeireira & Serraria Santa Luzia',
     cpf_cnpj: '12.345.678/0001-90',
     endereco: 'Rodovia BR-316, Km 18, Zona Industrial',
-    coordenadas: '-1.4589, -48.4891',
+    coordenadas: '-15.5900, -56.0800',
     tipo_infracao: 'Desmatamento não autorizado em APP / Queimada urbana',
     enquadramento_legal: 'Lei Federal 9.605/1998 Art. 38 c/c Lei Municipal de Proteção Ambiental',
     gravidade: 'Grave',
     valor_multa: '15000',
     relatorio_fiscal: 'Constatado supressão vegetal sem licença de operação em área limítrofe com igarapé protegida.',
-    fotos: [] as string[],
+    fotos: ['foto_vistoria_app_01.jpg', 'foto_vistoria_app_02.jpg'],
+    videos: ['video_evidencia_vistoria.mp4'],
   });
 
   return (
@@ -27,15 +28,15 @@ export const NovoAutoInfracao: React.FC<NovoAutoInfracaoProps> = ({ onCancel, on
         <div>
           <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
             <AlertTriangle className="w-6 h-6 text-amber-600" />
-            Lavratura de Auto de Infração / Notificação Ambiental
+            Lavratura de Auto de Infração / Relatório de Vistoria
           </h2>
           <p className="text-xs text-slate-500 mt-1">
-            Registro oficial para a fiscalização em campo com cálculo de multa e geolocalização.
+            Registro oficial para fiscalização de campo com captura de Fotos, Vídeos, cálculo de multa e geolocalização.
           </p>
         </div>
         <button
           onClick={onCancel}
-          className="text-slate-500 hover:text-slate-800 text-sm font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50"
+          className="text-slate-500 hover:text-slate-800 text-sm font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"
         >
           Cancelar
         </button>
@@ -45,11 +46,11 @@ export const NovoAutoInfracao: React.FC<NovoAutoInfracaoProps> = ({ onCancel, on
         {/* Dados do Autuado */}
         <div>
           <h3 className="text-sm font-bold text-slate-800 border-b border-slate-100 pb-2 mb-4">
-            1. Qualificação do Autuado / Infror
+            1. Qualificação do Autuado / Infrator
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Nome do Infror / Razão Social</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Nome do Infrator / Razão Social</label>
               <input
                 type="text"
                 value={formData.alvo}
@@ -67,7 +68,7 @@ export const NovoAutoInfracao: React.FC<NovoAutoInfracaoProps> = ({ onCancel, on
               />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Local da Infração (Coordenadas GPS)</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Local da Infração (Coordenadas GPS de Campo)</label>
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -75,8 +76,11 @@ export const NovoAutoInfracao: React.FC<NovoAutoInfracaoProps> = ({ onCancel, on
                   onChange={(e) => setFormData({ ...formData, coordenadas: e.target.value })}
                   className="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono focus:outline-none focus:border-amber-500"
                 />
-                <button className="px-4 py-2 bg-amber-600 text-white rounded-lg text-xs font-semibold hover:bg-amber-700 flex items-center gap-1">
-                  <MapPin className="w-4 h-4" /> GPS Atual
+                <button
+                  onClick={() => setFormData({ ...formData, coordenadas: '-15.6010, -56.0974 (GPS Ativo)' })}
+                  className="px-4 py-2 bg-amber-600 text-white rounded-lg text-xs font-semibold hover:bg-amber-700 flex items-center gap-1 cursor-pointer"
+                >
+                  <MapPin className="w-4 h-4" /> Capturar GPS Dispositivo
                 </button>
               </div>
             </div>
@@ -131,18 +135,39 @@ export const NovoAutoInfracao: React.FC<NovoAutoInfracaoProps> = ({ onCancel, on
           </div>
         </div>
 
-        {/* Upload Evidências */}
+        {/* Upload Evidências Fotográficas e Vídeos */}
         <div>
-          <h3 className="text-sm font-bold text-slate-800 border-b border-slate-100 pb-2 mb-2">
-            3. Evidências Fotográficas Georreferenciadas
+          <h3 className="text-sm font-bold text-slate-800 border-b border-slate-100 pb-2 mb-3">
+            3. Anexo de Evidências: Fotos e Vídeos de Vistoria
           </h3>
-          <div className="p-4 border-2 border-dashed border-amber-300 bg-amber-50/50 rounded-xl text-center space-y-2">
-            <Camera className="w-8 h-8 text-amber-600 mx-auto" />
-            <p className="text-xs font-semibold text-slate-800">Capturar Foto em Campo ou Anexar Imagem</p>
-            <p className="text-[10px] text-slate-500">As fotos serão armazenadas no Supabase Storage com marca d'água de data e GPS.</p>
-            <button className="px-4 py-1.5 bg-amber-600 text-white rounded-lg text-xs font-semibold hover:bg-amber-700">
-              Anexar Foto da Vistoria
-            </button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Fotos */}
+            <div className="p-4 border-2 border-dashed border-amber-300 bg-amber-50/50 rounded-xl text-center space-y-2">
+              <Camera className="w-8 h-8 text-amber-600 mx-auto" />
+              <p className="text-xs font-semibold text-slate-800">Capturar / Anexar Fotos em Campo</p>
+              <p className="text-[10px] text-slate-500">Armazenadas no Supabase Storage com marca d'água de GPS e data/hora.</p>
+              <button
+                type="button"
+                onClick={() => alert('Foto anexada com sucesso e vinculada às coordenadas do dispositivo!')}
+                className="px-4 py-1.5 bg-amber-600 text-white rounded-lg text-xs font-semibold hover:bg-amber-700 cursor-pointer"
+              >
+                + Anexar Foto ({formData.fotos.length})
+              </button>
+            </div>
+
+            {/* Vídeos */}
+            <div className="p-4 border-2 border-dashed border-indigo-300 bg-indigo-50/50 rounded-xl text-center space-y-2">
+              <Video className="w-8 h-8 text-indigo-600 mx-auto" />
+              <p className="text-xs font-semibold text-slate-800">Gravar / Anexar Vídeo MP4</p>
+              <p className="text-[10px] text-slate-500">Suporta vídeos gravados diretamente pelo celular ou tablet do fiscal.</p>
+              <button
+                type="button"
+                onClick={() => alert('Vídeo MP4 gravado/anexado com sucesso ao relatório de vistoria!')}
+                className="px-4 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-semibold hover:bg-indigo-700 cursor-pointer"
+              >
+                + Anexar Vídeo MP4 ({formData.videos.length})
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -151,15 +176,15 @@ export const NovoAutoInfracao: React.FC<NovoAutoInfracaoProps> = ({ onCancel, on
       <div className="flex justify-end gap-3 bg-white p-4 rounded-xl shadow-xs border border-slate-200">
         <button
           onClick={onCancel}
-          className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50"
+          className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 cursor-pointer"
         >
           Cancelar
         </button>
         <button
           onClick={onSuccess}
-          className="px-6 py-2 bg-amber-600 text-white rounded-lg text-sm font-semibold hover:bg-amber-700 shadow-md flex items-center gap-2"
+          className="px-6 py-2 bg-amber-600 text-white rounded-lg text-sm font-semibold hover:bg-amber-700 shadow-md flex items-center gap-2 cursor-pointer"
         >
-          <CheckCircle2 className="w-4 h-4" /> Emitir Auto de Infração
+          <CheckCircle2 className="w-4 h-4" /> Finalizar e Enviar Relatório de Vistoria
         </button>
       </div>
     </div>

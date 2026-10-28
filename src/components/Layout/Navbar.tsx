@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, Search, ShieldCheck, LogOut, Clock, AlertTriangle, KeyRound } from 'lucide-react';
+import { Bell, Search, ShieldCheck, LogOut, Clock, AlertTriangle } from 'lucide-react';
 import { Usuario } from '../../types';
 
 interface NavbarProps {
@@ -23,6 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     adm: 'bg-purple-100 text-purple-800 border-purple-200',
     analista: 'bg-emerald-100 text-emerald-800 border-emerald-200',
     fiscal: 'bg-amber-100 text-amber-800 border-amber-200',
+    empresario: 'bg-blue-100 text-blue-800 border-blue-200',
   };
 
   return (
