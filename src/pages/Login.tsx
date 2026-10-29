@@ -7,7 +7,6 @@ import {
   ShieldCheck, 
   AlertTriangle,
   Clock,
-  RefreshCw,
   ShieldAlert
 } from 'lucide-react';
 import { Usuario } from '../types';
@@ -92,7 +91,6 @@ export const LISTA_USUARIOS: Usuario[] = [
 export const Login: React.FC<LoginProps> = ({
   onLogin,
   diasLicenca,
-  setDiasLicenca,
   chaveLicenca
 }) => {
   const [loginInput, setLoginInput] = useState('marcio');
@@ -201,133 +199,6 @@ export const Login: React.FC<LoginProps> = ({
           </p>
         </div>
 
-        {/* CRONÔMETRO DE LICENÇA DE USO GRÁTIS (90 a 0 dias) */}
-        <div className={`p-4 rounded-2xl border transition-all ${
-          diasLicenca <= 0
-            ? 'bg-rose-950/40 border-rose-500/40 text-rose-200'
-            : diasLicenca <= 5
-            ? 'bg-amber-950/40 border-amber-500/40 text-amber-200 animate-pulse'
-            : 'bg-emerald-950/30 border-emerald-500/30 text-emerald-200'
-        }`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Clock className={`w-5 h-5 ${
-                diasLicenca <= 0 ? 'text-rose-400' : diasLicenca <= 5 ? 'text-amber-400' : 'text-emerald-400'
-              }`} />
-              <div>
-                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  Licença de Uso Grátis
-                </p>
-                <p className="text-sm font-black">
-                  {diasLicenca <= 0 ? (
-                    <span className="text-rose-400">0 DIAS (EXPIRADA)</span>
-                  ) : (
-                    <span>{diasLicenca} DIAS RESTANTES</span>
-                  )}
-                </p>
-              </div>
-            </div>
-
-            {/* Barra Visual de Progresso do Cronômetro (90 a 0 dias) */}
-            <div className="text-right">
-              <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                diasLicenca <= 0
-                  ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                  : diasLicenca <= 5
-                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                  : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-              }`}>
-                {diasLicenca <= 0 ? 'Bloqueado' : `${Math.round((diasLicenca / 90) * 100)}% Ativo`}
-              </span>
-            </div>
-          </div>
-
-          {/* Barra de Progresso em Linha */}
-          <div className="w-full bg-slate-950/80 rounded-full h-1.5 mt-3 overflow-hidden border border-slate-800">
-            <div 
-              className={`h-full transition-all duration-500 ${
-                diasLicenca <= 0
-                  ? 'bg-rose-500 w-0'
-                  : diasLicenca <= 5
-                  ? 'bg-amber-500'
-                  : 'bg-gradient-to-r from-emerald-500 to-teal-400'
-              }`}
-              style={{ width: `${Math.max(0, Math.min(100, (diasLicenca / 90) * 100))}%` }}
-            ></div>
-          </div>
-
-          {/* Avisos Contextuais de Licença */}
-          {diasLicenca <= 0 ? (
-            <p className="text-[11px] text-rose-300 font-semibold mt-2.5 flex items-center gap-1.5">
-              <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-              <span>Acesso suspenso para não-ADM. Apenas o Administrador (marcio) pode logar para renovação.</span>
-            </p>
-          ) : diasLicenca <= 5 ? (
-            <p className="text-[11px] text-amber-300 font-semibold mt-2.5 flex items-center gap-1.5">
-              <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-              <span>Atenção: A licença expira em poucos dias. Notificações diárias ativas.</span>
-            </p>
-          ) : (
-            <p className="text-[10px] text-slate-400 font-medium mt-2 flex items-center justify-between">
-              <span>Chave: {chaveLicenca || 'SISMA-2026-LIC-90D-PREMIUM'}</span>
-              <span>Validade: 90 dias</span>
-            </p>
-          )}
-
-          {/* Teste Rápido de Licença (Seleção de Dias) */}
-          {setDiasLicenca && (
-            <div className="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
-              <span className="text-slate-500 font-bold">Simular Licença:</span>
-              <div className="flex gap-1">
-                <button
-                  type="button"
-                  onClick={() => setDiasLicenca(90)}
-                  className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
-                    diasLicenca === 90 ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
-                  }`}
-                >
-                  90d
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDiasLicenca(15)}
-                  className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
-                    diasLicenca === 15 ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
-                  }`}
-                >
-                  15d
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDiasLicenca(5)}
-                  className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
-                    diasLicenca === 5 ? 'bg-amber-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
-                  }`}
-                >
-                  5d
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDiasLicenca(0)}
-                  className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
-                    diasLicenca === 0 ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
-                  }`}
-                >
-                  0d (Bloquear)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDiasLicenca(90)}
-                  title="Renovar por +90 dias"
-                  className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-600 hover:bg-purple-500 text-white flex items-center gap-1 cursor-pointer"
-                >
-                  <RefreshCw className="w-2.5 h-2.5" /> +90d
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
         {/* Formulário de Login (CPF e Senha) */}
         <form onSubmit={handleEntrar} className="space-y-4">
           
@@ -406,6 +277,80 @@ export const Login: React.FC<LoginProps> = ({
             <span>Entrar no Sistema</span>
           </button>
         </form>
+
+        {/* CRONÔMETRO DE LICENÇA DE USO GRÁTIS - POSICIONADO ABAIXO DO BOTAO ENTRAR */}
+        <div className={`p-4 rounded-2xl border transition-all ${
+          diasLicenca <= 0
+            ? 'bg-rose-950/40 border-rose-500/40 text-rose-200'
+            : diasLicenca <= 5
+            ? 'bg-amber-950/40 border-amber-500/40 text-amber-200 animate-pulse'
+            : 'bg-emerald-950/30 border-emerald-500/30 text-emerald-200'
+        }`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Clock className={`w-5 h-5 ${
+                diasLicenca <= 0 ? 'text-rose-400' : diasLicenca <= 5 ? 'text-amber-400' : 'text-emerald-400'
+              }`} />
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  Licença de Uso Grátis
+                </p>
+                <p className="text-sm font-black">
+                  {diasLicenca <= 0 ? (
+                    <span className="text-rose-400">0 DIAS (EXPIRADA)</span>
+                  ) : (
+                    <span>{diasLicenca} DIAS RESTANTES</span>
+                  )}
+                </p>
+              </div>
+            </div>
+
+            {/* Barra Visual de Progresso do Cronômetro (90 a 0 dias) */}
+            <div className="text-right">
+              <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                diasLicenca <= 0
+                  ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                  : diasLicenca <= 5
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                  : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+              }`}>
+                {diasLicenca <= 0 ? 'Bloqueado' : `${Math.round((diasLicenca / 90) * 100)}% Ativo`}
+              </span>
+            </div>
+          </div>
+
+          {/* Barra de Progresso em Linha */}
+          <div className="w-full bg-slate-950/80 rounded-full h-1.5 mt-3 overflow-hidden border border-slate-800">
+            <div 
+              className={`h-full transition-all duration-500 ${
+                diasLicenca <= 0
+                  ? 'bg-rose-500 w-0'
+                  : diasLicenca <= 5
+                  ? 'bg-amber-500'
+                  : 'bg-gradient-to-r from-emerald-500 to-teal-400'
+              }`}
+              style={{ width: `${Math.max(0, Math.min(100, (diasLicenca / 90) * 100))}%` }}
+            ></div>
+          </div>
+
+          {/* Avisos Contextuais de Licença */}
+          {diasLicenca <= 0 ? (
+            <p className="text-[11px] text-rose-300 font-semibold mt-2.5 flex items-center gap-1.5">
+              <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+              <span>Acesso suspenso para não-ADM. Apenas o Administrador (marcio) pode logar para renovação.</span>
+            </p>
+          ) : diasLicenca <= 5 ? (
+            <p className="text-[11px] text-amber-300 font-semibold mt-2.5 flex items-center gap-1.5">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span>Atenção: A licença expira em poucos dias. Notificações diárias ativas.</span>
+            </p>
+          ) : (
+            <p className="text-[10px] text-slate-400 font-medium mt-2 flex items-center justify-between">
+              <span>Chave: {chaveLicenca || 'SISMA-2026-LIC-90D-PREMIUM'}</span>
+              <span>Validade: 90 dias</span>
+            </p>
+          )}
+        </div>
 
         {/* Rodapé do Card */}
         <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500 font-medium">
