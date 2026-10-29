@@ -20,13 +20,13 @@ interface LoginProps {
 export const LISTA_USUARIOS: Usuario[] = [
   {
     id: 'usr-adm-01',
-    nome: 'zentix',
+    nome: 'marcio',
     email: 'cda.marcio@gmail.com',
-    cpf: 'zentix',
+    cpf: 'marcio',
     perfil: 'adm',
     cargo: 'Administrador',
     orgao: 'SEMMA',
-    avatar: 'Z',
+    avatar: 'M',
     telefone_whatsapp: '+55 65 9231-2739',
   },
   {
@@ -75,12 +75,12 @@ export const LISTA_USUARIOS: Usuario[] = [
   },
   {
     id: 'usr-emp-01',
-    nome: 'Zentix Projetos e Engenharia',
+    nome: 'zentix',
     email: 'cda.marcio@gmail.com',
     cpf: '12.345.678/0001-90',
     perfil: 'empresario',
     cargo: 'Requerente / Empresário',
-    orgao: 'Zentix Projetos e Engenharia',
+    orgao: 'zentix',
     avatar: 'Z',
     telefone_whatsapp: '+55 65 97777-5555',
   },
@@ -90,7 +90,7 @@ export const Login: React.FC<LoginProps> = ({
   onLogin,
   diasLicenca
 }) => {
-  const [loginInput, setLoginInput] = useState('zentix');
+  const [loginInput, setLoginInput] = useState('marcio');
   const [senha, setSenha] = useState('12345678');
   const [lembrar, setLembrar] = useState(true);
   const [modalBloqueado, setModalBloqueado] = useState(false);
@@ -137,15 +137,15 @@ export const Login: React.FC<LoginProps> = ({
       return (
         (cleanDigits && cleanDigits.length >= 8 && uCpfDigits.length >= 8 && uCpfDigits.includes(cleanDigits)) ||
         uNomeLower === termoLower ||
-        uCpfLower === termoLower ||
-        uNomeLower.includes(termoLower) ||
-        termoLower.includes(uNomeLower)
+        uCpfLower === termoLower
       );
     });
 
     if (!usuarioEncontrado) {
-      if (termoLower.includes('zentix')) {
-        usuarioEncontrado = LISTA_USUARIOS.find((u) => u.perfil === 'adm' || u.nome.toLowerCase().includes('zentix'));
+      if (termoLower.includes('marcio') || termoLower.includes('márcio')) {
+        usuarioEncontrado = LISTA_USUARIOS.find((u) => u.perfil === 'adm' || u.nome.toLowerCase().includes('marcio'));
+      } else if (termoLower.includes('zentix')) {
+        usuarioEncontrado = LISTA_USUARIOS.find((u) => u.perfil === 'empresario' || u.nome.toLowerCase().includes('zentix'));
       } else if (termoLower.includes('ailton')) {
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('ailton'));
       } else if (termoLower.includes('fernanda')) {
@@ -154,7 +154,7 @@ export const Login: React.FC<LoginProps> = ({
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('flavio'));
       } else if (termoLower.includes('policia') || termoLower.includes('polícia')) {
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.perfil === 'fiscal');
-      } else if (termoLower.includes('engenharia') || termoLower.includes('empresa')) {
+      } else if (termoLower.includes('empresa') || termoLower.includes('12.345')) {
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.perfil === 'empresario');
       } else {
         usuarioEncontrado = LISTA_USUARIOS[0];
@@ -217,7 +217,7 @@ export const Login: React.FC<LoginProps> = ({
                 type="text"
                 value={loginInput}
                 onChange={handleLoginInputChange}
-                placeholder="zentix, policia ou ailton.bartolomeu"
+                placeholder="marcio, zentix, policia ou ailton.bartolomeu"
                 className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all font-mono"
                 required
               />
@@ -230,7 +230,7 @@ export const Login: React.FC<LoginProps> = ({
               <label className="block text-xs font-bold text-slate-300">
                 Senha de Acesso
               </label>
-              <a href="#esqueci" onClick={(e) => { e.preventDefault(); alert('Contate o Administrador zentix (+55 65 9231-2739) para redefinir sua senha.'); }} className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
+              <a href="#esqueci" onClick={(e) => { e.preventDefault(); alert('Contate o Administrador marcio (+55 65 9231-2739) para redefinir sua senha.'); }} className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
                 Esqueceu a senha?
               </a>
             </div>
@@ -282,7 +282,7 @@ export const Login: React.FC<LoginProps> = ({
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Acesso Seguro SSL</span>
           </div>
-          <span>Versão 25.0 (4 Perfis RBAC)</span>
+          <span>Versão 27.0 (4 Perfis RBAC)</span>
         </div>
       </div>
 
@@ -296,7 +296,7 @@ export const Login: React.FC<LoginProps> = ({
             <div className="text-center space-y-1">
               <h3 className="text-lg font-bold text-white">Licença do Sistema Expirada</h3>
               <p className="text-xs text-slate-400">
-                O prazo de validade do SisMA expirou. Entre em contato com o Administrador zentix (+55 65 9231-2739) para renovação.
+                O prazo de validade do SisMA expirou. Entre em contato com o Administrador marcio (+55 65 9231-2739) para renovação.
               </p>
             </div>
             <button

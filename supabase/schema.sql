@@ -1,5 +1,5 @@
 -- =========================================================
--- SisMA - Sistema de Meio Ambiente (v2.0 / v25.0)
+-- SisMA - Sistema de Meio Ambiente (v2.0 / v26.0)
 -- Script SQL para Inicialização do Banco de Dados Supabase (PostGIS)
 -- =========================================================
 
@@ -125,12 +125,12 @@ CREATE POLICY "Permitir leitura pública de logs" ON public.logs_auditoria FOR S
 
 INSERT INTO public.profiles (id, nome_completo, cpf_cnpj, cargo, perfil, orgao, telefone_whatsapp, email)
 VALUES 
-  ('00000000-0000-0000-0000-000000000001', 'zentix', 'zentix', 'Administrador', 'adm', 'SEMMA', '+55 65 9231-2739', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000001', 'marcio', 'marcio', 'Administrador', 'adm', 'SEMMA', '+55 65 9231-2739', 'cda.marcio@gmail.com'),
   ('00000000-0000-0000-0000-000000000002', 'ailton.bartolomeu', 'ailton.bartolomeu', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9113-9883', 'cda.marcio@gmail.com'),
   ('00000000-0000-0000-0000-000000000003', 'fernanda.baccaro', 'fernanda.baccaro', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9305-1234', 'cda.marcio@gmail.com'),
   ('00000000-0000-0000-0000-000000000004', 'flavio.watanabe', 'flavio.watanabe', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9182-8854', 'cda.marcio@gmail.com'),
   ('00000000-0000-0000-0000-000000000005', 'policia', 'policia', 'Fiscal Ambiental', 'fiscal', 'Divisão de Fiscalização', '+55 65 98888-1234', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000006', 'Zentix Projetos e Engenharia', '12.345.678/0001-90', 'Requerente / Empresário', 'empresario', 'Zentix Projetos e Engenharia', '+55 65 97777-5555', 'cda.marcio@gmail.com')
+  ('00000000-0000-0000-0000-000000000006', 'zentix', '12.345.678/0001-90', 'Requerente / Empresário', 'empresario', 'zentix', '+55 65 97777-5555', 'cda.marcio@gmail.com')
 ON CONFLICT (cpf_cnpj) DO UPDATE 
 SET 
   nome_completo = EXCLUDED.nome_completo,

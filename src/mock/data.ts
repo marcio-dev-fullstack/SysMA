@@ -4,7 +4,7 @@ export const MOCK_PROCESSOS: ProcessoLicenciamento[] = [
   {
     id: '1',
     numero_processo: 'PROC-2026-0089',
-    requerente: 'Zentix Projetos e Engenharia',
+    requerente: 'zentix',
     cpf_cnpj: '12.345.678/0001-90',
     tipo_licenca: 'LO',
     status: 'Em Análise',
@@ -106,8 +106,8 @@ export const MOCK_ZONAS_GIS: ZonaGIS[] = [
 export const MOCK_LOGS: LogAuditoria[] = [
   {
     id: 'l1',
-    usuario: 'zentix (ADM)',
-    cpf: 'zentix',
+    usuario: 'marcio (ADM)',
+    cpf: 'marcio',
     perfil: 'adm',
     acao: 'Renovação de Licença do Sistema (+90 dias) e Gestão Total de Usuários',
     modulo: 'Gestão de Usuários / Licença',
@@ -133,7 +133,7 @@ export const MOCK_LOGS: LogAuditoria[] = [
     usuario: 'fernanda.baccaro (Analista)',
     cpf: 'fernanda.baccaro',
     perfil: 'analista',
-    acao: 'Cadastro do Fiscal policia e Empresário Zentix Projetos no Sistema RBAC',
+    acao: 'Cadastro do Fiscal policia e Empresário zentix no Sistema RBAC',
     modulo: 'Gestão de Servidores',
     ip: '189.40.115.22',
     geolocalizacao: '-5.3812, -49.1299 (Marabá / PA - Wi-Fi SEMMA)',
@@ -154,7 +154,7 @@ export const MOCK_LOGS: LogAuditoria[] = [
   },
   {
     id: 'l5',
-    usuario: 'Zentix Projetos e Engenharia (Empresário)',
+    usuario: 'zentix (Empresário)',
     cpf: '12.345.678/0001-90',
     perfil: 'empresario',
     acao: 'Solicitação de Licença de Operação (LO) e Envio de Planta Baixa',

@@ -23,9 +23,9 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => {
-  const nomeUsuario = usuario?.nome || 'zentix';
+  const nomeUsuario = usuario?.nome || 'marcio';
   const emailUsuario = usuario?.email || 'cda.marcio@gmail.com';
-  const cpfUsuario = usuario?.cpf || 'zentix';
+  const cpfUsuario = usuario?.cpf || 'marcio';
   const cargoUsuario = usuario?.cargo || 'Administrador';
   const orgaoUsuario = usuario?.orgao || 'SEMMA';
   const perfilUsuario = usuario?.perfil || 'adm';

@@ -10,13 +10,13 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
   const [usuarios, setUsuarios] = useState<Usuario[]>([
     {
       id: 'usr-1',
-      nome: 'zentix',
+      nome: 'marcio',
       email: 'cda.marcio@gmail.com',
-      cpf: 'zentix',
+      cpf: 'marcio',
       perfil: 'adm',
       cargo: 'Administrador',
       orgao: 'SEMMA',
-      avatar: 'Z',
+      avatar: 'M',
       telefone_whatsapp: '+55 65 9231-2739',
     },
     {
@@ -65,12 +65,12 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
     },
     {
       id: 'usr-6',
-      nome: 'Zentix Projetos e Engenharia',
+      nome: 'zentix',
       email: 'cda.marcio@gmail.com',
       cpf: '12.345.678/0001-90',
       perfil: 'empresario',
       cargo: 'Requerente / Empresário',
-      orgao: 'Zentix Projetos e Engenharia',
+      orgao: 'zentix',
       avatar: 'Z',
       telefone_whatsapp: '+55 65 97777-5555',
     },
@@ -263,7 +263,7 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
               <input
                 type="text"
                 required
-                placeholder="Ex: Carlos Eduardo ou Zentix Projetos"
+                placeholder="Ex: Carlos Eduardo ou zentix"
                 value={novoUsuario.nome}
                 onChange={(e) => setNovoUsuario({ ...novoUsuario, nome: e.target.value })}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500"
