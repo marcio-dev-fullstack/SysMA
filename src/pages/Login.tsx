@@ -12,77 +12,77 @@ import { Usuario } from '../types';
 interface LoginProps {
   onLogin: (usuario: Usuario) => void;
   diasLicenca: number;
-  setDiasLicenca: (dias: number) => void;
-  chaveLicenca: string;
-  setChaveLicenca: (chave: string) => void;
+  setDiasLicenca?: (dias: number) => void;
+  chaveLicenca?: string;
+  setChaveLicenca?: (chave: string) => void;
 }
 
 export const LISTA_USUARIOS: Usuario[] = [
   {
     id: 'usr-adm-01',
-    nome: 'MÁRCIO RODRIGUES DE OLIVEIRA',
+    nome: 'zentix',
     email: 'cda.marcio@gmail.com',
-    cpf: '633.740.302-97',
+    cpf: 'zentix',
     perfil: 'adm',
     cargo: 'Administrador',
-    orgao: 'SEMARH',
-    avatar: 'M',
-    telefone_whatsapp: '(65) 9 9231-2739',
+    orgao: 'SEMMA',
+    avatar: 'Z',
+    telefone_whatsapp: '+55 65 9231-2739',
   },
   {
     id: 'usr-ana-01',
     nome: 'ailton.bartolomeu',
     email: 'cda.marcio@gmail.com',
-    cpf: '111.949.113-98',
+    cpf: 'ailton.bartolomeu',
     perfil: 'analista',
-    cargo: 'Analista Ambiental',
-    orgao: 'SEMARH',
+    cargo: 'Analista Ambiental Sênior',
+    orgao: 'Coordenadoria de Licenciamento',
     avatar: 'A',
-    telefone_whatsapp: '(94) 9 9113-9883',
+    telefone_whatsapp: '+55 94 9113-9883',
   },
   {
     id: 'usr-ana-02',
     nome: 'fernanda.baccaro',
     email: 'cda.marcio@gmail.com',
-    cpf: '222.949.305-12',
+    cpf: 'fernanda.baccaro',
     perfil: 'analista',
-    cargo: 'Analista Ambiental',
-    orgao: 'SEMARH',
+    cargo: 'Analista Ambiental Sênior',
+    orgao: 'Coordenadoria de Licenciamento',
     avatar: 'F',
-    telefone_whatsapp: '(94) 9 9305-1234',
+    telefone_whatsapp: '+55 94 9305-1234',
   },
   {
     id: 'usr-ana-03',
     nome: 'flavio.watanabe',
     email: 'cda.marcio@gmail.com',
-    cpf: '333.949.182-88',
+    cpf: 'flavio.watanabe',
     perfil: 'analista',
-    cargo: 'Analista Ambiental',
-    orgao: 'SEMARH',
+    cargo: 'Analista Ambiental Sênior',
+    orgao: 'Coordenadoria de Licenciamento',
     avatar: 'F',
-    telefone_whatsapp: '(94) 9 9182-8854',
+    telefone_whatsapp: '+55 94 9182-8854',
   },
   {
     id: 'usr-fisc-01',
-    nome: 'Sgt. Alves',
-    email: 'roberto.fiscal@semma.gov.br',
-    cpf: '456.789.123-22',
+    nome: 'policia',
+    email: 'cda.marcio@gmail.com',
+    cpf: 'policia',
     perfil: 'fiscal',
     cargo: 'Fiscal Ambiental',
-    orgao: 'SEMARH',
-    avatar: 'R',
-    telefone_whatsapp: '(94) 9 8888-1234',
+    orgao: 'Divisão de Fiscalização',
+    avatar: 'P',
+    telefone_whatsapp: '+55 65 98888-1234',
   },
   {
     id: 'usr-emp-01',
-    nome: 'Indústria Metalúrgica do Vale S.A.',
-    email: 'contato@metalurgicavale.com.br',
+    nome: 'Zentix Projetos e Engenharia',
+    email: 'cda.marcio@gmail.com',
     cpf: '12.345.678/0001-90',
     perfil: 'empresario',
-    cargo: 'Requerente / Diretor Industrial',
-    orgao: 'Setor Privado / Empreendedor',
-    avatar: 'I',
-    telefone_whatsapp: '(65) 9 7777-5555',
+    cargo: 'Requerente / Empresário',
+    orgao: 'Zentix Projetos e Engenharia',
+    avatar: 'Z',
+    telefone_whatsapp: '+55 65 97777-5555',
   },
 ];
 
@@ -90,7 +90,7 @@ export const Login: React.FC<LoginProps> = ({
   onLogin,
   diasLicenca
 }) => {
-  const [loginInput, setLoginInput] = useState('633.740.302-97');
+  const [loginInput, setLoginInput] = useState('zentix');
   const [senha, setSenha] = useState('12345678');
   const [lembrar, setLembrar] = useState(true);
   const [modalBloqueado, setModalBloqueado] = useState(false);
@@ -112,7 +112,7 @@ export const Login: React.FC<LoginProps> = ({
     e.preventDefault();
 
     if (!loginInput.trim()) {
-      setErroForm('Por favor, informe o CPF ou login do servidor.');
+      setErroForm('Por favor, informe o login ou CPF do servidor.');
       return;
     }
 
@@ -133,26 +133,30 @@ export const Login: React.FC<LoginProps> = ({
     let usuarioEncontrado = LISTA_USUARIOS.find((u) => {
       const uCpfDigits = (u.cpf || '').replace(/\D/g, '');
       const uNomeLower = u.nome.toLowerCase();
+      const uCpfLower = (u.cpf || '').toLowerCase();
       return (
-        (cleanDigits && cleanDigits.length >= 8 && uCpfDigits.includes(cleanDigits)) ||
+        (cleanDigits && cleanDigits.length >= 8 && uCpfDigits.length >= 8 && uCpfDigits.includes(cleanDigits)) ||
+        uNomeLower === termoLower ||
+        uCpfLower === termoLower ||
         uNomeLower.includes(termoLower) ||
         termoLower.includes(uNomeLower)
       );
     });
 
     if (!usuarioEncontrado) {
-      if (termoLower.includes('ailton')) {
+      if (termoLower.includes('zentix')) {
+        usuarioEncontrado = LISTA_USUARIOS.find((u) => u.perfil === 'adm' || u.nome.toLowerCase().includes('zentix'));
+      } else if (termoLower.includes('ailton')) {
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('ailton'));
       } else if (termoLower.includes('fernanda')) {
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('fernanda'));
       } else if (termoLower.includes('flavio') || termoLower.includes('flávio')) {
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.nome.includes('flavio'));
-      } else if (termoLower.includes('roberto') || termoLower.includes('fiscal')) {
+      } else if (termoLower.includes('policia') || termoLower.includes('polícia')) {
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.perfil === 'fiscal');
-      } else if (termoLower.includes('empresa') || termoLower.includes('vale')) {
+      } else if (termoLower.includes('engenharia') || termoLower.includes('empresa')) {
         usuarioEncontrado = LISTA_USUARIOS.find((u) => u.perfil === 'empresario');
       } else {
-        // Padrão Administrador MÁRCIO
         usuarioEncontrado = LISTA_USUARIOS[0];
       }
     }
@@ -200,10 +204,10 @@ export const Login: React.FC<LoginProps> = ({
             </div>
           )}
 
-          {/* Campo CPF / CNPJ do Servidor */}
+          {/* Campo Login / CPF */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-slate-300">
-              CPF do Servidor ou CNPJ
+              Login ou CPF/CNPJ
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
@@ -213,7 +217,7 @@ export const Login: React.FC<LoginProps> = ({
                 type="text"
                 value={loginInput}
                 onChange={handleLoginInputChange}
-                placeholder="000.000.000-00"
+                placeholder="zentix, policia ou ailton.bartolomeu"
                 className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all font-mono"
                 required
               />
@@ -226,7 +230,7 @@ export const Login: React.FC<LoginProps> = ({
               <label className="block text-xs font-bold text-slate-300">
                 Senha de Acesso
               </label>
-              <a href="#esqueci" onClick={(e) => { e.preventDefault(); alert('Contate o Administrador MÁRCIO RODRIGUES DE OLIVEIRA (+55 65 9231-2739) para redefinir sua senha.'); }} className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
+              <a href="#esqueci" onClick={(e) => { e.preventDefault(); alert('Contate o Administrador zentix (+55 65 9231-2739) para redefinir sua senha.'); }} className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
                 Esqueceu a senha?
               </a>
             </div>
@@ -278,7 +282,7 @@ export const Login: React.FC<LoginProps> = ({
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Acesso Seguro SSL</span>
           </div>
-          <span>Versão 22.0 (4 Perfis RBAC)</span>
+          <span>Versão 25.0 (4 Perfis RBAC)</span>
         </div>
       </div>
 
@@ -292,7 +296,7 @@ export const Login: React.FC<LoginProps> = ({
             <div className="text-center space-y-1">
               <h3 className="text-lg font-bold text-white">Licença do Sistema Expirada</h3>
               <p className="text-xs text-slate-400">
-                O prazo de validade do SisMA expirou. Entre em contato com o Administrador MÁRCIO RODRIGUES DE OLIVEIRA (+55 65 9231-2739) para renovação.
+                O prazo de validade do SisMA expirou. Entre em contato com o Administrador zentix (+55 65 9231-2739) para renovação.
               </p>
             </div>
             <button

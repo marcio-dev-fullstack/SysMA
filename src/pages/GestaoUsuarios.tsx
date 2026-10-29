@@ -1,277 +1,248 @@
 import React, { useState } from 'react';
-import {
-  Users,
-  UserPlus,
-  Search,
-  Pencil,
-  Trash2,
-  Shield,
-  Phone,
-  X
-} from 'lucide-react';
+import { Users, UserPlus, Search, Trash2, Edit2, Phone, Mail, ShieldAlert } from 'lucide-react';
+import { Usuario, PerfilUsuario } from '../types';
 
-interface Usuario {
-  id: string;
-  nome: string;
-  email: string;
-  cpf: string;
-  perfil: 'adm' | 'analista' | 'fiscal' | 'empresario';
-  cargo: string;
-  orgao: string;
-  telefone_whatsapp: string;
+interface GestaoUsuariosProps {
+  usuarioAtual?: Usuario;
 }
 
-const USUARIOS_INICIAIS: Usuario[] = [
-  {
-    id: 'usr-adm-01',
-    nome: 'MÁRCIO RODRIGUES DE OLIVEIRA',
-    email: 'cda.marcio@gmail.com',
-    cpf: '633.740.302-97',
-    perfil: 'adm',
-    cargo: 'Administrador',
-    orgao: 'SEMMA',
-    telefone_whatsapp: '+55 65 9231-2739'
-  },
-  {
-    id: 'usr-ana-01',
-    nome: 'Ailton Bartolomeu',
-    email: 'cda.marcio@gmail.com',
-    cpf: '111.949.113-98',
-    perfil: 'analista',
-    cargo: 'Analista Ambiental Sênior',
-    orgao: 'Coordenadoria de Licenciamento',
-    telefone_whatsapp: '+55 65 9113-9883'
-  },
-  {
-    id: 'usr-ana-02',
-    nome: 'Fernanda Baccaro',
-    email: 'cda.marcio@gmail.com',
-    cpf: '222.949.305-12',
-    perfil: 'analista',
-    cargo: 'Analista Ambiental Sênior',
-    orgao: 'Coordenadoria de Licenciamento',
-    telefone_whatsapp: '+55 65 94 9305-1234'
-  },
-  {
-    id: 'usr-ana-03',
-    nome: 'Flávio Watanabe',
-    email: 'cda.marcio@gmail.com',
-    cpf: '333.949.182-88',
-    perfil: 'analista',
-    cargo: 'Analista Ambiental Sênior',
-    orgao: 'Coordenadoria de Licenciamento',
-    telefone_whatsapp: '+55 65 94 9182-8854'
-  },
-  {
-    id: 'usr-fis-01',
-    nome: 'Sgt. Roberto Alves',
-    email: 'roberto.fiscal@semma.gov.br',
-    cpf: '456.789.123-22',
-    perfil: 'fiscal',
-    cargo: 'Fiscal Ambiental Chefe de Campo',
-    orgao: 'Divisão de Fiscalização e Monitoramento',
-    telefone_whatsapp: '+55 65 98888-1234'
-  },
-  {
-    id: 'usr-emp-01',
-    nome: 'Indústria Metalúrgica do Vale S.A.',
-    email: 'contato@metalurgicavale.com.br',
-    cpf: '12.345.678/0001-90',
-    perfil: 'empresario',
-    cargo: 'Requerente / Diretor Industrial',
-    orgao: 'Setor Privado / Empreendedor',
-    telefone_whatsapp: '+55 65 97777-5555'
-  }
-];
+export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) => {
+  const [usuarios, setUsuarios] = useState<Usuario[]>([
+    {
+      id: 'usr-1',
+      nome: 'zentix',
+      email: 'cda.marcio@gmail.com',
+      cpf: 'zentix',
+      perfil: 'adm',
+      cargo: 'Administrador',
+      orgao: 'SEMMA',
+      avatar: 'Z',
+      telefone_whatsapp: '+55 65 9231-2739',
+    },
+    {
+      id: 'usr-2',
+      nome: 'ailton.bartolomeu',
+      email: 'cda.marcio@gmail.com',
+      cpf: 'ailton.bartolomeu',
+      perfil: 'analista',
+      cargo: 'Analista Ambiental Sênior',
+      orgao: 'Coordenadoria de Licenciamento',
+      avatar: 'A',
+      telefone_whatsapp: '+55 94 9113-9883',
+    },
+    {
+      id: 'usr-3',
+      nome: 'fernanda.baccaro',
+      email: 'cda.marcio@gmail.com',
+      cpf: 'fernanda.baccaro',
+      perfil: 'analista',
+      cargo: 'Analista Ambiental Sênior',
+      orgao: 'Coordenadoria de Licenciamento',
+      avatar: 'F',
+      telefone_whatsapp: '+55 94 9305-1234',
+    },
+    {
+      id: 'usr-4',
+      nome: 'flavio.watanabe',
+      email: 'cda.marcio@gmail.com',
+      cpf: 'flavio.watanabe',
+      perfil: 'analista',
+      cargo: 'Analista Ambiental Sênior',
+      orgao: 'Coordenadoria de Licenciamento',
+      avatar: 'F',
+      telefone_whatsapp: '+55 94 9182-8854',
+    },
+    {
+      id: 'usr-5',
+      nome: 'policia',
+      email: 'cda.marcio@gmail.com',
+      cpf: 'policia',
+      perfil: 'fiscal',
+      cargo: 'Fiscal Ambiental',
+      orgao: 'Divisão de Fiscalização',
+      avatar: 'P',
+      telefone_whatsapp: '+55 65 98888-1234',
+    },
+    {
+      id: 'usr-6',
+      nome: 'Zentix Projetos e Engenharia',
+      email: 'cda.marcio@gmail.com',
+      cpf: '12.345.678/0001-90',
+      perfil: 'empresario',
+      cargo: 'Requerente / Empresário',
+      orgao: 'Zentix Projetos e Engenharia',
+      avatar: 'Z',
+      telefone_whatsapp: '+55 65 97777-5555',
+    },
+  ]);
 
-export const GestaoUsuarios: React.FC = () => {
-  const [usuarios, setUsuarios] = useState<Usuario[]>(USUARIOS_INICIAIS);
-  const [busca, setBusca] = useState('');
-  const [modalAberto, setModalAberto] = useState(false);
-  const [modoEdicao, setModoEdicao] = useState(false);
-  const [usuarioAtual, setUsuarioAtual] = useState<Usuario>({
-    id: '',
+  const perfilLogado = usuarioAtual?.perfil || 'adm';
+
+  const [showModal, setShowModal] = useState(false);
+  const [novoUsuario, setNovoUsuario] = useState({
     nome: '',
-    email: '',
+    email: 'cda.marcio@gmail.com',
     cpf: '',
-    perfil: 'fiscal',
-    cargo: '',
-    orgao: '',
-    telefone_whatsapp: ''
+    perfil: perfilLogado === 'analista' ? ('fiscal' as PerfilUsuario) : ('analista' as PerfilUsuario),
+    cargo: perfilLogado === 'analista' ? 'Fiscal Ambiental de Campo' : 'Analista Ambiental Sênior',
+    orgao: 'SEMMA',
+    telefone_whatsapp: '',
   });
 
-  const usuariosFiltrados = usuarios.filter(
-    (u) =>
-      u.nome.toLowerCase().includes(busca.toLowerCase()) ||
-      u.email.toLowerCase().includes(busca.toLowerCase()) ||
-      u.cpf.includes(busca)
-  );
-
-  const abrirNovoUsuario = () => {
-    setModoEdicao(false);
-    setUsuarioAtual({
-      id: `usr-${Date.now()}`,
-      nome: '',
-      email: '',
-      cpf: '',
-      perfil: 'fiscal',
-      cargo: '',
-      orgao: '',
-      telefone_whatsapp: ''
-    });
-    setModalAberto(true);
-  };
-
-  const abrirEdicaoUsuario = (usuario: Usuario) => {
-    setModoEdicao(true);
-    setUsuarioAtual({ ...usuario });
-    setModalAberto(true);
-  };
-
-  const salvarUsuario = (e: React.FormEvent) => {
+  const handleCadastrar = (e: React.FormEvent) => {
     e.preventDefault();
-    if (modoEdicao) {
-      setUsuarios(usuarios.map((u) => (u.id === usuarioAtual.id ? usuarioAtual : u)));
-    } else {
-      setUsuarios([usuarioAtual, ...usuarios]);
-    }
-    setModalAberto(false);
+    const userCreated: Usuario = {
+      id: `usr-${Date.now()}`,
+      nome: novoUsuario.nome,
+      email: novoUsuario.email,
+      cpf: novoUsuario.cpf,
+      perfil: novoUsuario.perfil,
+      cargo: novoUsuario.cargo,
+      orgao: novoUsuario.orgao,
+      avatar: novoUsuario.nome.charAt(0).toUpperCase(),
+      telefone_whatsapp: novoUsuario.telefone_whatsapp,
+    };
+    setUsuarios([...usuarios, userCreated]);
+    setShowModal(false);
+    setNovoUsuario({
+      nome: '',
+      email: 'cda.marcio@gmail.com',
+      cpf: '',
+      perfil: perfilLogado === 'analista' ? 'fiscal' : 'analista',
+      cargo: perfilLogado === 'analista' ? 'Fiscal Ambiental de Campo' : 'Analista Ambiental Sênior',
+      orgao: 'SEMMA',
+      telefone_whatsapp: '',
+    });
   };
 
-  const excluirUsuario = (id: string) => {
-    if (window.confirm('Tem certeza que deseja remover este usuário do sistema?')) {
+  const handleDelete = (id: string, nome: string) => {
+    if (perfilLogado !== 'adm') {
+      alert('⚠️ Ação não permitida: Apenas o Administrador pode deletar usuários do sistema.');
+      return;
+    }
+    if (confirm(`Tem certeza que deseja excluir o usuário ${nome}?`)) {
       setUsuarios(usuarios.filter((u) => u.id !== id));
     }
   };
 
-  const getBadgePerfil = (perfil: Usuario['perfil']) => {
-    switch (perfil) {
-      case 'adm':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
-            ADMINISTRADOR
-          </span>
-        );
-      case 'analista':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">
-            ANALISTA
-          </span>
-        );
-      case 'fiscal':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-700">
-            FISCAL
-          </span>
-        );
-      case 'empresario':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-            EMPRESÁRIO
-          </span>
-        );
-    }
+  const perfilBadges = {
+    adm: 'bg-purple-100 text-purple-800 border-purple-200',
+    analista: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+    fiscal: 'bg-amber-100 text-amber-800 border-amber-200',
+    empresario: 'bg-blue-100 text-blue-800 border-blue-200',
+  };
+
+  const perfilLabels = {
+    adm: 'Administrador',
+    analista: 'Analista',
+    fiscal: 'Fiscal',
+    empresario: 'Empresário',
   };
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Cabeçalho */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-6">
+      {/* Top Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-xl shadow-xs border border-slate-200">
         <div>
-          <div className="flex items-center gap-2 text-emerald-600 font-semibold text-sm">
-            <Users className="w-5 h-5" />
-            <span>Usuários do Sistema</span>
-          </div>
-          <h1 className="text-2xl font-bold text-slate-800">
-            Gestão de Servidores & Controle de Acesso (RBAC)
-          </h1>
-          <p className="text-slate-500 text-sm">
-            Atribuição de papéis (ADM, Analista, Fiscal, Empresário) e integração com Supabase Auth & RLS.
+          <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+            <Users className="w-6 h-6 text-purple-600" /> Gestão de Servidores & Controle de Acesso (RBAC)
+          </h2>
+          <p className="text-xs text-slate-500 mt-1">
+            {perfilLogado === 'analista'
+              ? ' Como Analista, você possui autorização para cadastrar novos Fiscais e Empresários no sistema.'
+              : ' Atribuição de papéis (ADM, Analista, Fiscal, Empresário) e integração com Supabase Auth & RLS.'}
           </p>
         </div>
-
         <button
-          onClick={abrirNovoUsuario}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl shadow-sm transition-all text-sm"
+          onClick={() => setShowModal(true)}
+          className="px-4 py-2 bg-purple-600 text-white rounded-lg text-xs font-semibold hover:bg-purple-700 shadow-md flex items-center gap-2 self-start sm:self-auto cursor-pointer"
         >
-          <UserPlus className="w-4 h-4" />
-          <span>Cadastrar Novo Usuário</span>
+          <UserPlus className="w-4 h-4" /> Cadastrar Novo Usuário
         </button>
       </div>
 
-      {/* Tabela de Usuários */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between gap-4">
-          <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+      {/* Users Table */}
+      <div className="bg-white rounded-xl shadow-xs border border-slate-200 overflow-hidden">
+        <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+          <div className="relative w-72">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               placeholder="Buscar por nome, e-mail, CPF..."
-              value={busca}
-              onChange={(e) => setBusca(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full pl-9 pr-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:border-purple-500"
             />
           </div>
-          <span className="text-sm text-slate-500 font-medium">
-            {usuariosFiltrados.length} Usuários Cadastrados
-          </span>
+          <span className="text-xs text-slate-500 font-semibold">{usuarios.length} Usuários Cadastrados</span>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50 border-b border-slate-100 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                <th className="py-3 px-4">Servidor / E-mail</th>
-                <th className="py-3 px-4">WhatsApp</th>
-                <th className="py-3 px-4">CPF / CNPJ</th>
-                <th className="py-3 px-4">Cargo / Órgão</th>
-                <th className="py-3 px-4">Perfil de Acesso</th>
-                <th className="py-3 px-4 text-right">Ações</th>
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 uppercase tracking-wider text-[10px]">
+              <tr>
+                <th className="p-4">Servidor / E-mail</th>
+                <th className="p-4">WhatsApp</th>
+                <th className="p-4">CPF / CNPJ / Login</th>
+                <th className="p-4">Cargo / Órgão</th>
+                <th className="p-4">Perfil de Acesso</th>
+                <th className="p-4 text-right">Ações</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-sm">
-              {usuariosFiltrados.map((u) => (
-                <tr key={u.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="py-3 px-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
-                        {u.nome.charAt(0)}
-                      </div>
-                      <div>
-                        <div className="font-semibold text-slate-800">{u.nome}</div>
-                        <div className="text-xs text-slate-500">{u.email}</div>
-                      </div>
+            <tbody className="divide-y divide-slate-100 font-medium">
+              {usuarios.map((user) => (
+                <tr key={user.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="p-4 flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center text-xs shrink-0">
+                      {user.avatar}
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-800">{user.nome}</p>
+                      <p className="text-[11px] text-slate-400 flex items-center gap-1">
+                        <Mail className="w-3 h-3 text-slate-400" />
+                        {user.email}
+                      </p>
                     </div>
                   </td>
-                  <td className="py-3 px-4 text-slate-600">
-                    <div className="flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>{u.telefone_whatsapp}</span>
+                  <td className="p-4 font-mono text-emerald-700 font-bold">
+                    <div className="flex items-center gap-1">
+                      <Phone className="w-3 h-3 text-emerald-600" />
+                      <span>{user.telefone_whatsapp || '—'}</span>
                     </div>
                   </td>
-                  <td className="py-3 px-4 text-slate-600 font-mono text-xs">{u.cpf}</td>
-                  <td className="py-3 px-4">
-                    <div className="font-medium text-slate-800">{u.cargo}</div>
-                    <div className="text-xs text-slate-500">{u.orgao}</div>
+                  <td className="p-4 font-mono text-slate-700 font-semibold">
+                    {user.cpf || '—'}
                   </td>
-                  <td className="py-3 px-4">{getBadgePerfil(u.perfil)}</td>
-                  <td className="py-3 px-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
+                  <td className="p-4">
+                    <p className="text-slate-800 font-semibold">{user.cargo}</p>
+                    <p className="text-[10px] text-slate-400">{user.orgao}</p>
+                  </td>
+                  <td className="p-4">
+                    <span
+                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${perfilBadges[user.perfil]}`}
+                    >
+                      {perfilLabels[user.perfil]}
+                    </span>
+                  </td>
+                  <td className="p-4 text-right space-x-2">
+                    <button className="p-1.5 text-slate-600 hover:text-purple-600 hover:bg-slate-100 rounded-lg cursor-pointer">
+                      <Edit2 className="w-4 h-4" />
+                    </button>
+                    {perfilLogado === 'adm' ? (
                       <button
-                        onClick={() => abrirEdicaoUsuario(u)}
-                        className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
-                        title="Editar Usuário"
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => excluirUsuario(u.id)}
-                        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                        onClick={() => handleDelete(user.id, user.nome)}
+                        className="p-1.5 text-slate-600 hover:text-red-600 hover:bg-slate-100 rounded-lg cursor-pointer"
                         title="Excluir Usuário"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
-                    </div>
+                    ) : (
+                      <button
+                        disabled
+                        className="p-1.5 text-slate-300 opacity-50 cursor-not-allowed"
+                        title="Apenas o Administrador pode deletar usuários"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -280,154 +251,110 @@ export const GestaoUsuarios: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal de Cadastro / Edição */}
-      {modalAberto && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full overflow-hidden border border-slate-100">
-            <div className="flex items-center justify-between p-5 border-b border-slate-100">
-              <h3 className="text-lg font-bold text-slate-800">
-                {modoEdicao ? 'Editar Dados do Usuário' : 'Cadastrar Novo Usuário'}
-              </h3>
-              <button
-                onClick={() => setModalAberto(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg"
-              >
-                <X className="w-5 h-5" />
-              </button>
+      {/* Modal Novo Usuario */}
+      {showModal && (
+        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <form onSubmit={handleCadastrar} className="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <h3 className="text-base font-bold text-slate-800 border-b border-slate-100 pb-2">
+              Cadastrar Novo Usuário no Supabase Auth
+            </h3>
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Nome Completo / Razão Social</label>
+              <input
+                type="text"
+                required
+                placeholder="Ex: Carlos Eduardo ou Zentix Projetos"
+                value={novoUsuario.nome}
+                onChange={(e) => setNovoUsuario({ ...novoUsuario, nome: e.target.value })}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">WhatsApp</label>
+              <input
+                type="text"
+                required
+                placeholder="+55 65 99999-9999"
+                value={novoUsuario.telefone_whatsapp}
+                onChange={(e) => setNovoUsuario({ ...novoUsuario, telefone_whatsapp: e.target.value })}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500 font-mono"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">CPF ou CNPJ / Login</label>
+              <input
+                type="text"
+                required
+                placeholder="000.000.000-00 ou policia"
+                value={novoUsuario.cpf}
+                onChange={(e) => setNovoUsuario({ ...novoUsuario, cpf: e.target.value })}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500 font-mono"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">E-mail Institucional / Contato</label>
+              <input
+                type="email"
+                required
+                value={novoUsuario.email}
+                onChange={(e) => setNovoUsuario({ ...novoUsuario, email: e.target.value })}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500"
+              />
             </div>
 
-            <form onSubmit={salvarUsuario} className="p-6 space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-                  Nome Completo
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={usuarioAtual.nome}
-                  onChange={(e) => setUsuarioAtual({ ...usuarioAtual, nome: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  placeholder="Ex: Maria da Silva"
-                />
-              </div>
+            {/* SELEÇÃO DO PERFIL DE ACESSO */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Perfil de Acesso</label>
+              <select
+                value={novoUsuario.perfil}
+                onChange={(e) => setNovoUsuario({ ...novoUsuario, perfil: e.target.value as PerfilUsuario })}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white focus:outline-none focus:border-purple-500 font-bold"
+              >
+                {perfilLogado === 'adm' && (
+                  <>
+                    <option value="adm">1. Administrador (Acesso Total)</option>
+                    <option value="analista">2. Analista Ambiental (Gerencia Licenciamento)</option>
+                  </>
+                )}
+                <option value="fiscal">3. Fiscal Ambiental (Vistorias & Autos)</option>
+                <option value="empresario">4. Empresário / Requerente (Solicita Licenças)</option>
+              </select>
+              {perfilLogado === 'analista' && (
+                <p className="text-[10px] text-emerald-600 font-medium mt-1">
+                  ℹ️ Como Analista, você pode cadastrar Fiscais e Empresários.
+                </p>
+              )}
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-                    E-mail
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={usuarioAtual.email}
-                    onChange={(e) => setUsuarioAtual({ ...usuarioAtual, email: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="email@semma.gov.br"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-                    CPF / CNPJ
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={usuarioAtual.cpf}
-                    onChange={(e) => setUsuarioAtual({ ...usuarioAtual, cpf: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="000.000.000-00"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-                    Cargo
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={usuarioAtual.cargo}
-                    onChange={(e) => setUsuarioAtual({ ...usuarioAtual, cargo: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="Ex: Fiscal Ambiental"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-                    Órgão / Setor
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={usuarioAtual.orgao}
-                    onChange={(e) => setUsuarioAtual({ ...usuarioAtual, orgao: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="Ex: Secretaria de Meio Ambiente"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-                    WhatsApp / Telefone
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={usuarioAtual.telefone_whatsapp}
-                    onChange={(e) =>
-                      setUsuarioAtual({ ...usuarioAtual, telefone_whatsapp: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="+55 65 99999-9999"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-                    Perfil RBAC
-                  </label>
-                  <select
-                    value={usuarioAtual.perfil}
-                    onChange={(e) =>
-                      setUsuarioAtual({
-                        ...usuarioAtual,
-                        perfil: e.target.value as Usuario['perfil']
-                      })
-                    }
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
-                  >
-                    <option value="adm">Administrador (adm)</option>
-                    <option value="analista">Analista Ambiental (analista)</option>
-                    <option value="fiscal">Fiscal de Campo (fiscal)</option>
-                    <option value="empresario">Empresário / Requerente (empresario)</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
-                <button
-                  type="button"
-                  onClick={() => setModalAberto(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition-all"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium shadow-sm transition-all"
-                >
-                  {modoEdicao ? 'Salvar Alterações' : 'Concluir Cadastro'}
-                </button>
-              </div>
-            </form>
-          </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Cargo / Função</label>
+              <input
+                type="text"
+                required
+                placeholder="Ex: Fiscal de Campo ou Diretoria Industrial"
+                value={novoUsuario.cargo}
+                onChange={(e) => setNovoUsuario({ ...novoUsuario, cargo: e.target.value })}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 text-xs font-semibold bg-purple-600 text-white rounded-lg hover:bg-purple-700 shadow-sm cursor-pointer"
+              >
+                Salvar Usuário
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </div>
   );
 };
-
-export default GestaoUsuarios;

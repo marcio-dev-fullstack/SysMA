@@ -1,5 +1,5 @@
 -- =========================================================
--- SisMA - Sistema de Meio Ambiente (v2.0 / v22.0)
+-- SisMA - Sistema de Meio Ambiente (v2.0 / v25.0)
 -- Script SQL para Inicialização do Banco de Dados Supabase (PostGIS)
 -- =========================================================
 
@@ -10,7 +10,7 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 CREATE TABLE IF NOT EXISTS public.profiles (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   nome_completo TEXT NOT NULL,
-  cpf_cnpj VARCHAR(18) UNIQUE,
+  cpf_cnpj VARCHAR(50) UNIQUE,
   cargo VARCHAR(100) NOT NULL,
   perfil VARCHAR(20) CHECK (perfil IN ('adm', 'analista', 'fiscal', 'empresario')),
   orgao TEXT DEFAULT 'SEMMA',
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS public.processos (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   numero_processo VARCHAR(50) UNIQUE NOT NULL,
   requerente TEXT NOT NULL,
-  cpf_cnpj VARCHAR(18) NOT NULL,
+  cpf_cnpj VARCHAR(50) NOT NULL,
   tipo_licenca VARCHAR(10) CHECK (tipo_licenca IN ('LP', 'LI', 'LO', 'LAS')),
   status VARCHAR(30) CHECK (status IN ('Em Análise', 'Deferido', 'Indeferido', 'Pendente Doc')),
   atividades TEXT NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS public.taxas_ambientais (
 CREATE TABLE IF NOT EXISTS public.logs_auditoria (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   usuario TEXT NOT NULL,
-  cpf VARCHAR(18),
+  cpf VARCHAR(50),
   perfil VARCHAR(20) CHECK (perfil IN ('adm', 'analista', 'fiscal', 'empresario')),
   acao TEXT NOT NULL,
   modulo VARCHAR(50) NOT NULL,
@@ -125,12 +125,12 @@ CREATE POLICY "Permitir leitura pública de logs" ON public.logs_auditoria FOR S
 
 INSERT INTO public.profiles (id, nome_completo, cpf_cnpj, cargo, perfil, orgao, telefone_whatsapp, email)
 VALUES 
-  ('00000000-0000-0000-0000-000000000001', 'MÁRCIO RODRIGUES DE OLIVEIRA', '633.740.302-97', 'Administrador', 'adm', 'SEMMA', '+55 65 9231-2739', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000002', 'ailton.bartolomeu', '111.949.113-98', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9113-9883', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000003', 'fernanda.baccaro', '222.949.305-12', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9305-1234', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000004', 'flavio.watanabe', '333.949.182-88', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9182-8854', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000005', 'Sgt. Roberto Alves', '456.789.123-22', 'Fiscal Ambiental Chefe de Campo', 'fiscal', 'Divisão de Fiscalização e Monitoramento', '+55 65 98888-1234', 'roberto.fiscal@semma.gov.br'),
-  ('00000000-0000-0000-0000-000000000006', 'Indústria Metalúrgica do Vale S.A.', '12.345.678/0001-90', 'Requerente / Diretor Industrial', 'empresario', 'Setor Privado / Empreendedor', '+55 65 97777-5555', 'contato@metalurgicavale.com.br')
+  ('00000000-0000-0000-0000-000000000001', 'zentix', 'zentix', 'Administrador', 'adm', 'SEMMA', '+55 65 9231-2739', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000002', 'ailton.bartolomeu', 'ailton.bartolomeu', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9113-9883', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000003', 'fernanda.baccaro', 'fernanda.baccaro', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9305-1234', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000004', 'flavio.watanabe', 'flavio.watanabe', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9182-8854', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000005', 'policia', 'policia', 'Fiscal Ambiental', 'fiscal', 'Divisão de Fiscalização', '+55 65 98888-1234', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000006', 'Zentix Projetos e Engenharia', '12.345.678/0001-90', 'Requerente / Empresário', 'empresario', 'Zentix Projetos e Engenharia', '+55 65 97777-5555', 'cda.marcio@gmail.com')
 ON CONFLICT (cpf_cnpj) DO UPDATE 
 SET 
   nome_completo = EXCLUDED.nome_completo,

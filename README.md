@@ -1,4 +1,4 @@
-# 🌳 SisMA - Sistema de Meio Ambiente (v5.0)
+# 🌳 SisMA - Sistema de Meio Ambiente (v24.0)
 
 > **Stack Moderno**: `React 19` | `TypeScript 5.7` | `Vite 6.0` | `Tailwind CSS v4` | `Supabase (PostGIS)` | `GitHub Pages`
 

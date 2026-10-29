@@ -23,9 +23,9 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => {
-  const nomeUsuario = usuario?.nome || 'MÁRCIO RODRIGUES DE OLIVEIRA';
+  const nomeUsuario = usuario?.nome || 'zentix';
   const emailUsuario = usuario?.email || 'cda.marcio@gmail.com';
-  const cpfUsuario = usuario?.cpf || '633.740.302-97';
+  const cpfUsuario = usuario?.cpf || 'zentix';
   const cargoUsuario = usuario?.cargo || 'Administrador';
   const orgaoUsuario = usuario?.orgao || 'SEMMA';
   const perfilUsuario = usuario?.perfil || 'adm';
@@ -78,7 +78,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
           {/* Grid com Dados do Servidor Logado */}
           <div className="w-full lg:w-auto bg-slate-900/80 backdrop-blur-sm border border-slate-700/60 rounded-xl p-3.5 text-xs grid grid-cols-2 sm:grid-cols-3 gap-3 shadow-inner">
             <div>
-              <p className="text-[10px] text-slate-400 font-semibold uppercase">CPF / CNPJ</p>
+              <p className="text-[10px] text-slate-400 font-semibold uppercase">CPF / CNPJ / Login</p>
               <p className="font-mono font-bold text-emerald-400 mt-0.5">{cpfUsuario}</p>
             </div>
             <div>
