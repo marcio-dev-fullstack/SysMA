@@ -16,7 +16,7 @@ export const ConsultaPublica: React.FC = () => {
         status: 'VIGENTE',
         emissao: '2026-01-15',
         validade: '2030-01-15',
-        orgao: 'Secretaria Municipal de Meio Ambiente',
+        orgao: 'SEMMA',
       });
     }
   };

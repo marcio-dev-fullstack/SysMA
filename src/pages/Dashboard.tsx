@@ -26,8 +26,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
   const nomeUsuario = usuario?.nome || 'MÁRCIO RODRIGUES DE OLIVEIRA';
   const emailUsuario = usuario?.email || 'cda.marcio@gmail.com';
   const cpfUsuario = usuario?.cpf || '633.740.302-97';
-  const cargoUsuario = usuario?.cargo || 'Administrador do Sistema & Secretário';
-  const orgaoUsuario = usuario?.orgao || 'Secretaria Municipal de Meio Ambiente';
+  const cargoUsuario = usuario?.cargo || 'Administrador';
+  const orgaoUsuario = usuario?.orgao || 'SEMMA';
   const perfilUsuario = usuario?.perfil || 'adm';
 
   const perfilTitulos = {

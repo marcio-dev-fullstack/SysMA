@@ -106,7 +106,7 @@ export const MOCK_ZONAS_GIS: ZonaGIS[] = [
 export const MOCK_LOGS: LogAuditoria[] = [
   {
     id: 'l1',
-    usuario: 'MÁRCIO RODRIGUES DE OLIVEIRA (Secretário)',
+    usuario: 'MÁRCIO RODRIGUES DE OLIVEIRA (ADM)',
     cpf: '633.740.302-97',
     perfil: 'adm',
     acao: 'Renovação de Licença do Sistema (+90 dias) e Gestão Total de Usuários',

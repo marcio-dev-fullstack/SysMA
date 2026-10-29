@@ -14,8 +14,8 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
       email: 'cda.marcio@gmail.com',
       cpf: '633.740.302-97',
       perfil: 'adm',
-      cargo: 'Administrador do Sistema & Secretário',
-      orgao: 'Secretaria Municipal de Meio Ambiente',
+      cargo: 'Administrador',
+      orgao: 'SEMMA',
       avatar: 'M',
       telefone_whatsapp: '+55 65 9231-2739',
     },
@@ -85,7 +85,7 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
     cpf: '',
     perfil: perfilLogado === 'analista' ? ('fiscal' as PerfilUsuario) : ('analista' as PerfilUsuario),
     cargo: perfilLogado === 'analista' ? 'Fiscal Ambiental de Campo' : 'Analista Ambiental Sênior',
-    orgao: 'Secretaria Municipal de Meio Ambiente',
+    orgao: 'SEMMA',
     telefone_whatsapp: '',
   });
 
@@ -110,7 +110,7 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
       cpf: '',
       perfil: perfilLogado === 'analista' ? 'fiscal' : 'analista',
       cargo: perfilLogado === 'analista' ? 'Fiscal Ambiental de Campo' : 'Analista Ambiental Sênior',
-      orgao: 'Secretaria Municipal de Meio Ambiente',
+      orgao: 'SEMMA',
       telefone_whatsapp: '',
     });
   };

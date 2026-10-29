@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   cpf_cnpj VARCHAR(18) UNIQUE,
   cargo VARCHAR(100) NOT NULL,
   perfil VARCHAR(20) CHECK (perfil IN ('adm', 'analista', 'fiscal', 'empresario')),
-  orgao TEXT DEFAULT 'Secretaria Municipal de Meio Ambiente',
+  orgao TEXT DEFAULT 'SEMMA',
   telefone_whatsapp VARCHAR(30),
   email VARCHAR(255) DEFAULT 'cda.marcio@gmail.com',
   created_at TIMESTAMPTZ DEFAULT NOW()
@@ -125,7 +125,7 @@ CREATE POLICY "Permitir leitura pública de logs" ON public.logs_auditoria FOR S
 
 INSERT INTO public.profiles (id, nome_completo, cpf_cnpj, cargo, perfil, orgao, telefone_whatsapp, email)
 VALUES 
-  ('00000000-0000-0000-0000-000000000001', 'MÁRCIO RODRIGUES DE OLIVEIRA', '633.740.302-97', 'Administrador do Sistema & Secretário', 'adm', 'Secretaria Municipal de Meio Ambiente', '+55 65 9231-2739', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000001', 'MÁRCIO RODRIGUES DE OLIVEIRA', '633.740.302-97', 'Administrador', 'adm', 'SEMMA', '+55 65 9231-2739', 'cda.marcio@gmail.com'),
   ('00000000-0000-0000-0000-000000000002', 'ailton.bartolomeu', '111.949.113-98', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9113-9883', 'cda.marcio@gmail.com'),
   ('00000000-0000-0000-0000-000000000003', 'fernanda.baccaro', '222.949.305-12', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9305-1234', 'cda.marcio@gmail.com'),
   ('00000000-0000-0000-0000-000000000004', 'flavio.watanabe', '333.949.182-88', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9182-8854', 'cda.marcio@gmail.com'),
