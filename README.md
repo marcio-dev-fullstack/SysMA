@@ -1,4 +1,4 @@
-# 🌳 SisMA - Sistema de Meio Ambiente (v24.0)
+# 🌳 SisMA - Sistema de Meio Ambiente (v1.0.0 Oficial)
 
 > **Stack Moderno**: `React 19` | `TypeScript 5.7` | `Vite 6.0` | `Tailwind CSS v4` | `Supabase (PostGIS)` | `GitHub Pages`
 
@@ -6,7 +6,7 @@ O **SisMA (Sistema de Meio Ambiente)** é uma solução digital municipal para g
 
 ---
 
-## 🆕 Novidades da Versão v5.0 (Gestão de Licenciamento & Validade)
+## 🚀 Destaques da Versão v1.0.0 (Gestão de Licenciamento & Validade)
 
 - 🔑 **Chave de Licença de Uso**: Painel de gerenciamento de licença integrado na barra inferior da Tela de Login.
 - ⏳ **Relógio em Contagem Regressiva (90 a 0 dias)**: Monitoramento contínuo em dias da validade da chave do sistema.

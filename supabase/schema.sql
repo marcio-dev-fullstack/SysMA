@@ -1,5 +1,5 @@
 -- =========================================================
--- SisMA - Sistema de Meio Ambiente (v2.0 / v26.0)
+-- SisMA - Sistema de Meio Ambiente (v1.0.0 Oficial)
 -- Script SQL para Inicialização do Banco de Dados Supabase (PostGIS)
 -- =========================================================
 
