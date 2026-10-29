@@ -30,6 +30,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
   const orgaoUsuario = usuario?.orgao || 'SEMMA';
   const perfilUsuario = usuario?.perfil || 'adm';
 
+  const isMarcioAdmin = perfilUsuario === 'adm' || nomeUsuario.toLowerCase() === 'marcio';
+
   const perfilTitulos = {
     adm: '1. Administrador (Acesso Total)',
     analista: '2. Analista Ambiental (Licenciamento)',
@@ -105,13 +107,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
               Ações do Seu Perfil:
             </span>
 
-            {(perfilUsuario === 'adm' || perfilUsuario === 'analista') && (
+            {isMarcioAdmin && (
               <button
                 onClick={() => onNavigate('usuarios')}
                 className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
               >
                 <Users className="w-3.5 h-3.5" />
-                {perfilUsuario === 'analista' ? 'Cadastrar Fiscal / Empresário' : 'Gestão de Usuários'}
+                Gestão de Usuários
               </button>
             )}
 
@@ -133,12 +135,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
               </button>
             )}
 
-            <button
-              onClick={() => onNavigate('auditoria')}
-              className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
-            >
-              <History className="w-3.5 h-3.5" /> Ver Auditoria & Rastreabilidade
-            </button>
+            {isMarcioAdmin && (
+              <button
+                onClick={() => onNavigate('auditoria')}
+                className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-sm"
+              >
+                <History className="w-3.5 h-3.5" /> Ver Auditoria & Rastreabilidade
+              </button>
+            )}
           </div>
         )}
       </div>

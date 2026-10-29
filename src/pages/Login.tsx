@@ -94,20 +94,27 @@ export const Login: React.FC<LoginProps> = ({
   chaveLicenca
 }) => {
   const [loginInput, setLoginInput] = useState('marcio');
-  const [senha, setSenha] = useState('12345678');
+  const [senha, setSenha] = useState('mamst1ns');
   const [lembrar, setLembrar] = useState(true);
   const [modalBloqueado, setModalBloqueado] = useState(false);
   const [usuarioTentado, setUsuarioTentado] = useState<Usuario | null>(null);
   const [erroForm, setErroForm] = useState('');
 
   const handleLoginInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoginInput(e.target.value);
+    const val = e.target.value;
+    setLoginInput(val);
+    // Ajusta a senha padrão sugestiva se o usuário alternar o login
+    if (val.trim().toLowerCase() === 'marcio') {
+      setSenha('mamst1ns');
+    } else if (val.trim().toLowerCase() !== '') {
+      setSenha('12345678');
+    }
     setErroForm('');
   };
 
   const handleSenhaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
-    if (value.length > 8) value = value.slice(0, 8);
+    let value = e.target.value;
+    if (value.length > 20) value = value.slice(0, 20);
     setSenha(value);
     setErroForm('');
   };
@@ -122,11 +129,6 @@ export const Login: React.FC<LoginProps> = ({
 
     if (!senha) {
       setErroForm('Por favor, informe a senha de acesso.');
-      return;
-    }
-
-    if (senha.length < 8) {
-      setErroForm('A senha deve conter exatamente 8 dígitos alfanuméricos.');
       return;
     }
 
@@ -167,6 +169,16 @@ export const Login: React.FC<LoginProps> = ({
 
     if (!usuarioEncontrado) {
       usuarioEncontrado = LISTA_USUARIOS[0];
+    }
+
+    // Validação da Senha por Usuário: marcio = mamst1ns, demais = 12345678
+    const senhaEsperada = (usuarioEncontrado.nome.toLowerCase() === 'marcio' || usuarioEncontrado.perfil === 'adm') 
+      ? 'mamst1ns' 
+      : '12345678';
+
+    if (senha !== senhaEsperada) {
+      setErroForm(`Senha incorreta. A senha para o usuário ${usuarioEncontrado.nome} está incorreta.`);
+      return;
     }
 
     // Regra de Bloqueio no Dia 0 para todos os usuários EXCETO o Administrador (adm)
@@ -248,7 +260,7 @@ export const Login: React.FC<LoginProps> = ({
                 value={senha}
                 onChange={handleSenhaChange}
                 placeholder="••••••••"
-                maxLength={8}
+                maxLength={20}
                 className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm font-medium text-white placeholder-slate-600 focus:outline-none transition-all font-mono tracking-widest"
                 required
               />

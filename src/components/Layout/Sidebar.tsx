@@ -23,6 +23,8 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, usuario, onLogout }) => {
+  const isMarcioAdmin = usuario.perfil === 'adm' || usuario.nome.toLowerCase() === 'marcio';
+
   const allMenuItems = [
     { id: 'dashboard', label: 'Painel Geral', icon: LayoutDashboard, perfis: ['adm', 'analista', 'fiscal', 'empresario'] },
     { id: 'licenciamento', label: 'Licenciamento', icon: FileCheck2, perfis: ['adm', 'analista', 'empresario'] },
@@ -30,27 +32,26 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, usuar
     { id: 'fiscalizacao', label: 'Fiscalização & Autos', icon: ClipboardCheck, perfis: ['adm', 'fiscal'] },
     { id: 'denuncias', label: 'Denúncias', icon: AlertTriangle, perfis: ['adm', 'analista', 'fiscal'] },
     { id: 'gis', label: 'Zoneamento GIS', icon: Map, perfis: ['adm', 'analista', 'fiscal'] },
-    { id: 'usuarios', label: 'Gestão de Usuários', icon: Users, perfis: ['adm', 'analista'] },
+    { id: 'usuarios', label: 'Gestão de Usuários', icon: Users, perfis: ['adm'] },
     { id: 'enquadramento', label: 'Tabela de Taxas', icon: Layers, perfis: ['adm', 'analista', 'empresario'] },
     { id: 'consulta-publica', label: 'Consulta Pública', icon: Search, perfis: ['adm', 'analista', 'fiscal', 'empresario'] },
-    { id: 'auditoria', label: 'Auditoria & Logs', icon: History, perfis: ['adm', 'analista', 'fiscal', 'empresario'] },
+    { id: 'auditoria', label: 'Auditoria & Logs', icon: History, perfis: ['adm'] },
   ];
 
   // Filtrar itens do menu de acordo com o perfil do usuário
-  const menuItems = allMenuItems.filter((item) => item.perfis.includes(usuario.perfil));
+  // Apenas o administrador (marcio) pode ver 'usuarios' e 'auditoria'
+  const menuItems = allMenuItems.filter((item) => {
+    if (item.id === 'usuarios' || item.id === 'auditoria') {
+      return isMarcioAdmin;
+    }
+    return item.perfis.includes(usuario.perfil);
+  });
 
   const perfilBadges = {
     adm: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
     analista: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
     fiscal: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
     empresario: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-  };
-
-  const perfilLabels = {
-    adm: '1. Administrador (Acesso Total)',
-    analista: '2. Analista (Técnico)',
-    fiscal: '3. Fiscal (Campo)',
-    empresario: '4. Empresário (Requerente)',
   };
 
   return (

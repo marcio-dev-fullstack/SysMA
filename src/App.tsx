@@ -51,6 +51,8 @@ export function App() {
     setModalLicenca(false);
   };
 
+  const isMarcioAdmin = usuario.perfil === 'adm' || usuario.nome.toLowerCase() === 'marcio';
+
   const renderContent = () => {
     if (selectedProcesso) {
       return (
@@ -104,13 +106,33 @@ export function App() {
       case 'gis':
         return <ZoneamentoGIS />;
       case 'usuarios':
-        return <GestaoUsuarios usuarioAtual={usuario} />;
+        return isMarcioAdmin ? (
+          <GestaoUsuarios usuarioAtual={usuario} />
+        ) : (
+          <Dashboard
+            usuario={usuario}
+            onNavigate={(tab) => {
+              setSelectedProcesso(null);
+              setActiveTab(tab);
+            }}
+          />
+        );
       case 'enquadramento':
         return <EnquadramentoAtividades />;
       case 'consulta-publica':
         return <ConsultaPublica />;
       case 'auditoria':
-        return <Auditoria />;
+        return isMarcioAdmin ? (
+          <Auditoria />
+        ) : (
+          <Dashboard
+            usuario={usuario}
+            onNavigate={(tab) => {
+              setSelectedProcesso(null);
+              setActiveTab(tab);
+            }}
+          />
+        );
       default:
         return (
           <Dashboard
