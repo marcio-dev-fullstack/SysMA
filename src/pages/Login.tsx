@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   TreePine, 
   Lock, 
@@ -100,10 +100,37 @@ export const Login: React.FC<LoginProps> = ({
   const [usuarioTentado, setUsuarioTentado] = useState<Usuario | null>(null);
   const [erroForm, setErroForm] = useState('');
 
+  // Cronômetro dinâmico em tempo real no formato dd/hh/mm/ss
+  const [segundosTotais, setSegundosTotais] = useState(() => {
+    return Math.max(0, diasLicenca * 86400);
+  });
+
+  useEffect(() => {
+    setSegundosTotais(Math.max(0, diasLicenca * 86400));
+  }, [diasLicenca]);
+
+  useEffect(() => {
+    if (segundosTotais <= 0) return;
+    const interval = setInterval(() => {
+      setSegundosTotais((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [segundosTotais]);
+
+  const formatTime = (seconds: number) => {
+    const dd = String(Math.floor(seconds / 86400)).padStart(2, '0');
+    const hh = String(Math.floor((seconds % 86400) / 3600)).padStart(2, '0');
+    const mm = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+    const ss = String(Math.floor(seconds % 60)).padStart(2, '0');
+    return { dd, hh, mm, ss };
+  };
+
+  const time = formatTime(segundosTotais);
+  const isExpirado = segundosTotais <= 0 || diasLicenca <= 0;
+
   const handleLoginInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setLoginInput(val);
-    // Ajusta a senha padrão sugestiva se o usuário alternar o login
     if (val.trim().toLowerCase() === 'marcio') {
       setSenha('mamst1ns');
     } else if (val.trim().toLowerCase() !== '') {
@@ -177,12 +204,12 @@ export const Login: React.FC<LoginProps> = ({
       : '12345678';
 
     if (senha !== senhaEsperada) {
-      setErroForm(`Senha incorreta. A senha para o usuário ${usuarioEncontrado.nome} está incorreta.`);
+      setErroForm(`Senha incorreta para o usuário ${usuarioEncontrado.nome}.`);
       return;
     }
 
-    // Regra de Bloqueio no Dia 0 para todos os usuários EXCETO o Administrador (adm)
-    if (diasLicenca <= 0 && usuarioEncontrado.perfil !== 'adm') {
+    // Regra de Bloqueio em 00d/00h/00m/00s para todos os usuários EXCETO o Administrador (marcio)
+    if (isExpirado && usuarioEncontrado.perfil !== 'adm') {
       setUsuarioTentado(usuarioEncontrado);
       setModalBloqueado(true);
       return;
@@ -290,71 +317,92 @@ export const Login: React.FC<LoginProps> = ({
           </button>
         </form>
 
-        {/* CRONÔMETRO DE LICENÇA DE USO GRÁTIS - POSICIONADO ABAIXO DO BOTAO ENTRAR */}
+        {/* CRONÔMETRO DE LICENÇA FREE EM FORMATO dd/hh/mm/ss - POSICIONADO ABAIXO DO BOTAO ENTRAR */}
         <div className={`p-4 rounded-2xl border transition-all ${
-          diasLicenca <= 0
+          isExpirado
             ? 'bg-rose-950/40 border-rose-500/40 text-rose-200'
             : diasLicenca <= 5
             ? 'bg-amber-950/40 border-amber-500/40 text-amber-200 animate-pulse'
             : 'bg-emerald-950/30 border-emerald-500/30 text-emerald-200'
         }`}>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <Clock className={`w-5 h-5 ${
-                diasLicenca <= 0 ? 'text-rose-400' : diasLicenca <= 5 ? 'text-amber-400' : 'text-emerald-400'
+                isExpirado ? 'text-rose-400' : diasLicenca <= 5 ? 'text-amber-400' : 'text-emerald-400'
               }`} />
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  Licença de Uso Grátis
+                  Licença de Uso Grátis (90 Dias)
                 </p>
-                <p className="text-sm font-black">
-                  {diasLicenca <= 0 ? (
-                    <span className="text-rose-400">0 DIAS (EXPIRADA)</span>
-                  ) : (
-                    <span>{diasLicenca} DIAS RESTANTES</span>
-                  )}
+                <p className="text-xs font-semibold text-slate-300">
+                  Contagem Regressiva de Acesso
                 </p>
               </div>
             </div>
 
-            {/* Barra Visual de Progresso do Cronômetro (90 a 0 dias) */}
-            <div className="text-right">
-              <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                diasLicenca <= 0
-                  ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                  : diasLicenca <= 5
-                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                  : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-              }`}>
-                {diasLicenca <= 0 ? 'Bloqueado' : `${Math.round((diasLicenca / 90) * 100)}% Ativo`}
+            <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+              isExpirado
+                ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                : diasLicenca <= 5
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+            }`}>
+              {isExpirado ? 'Bloqueado' : `${Math.round((segundosTotais / (90 * 86400)) * 100)}% Ativo`}
+            </span>
+          </div>
+
+          {/* PAINEL DO CRONÔMETRO DIGITADO DD / HH / MM / SS */}
+          <div className="grid grid-cols-4 gap-2 text-center my-3 bg-slate-950/90 p-2.5 rounded-xl border border-slate-800 font-mono">
+            <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
+              <span className={`text-base font-black ${isExpirado ? 'text-rose-400' : 'text-emerald-400'}`}>
+                {time.dd}
               </span>
+              <p className="text-[9px] font-bold text-slate-500 uppercase">Dias</p>
+            </div>
+            <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
+              <span className={`text-base font-black ${isExpirado ? 'text-rose-400' : 'text-emerald-400'}`}>
+                {time.hh}
+              </span>
+              <p className="text-[9px] font-bold text-slate-500 uppercase">Horas</p>
+            </div>
+            <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
+              <span className={`text-base font-black ${isExpirado ? 'text-rose-400' : 'text-emerald-400'}`}>
+                {time.mm}
+              </span>
+              <p className="text-[9px] font-bold text-slate-500 uppercase">Min</p>
+            </div>
+            <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
+              <span className={`text-base font-black ${isExpirado ? 'text-rose-400' : 'text-emerald-400'}`}>
+                {time.ss}
+              </span>
+              <p className="text-[9px] font-bold text-slate-500 uppercase">Seg</p>
             </div>
           </div>
 
           {/* Barra de Progresso em Linha */}
-          <div className="w-full bg-slate-950/80 rounded-full h-1.5 mt-3 overflow-hidden border border-slate-800">
+          <div className="w-full bg-slate-950/80 rounded-full h-1.5 mt-2 overflow-hidden border border-slate-800">
             <div 
               className={`h-full transition-all duration-500 ${
-                diasLicenca <= 0
+                isExpirado
                   ? 'bg-rose-500 w-0'
                   : diasLicenca <= 5
                   ? 'bg-amber-500'
                   : 'bg-gradient-to-r from-emerald-500 to-teal-400'
               }`}
-              style={{ width: `${Math.max(0, Math.min(100, (diasLicenca / 90) * 100))}%` }}
+              style={{ width: `${Math.max(0, Math.min(100, (segundosTotais / (90 * 86400)) * 100))}%` }}
             ></div>
           </div>
 
           {/* Avisos Contextuais de Licença */}
-          {diasLicenca <= 0 ? (
+          {isExpirado ? (
             <p className="text-[11px] text-rose-300 font-semibold mt-2.5 flex items-center gap-1.5">
               <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-              <span>Acesso suspenso para não-ADM. Apenas o Administrador (marcio) pode logar para renovação.</span>
+              <span>Acesso suspenso. Apenas o Administrador (marcio) pode logar para renovação.</span>
             </p>
           ) : diasLicenca <= 5 ? (
             <p className="text-[11px] text-amber-300 font-semibold mt-2.5 flex items-center gap-1.5">
               <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-              <span>Atenção: A licença expira em poucos dias. Notificações diárias ativas.</span>
+              <span>Atenção: A licença expira em poucos dias. Notificações ativas.</span>
             </p>
           ) : (
             <p className="text-[10px] text-slate-400 font-medium mt-2 flex items-center justify-between">
@@ -374,7 +422,7 @@ export const Login: React.FC<LoginProps> = ({
         </div>
       </div>
 
-      {/* Modal de Alerta de Licença Expirada (Bloqueio Dia 0) */}
+      {/* Modal de Alerta de Licença Expirada (Bloqueio em 00d/00h/00m/00s) */}
       {modalBloqueado && (
         <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
           <div className="bg-slate-900 border border-rose-500/30 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
@@ -382,7 +430,7 @@ export const Login: React.FC<LoginProps> = ({
               <AlertTriangle className="w-6 h-6 shrink-0" />
             </div>
             <div className="text-center space-y-2">
-              <h3 className="text-lg font-bold text-white">Licença do Sistema Expirada (0 Dias)</h3>
+              <h3 className="text-lg font-bold text-white">Licença do Sistema Expirada (00d 00h 00m 00s)</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
                 O prazo de validade de 90 dias de uso grátis do SisMA expirou. O acesso de <strong>Analistas, Fiscais e Empresários</strong> está temporariamente suspenso.
               </p>
