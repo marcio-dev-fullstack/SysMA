@@ -125,12 +125,12 @@ CREATE POLICY "Permitir leitura pública de logs" ON public.logs_auditoria FOR S
 
 INSERT INTO public.profiles (id, nome_completo, cpf_cnpj, cargo, perfil, orgao, telefone_whatsapp, email)
 VALUES 
-  ('00000000-0000-0000-0000-000000000001', 'marcio', 'marcio', 'Administrador', 'adm', 'SEMMA', '+55 65 9231-2739', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000002', 'ailton.bartolomeu', 'ailton.bartolomeu', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9113-9883', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000003', 'fernanda.baccaro', 'fernanda.baccaro', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9305-1234', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000004', 'flavio.watanabe', 'flavio.watanabe', 'Analista Ambiental Sênior', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9182-8854', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000005', 'policia', 'policia', 'Fiscal Ambiental', 'fiscal', 'Divisão de Fiscalização', '+55 65 98888-1234', 'cda.marcio@gmail.com'),
-  ('00000000-0000-0000-0000-000000000006', 'zentix', '12.345.678/0001-90', 'Requerente / Empresário', 'empresario', 'zentix', '+55 65 97777-5555', 'cda.marcio@gmail.com')
+  ('00000000-0000-0000-0000-000000000001', 'Márcio Rodrigues de Oliveira', 'marcio', 'Administrador - Márcio Rodrigues de Oliveira', 'adm', 'SEMMA', '+55 65 9231-2739', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000002', 'Ailton Bartolomeu', 'ailton.bartolomeu', 'Analista Ambiental - Ailton Bartolomeu', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9113-9883', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000003', 'Fernanda Baccaro', 'fernanda.baccaro', 'Analista Ambiental - Fernanda Baccaro', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9305-1234', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000004', 'Flávio Watanabe', 'flavio.watanabe', 'Analista Ambiental - Flávio Watanabe', 'analista', 'Coordenadoria de Licenciamento', '+55 94 9182-8854', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000005', 'Samara Oliveira', 'samara.oliveira', 'Fiscal Ambiental - Samara Oliveira', 'fiscal', 'Divisão de Fiscalização', '+55 65 98888-1234', 'cda.marcio@gmail.com'),
+  ('00000000-0000-0000-0000-000000000006', 'Zentix Engenharia e Tecnologia Ltda', '12.345.678/0001-90', 'Requerente / Empresário - Zentix Engenharia e Tecnologia Ltda', 'empresario', 'zentix', '+55 65 97777-5555', 'cda.marcio@gmail.com')
 ON CONFLICT (cpf_cnpj) DO UPDATE 
 SET 
   nome_completo = EXCLUDED.nome_completo,

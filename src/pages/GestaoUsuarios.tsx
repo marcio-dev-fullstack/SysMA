@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, UserPlus, Search, Trash2, Edit2, Phone, Mail, ShieldAlert } from 'lucide-react';
+import { Users, UserPlus, Search, Trash2, Edit2, Phone, Mail } from 'lucide-react';
 import { Usuario, PerfilUsuario } from '../types';
 
 interface GestaoUsuariosProps {
@@ -11,10 +11,11 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
     {
       id: 'usr-1',
       nome: 'marcio',
+      nome_completo: 'Márcio Rodrigues de Oliveira',
       email: 'cda.marcio@gmail.com',
       cpf: 'marcio',
       perfil: 'adm',
-      cargo: 'Administrador',
+      cargo: 'Administrador - Márcio Rodrigues de Oliveira',
       orgao: 'SEMMA',
       avatar: 'M',
       telefone_whatsapp: '+55 65 9231-2739',
@@ -22,10 +23,11 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
     {
       id: 'usr-2',
       nome: 'ailton.bartolomeu',
+      nome_completo: 'Ailton Bartolomeu',
       email: 'cda.marcio@gmail.com',
       cpf: 'ailton.bartolomeu',
       perfil: 'analista',
-      cargo: 'Analista Ambiental Sênior',
+      cargo: 'Analista Ambiental - Ailton Bartolomeu',
       orgao: 'Coordenadoria de Licenciamento',
       avatar: 'A',
       telefone_whatsapp: '+55 94 9113-9883',
@@ -33,10 +35,11 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
     {
       id: 'usr-3',
       nome: 'fernanda.baccaro',
+      nome_completo: 'Fernanda Baccaro',
       email: 'cda.marcio@gmail.com',
       cpf: 'fernanda.baccaro',
       perfil: 'analista',
-      cargo: 'Analista Ambiental Sênior',
+      cargo: 'Analista Ambiental - Fernanda Baccaro',
       orgao: 'Coordenadoria de Licenciamento',
       avatar: 'F',
       telefone_whatsapp: '+55 94 9305-1234',
@@ -44,32 +47,35 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
     {
       id: 'usr-4',
       nome: 'flavio.watanabe',
+      nome_completo: 'Flávio Watanabe',
       email: 'cda.marcio@gmail.com',
       cpf: 'flavio.watanabe',
       perfil: 'analista',
-      cargo: 'Analista Ambiental Sênior',
+      cargo: 'Analista Ambiental - Flávio Watanabe',
       orgao: 'Coordenadoria de Licenciamento',
       avatar: 'F',
       telefone_whatsapp: '+55 94 9182-8854',
     },
     {
       id: 'usr-5',
-      nome: 'policia',
+      nome: 'samara.oliveira',
+      nome_completo: 'Samara Oliveira',
       email: 'cda.marcio@gmail.com',
-      cpf: 'policia',
+      cpf: 'samara.oliveira',
       perfil: 'fiscal',
-      cargo: 'Fiscal Ambiental',
+      cargo: 'Fiscal Ambiental - Samara Oliveira',
       orgao: 'Divisão de Fiscalização',
-      avatar: 'P',
+      avatar: 'S',
       telefone_whatsapp: '+55 65 98888-1234',
     },
     {
       id: 'usr-6',
       nome: 'zentix',
+      nome_completo: 'Zentix Engenharia e Tecnologia Ltda',
       email: 'cda.marcio@gmail.com',
       cpf: '12.345.678/0001-90',
       perfil: 'empresario',
-      cargo: 'Requerente / Empresário',
+      cargo: 'Requerente / Empresário - Zentix Engenharia e Tecnologia Ltda',
       orgao: 'zentix',
       avatar: 'Z',
       telefone_whatsapp: '+55 65 97777-5555',
@@ -81,10 +87,11 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
   const [showModal, setShowModal] = useState(false);
   const [novoUsuario, setNovoUsuario] = useState({
     nome: '',
+    nome_completo: '',
     email: 'cda.marcio@gmail.com',
     cpf: '',
     perfil: perfilLogado === 'analista' ? ('fiscal' as PerfilUsuario) : ('analista' as PerfilUsuario),
-    cargo: perfilLogado === 'analista' ? 'Fiscal Ambiental de Campo' : 'Analista Ambiental Sênior',
+    cargo: perfilLogado === 'analista' ? 'Fiscal Ambiental' : 'Analista Ambiental',
     orgao: 'SEMMA',
     telefone_whatsapp: '',
   });
@@ -94,22 +101,24 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
     const userCreated: Usuario = {
       id: `usr-${Date.now()}`,
       nome: novoUsuario.nome,
+      nome_completo: novoUsuario.nome_completo || novoUsuario.nome,
       email: novoUsuario.email,
       cpf: novoUsuario.cpf,
       perfil: novoUsuario.perfil,
       cargo: novoUsuario.cargo,
       orgao: novoUsuario.orgao,
-      avatar: novoUsuario.nome.charAt(0).toUpperCase(),
+      avatar: (novoUsuario.nome_completo || novoUsuario.nome).charAt(0).toUpperCase(),
       telefone_whatsapp: novoUsuario.telefone_whatsapp,
     };
     setUsuarios([...usuarios, userCreated]);
     setShowModal(false);
     setNovoUsuario({
       nome: '',
+      nome_completo: '',
       email: 'cda.marcio@gmail.com',
       cpf: '',
       perfil: perfilLogado === 'analista' ? 'fiscal' : 'analista',
-      cargo: perfilLogado === 'analista' ? 'Fiscal Ambiental de Campo' : 'Analista Ambiental Sênior',
+      cargo: perfilLogado === 'analista' ? 'Fiscal Ambiental' : 'Analista Ambiental',
       orgao: 'SEMMA',
       telefone_whatsapp: '',
     });
@@ -133,10 +142,10 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
   };
 
   const perfilLabels = {
-    adm: 'Administrador',
-    analista: 'Analista',
-    fiscal: 'Fiscal',
-    empresario: 'Empresário',
+    adm: '1. Administrador',
+    analista: '2. Analista Ambiental',
+    fiscal: '3. Fiscal Ambiental',
+    empresario: '4. Empresário',
   };
 
   return (
@@ -195,7 +204,7 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
                       {user.avatar}
                     </div>
                     <div>
-                      <p className="font-bold text-slate-800">{user.nome}</p>
+                      <p className="font-bold text-slate-800">{user.nome_completo || user.nome}</p>
                       <p className="text-[11px] text-slate-400 flex items-center gap-1">
                         <Mail className="w-3 h-3 text-slate-400" />
                         {user.email}
@@ -209,7 +218,10 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
                     </div>
                   </td>
                   <td className="p-4 font-mono text-slate-700 font-semibold">
-                    {user.cpf || '—'}
+                    <div>
+                      <p>{user.cpf || '—'}</p>
+                      <p className="text-[10px] text-purple-600 font-bold">Login: {user.nome}</p>
+                    </div>
                   </td>
                   <td className="p-4">
                     <p className="text-slate-800 font-semibold">{user.cargo}</p>
@@ -228,7 +240,7 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
                     </button>
                     {perfilLogado === 'adm' ? (
                       <button
-                        onClick={() => handleDelete(user.id, user.nome)}
+                        onClick={() => handleDelete(user.id, user.nome_completo || user.nome)}
                         className="p-1.5 text-slate-600 hover:text-red-600 hover:bg-slate-100 rounded-lg cursor-pointer"
                         title="Excluir Usuário"
                       >
@@ -263,9 +275,9 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
               <input
                 type="text"
                 required
-                placeholder="Ex: Carlos Eduardo ou zentix"
-                value={novoUsuario.nome}
-                onChange={(e) => setNovoUsuario({ ...novoUsuario, nome: e.target.value })}
+                placeholder="Ex: Márcio Rodrigues de Oliveira ou Zentix"
+                value={novoUsuario.nome_completo}
+                onChange={(e) => setNovoUsuario({ ...novoUsuario, nome_completo: e.target.value, nome: e.target.value.toLowerCase().replace(/\s+/g, '.') })}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500"
               />
             </div>
@@ -285,7 +297,7 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
               <input
                 type="text"
                 required
-                placeholder="000.000.000-00 ou policia"
+                placeholder="000.000.000-00 ou login"
                 value={novoUsuario.cpf}
                 onChange={(e) => setNovoUsuario({ ...novoUsuario, cpf: e.target.value })}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500 font-mono"
@@ -331,7 +343,7 @@ export const GestaoUsuarios: React.FC<GestaoUsuariosProps> = ({ usuarioAtual }) 
               <input
                 type="text"
                 required
-                placeholder="Ex: Fiscal de Campo ou Diretoria Industrial"
+                placeholder="Ex: Fiscal Ambiental - Samara Oliveira"
                 value={novoUsuario.cargo}
                 onChange={(e) => setNovoUsuario({ ...novoUsuario, cargo: e.target.value })}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-purple-500"

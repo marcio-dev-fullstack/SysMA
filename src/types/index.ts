@@ -3,6 +3,7 @@ export type PerfilUsuario = 'adm' | 'analista' | 'fiscal' | 'empresario';
 export interface Usuario {
   id: string;
   nome: string;
+  nome_completo?: string;
   email: string;
   cpf?: string;
   perfil: PerfilUsuario;

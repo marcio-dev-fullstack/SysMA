@@ -102,7 +102,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, usuar
               {usuario.avatar}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-bold text-white truncate">{usuario.nome}</p>
+              <p className="text-xs font-bold text-white truncate">{usuario.nome_completo || usuario.nome}</p>
               <p className="text-[10px] text-slate-400 truncate">{usuario.email}</p>
             </div>
           </div>

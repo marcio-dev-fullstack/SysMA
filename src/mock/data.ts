@@ -4,7 +4,7 @@ export const MOCK_PROCESSOS: ProcessoLicenciamento[] = [
   {
     id: '1',
     numero_processo: 'PROC-2026-0089',
-    requerente: 'zentix',
+    requerente: 'Zentix Engenharia e Tecnologia Ltda',
     cpf_cnpj: '12.345.678/0001-90',
     tipo_licenca: 'LO',
     status: 'Em Análise',
@@ -41,7 +41,7 @@ export const MOCK_VISTORIAS: Vistoria[] = [
     id: 'v1',
     numero_auto: 'VIS-2026-0041',
     alvo: 'Aterro Sanitário Municipal Norte',
-    fiscal: 'policia',
+    fiscal: 'Samara Oliveira',
     tipo_infracao: 'Monitoramento de Chorume e Queimadores de Methane',
     status: 'Concluída',
     data_vistoria: '2026-02-20',
@@ -53,7 +53,7 @@ export const MOCK_VISTORIAS: Vistoria[] = [
     id: 'v2',
     numero_auto: 'VIS-2026-0055',
     alvo: 'Pedreira Serra Azul Ltda',
-    fiscal: 'policia',
+    fiscal: 'Samara Oliveira',
     tipo_infracao: 'Verificação de Níveis de Ruído e Supressão Vegetal',
     status: 'Em Andamento',
     data_vistoria: '2026-02-24',
@@ -106,7 +106,7 @@ export const MOCK_ZONAS_GIS: ZonaGIS[] = [
 export const MOCK_LOGS: LogAuditoria[] = [
   {
     id: 'l1',
-    usuario: 'marcio (ADM)',
+    usuario: 'Márcio Rodrigues de Oliveira (ADM)',
     cpf: 'marcio',
     perfil: 'adm',
     acao: 'Renovação de Licença do Sistema (+90 dias) e Gestão Total de Usuários',
@@ -118,7 +118,7 @@ export const MOCK_LOGS: LogAuditoria[] = [
   },
   {
     id: 'l2',
-    usuario: 'ailton.bartolomeu (Analista)',
+    usuario: 'Ailton Bartolomeu (Analista)',
     cpf: 'ailton.bartolomeu',
     perfil: 'analista',
     acao: 'Emissão de Parecer Técnico Favorável e Deferimento (PROC-2026-0102)',
@@ -130,10 +130,10 @@ export const MOCK_LOGS: LogAuditoria[] = [
   },
   {
     id: 'l3',
-    usuario: 'fernanda.baccaro (Analista)',
+    usuario: 'Fernanda Baccaro (Analista)',
     cpf: 'fernanda.baccaro',
     perfil: 'analista',
-    acao: 'Cadastro do Fiscal policia e Empresário zentix no Sistema RBAC',
+    acao: 'Cadastro do Fiscal Samara Oliveira e Empresário Zentix no Sistema RBAC',
     modulo: 'Gestão de Servidores',
     ip: '189.40.115.22',
     geolocalizacao: '-5.3812, -49.1299 (Marabá / PA - Wi-Fi SEMMA)',
@@ -142,8 +142,8 @@ export const MOCK_LOGS: LogAuditoria[] = [
   },
   {
     id: 'l4',
-    usuario: 'policia (Fiscal de Campo)',
-    cpf: 'policia',
+    usuario: 'Samara Oliveira (Fiscal de Campo)',
+    cpf: 'samara.oliveira',
     perfil: 'fiscal',
     acao: 'Envio de Relatório de Vistoria de Campo com 2 Fotos e 1 Vídeo MP4 (VIS-2026-0041)',
     modulo: 'Fiscalização Mobile',
@@ -154,7 +154,7 @@ export const MOCK_LOGS: LogAuditoria[] = [
   },
   {
     id: 'l5',
-    usuario: 'zentix (Empresário)',
+    usuario: 'Zentix Engenharia (Empresário)',
     cpf: '12.345.678/0001-90',
     perfil: 'empresario',
     acao: 'Solicitação de Licença de Operação (LO) e Envio de Planta Baixa',
@@ -166,7 +166,7 @@ export const MOCK_LOGS: LogAuditoria[] = [
   },
   {
     id: 'l6',
-    usuario: 'flavio.watanabe (Analista)',
+    usuario: 'Flávio Watanabe (Analista)',
     cpf: 'flavio.watanabe',
     perfil: 'analista',
     acao: 'Solicitação de Complementação de Documentos Ambientais (PROC-2026-0118)',

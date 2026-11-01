@@ -101,7 +101,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <div className="hidden lg:block text-left">
               <div className="flex items-center gap-2">
-                <p className="text-xs font-bold text-slate-800">{usuario.nome}</p>
+                <p className="text-xs font-bold text-slate-800">{usuario.nome_completo || usuario.nome}</p>
                 <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${badgeCores[usuario.perfil]}`}>
                   {usuario.perfil.toUpperCase()}
                 </span>

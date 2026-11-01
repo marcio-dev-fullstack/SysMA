@@ -2,17 +2,13 @@ import React from 'react';
 import { MOCK_PROCESSOS } from '../mock/data';
 import { 
   FileText, 
-  ShieldAlert, 
   AlertCircle, 
   CheckCircle2, 
   MapPin, 
-  UserCheck, 
   ShieldCheck, 
   Users, 
   FilePlus, 
-  Search, 
   ClipboardCheck, 
-  Building2, 
   History 
 } from 'lucide-react';
 import { Usuario } from '../types';
@@ -23,14 +19,15 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => {
-  const nomeUsuario = usuario?.nome || 'marcio';
+  const nomeUsuario = usuario?.nome_completo || usuario?.nome || 'Márcio Rodrigues de Oliveira';
+  const loginUsuario = usuario?.nome || 'marcio';
   const emailUsuario = usuario?.email || 'cda.marcio@gmail.com';
   const cpfUsuario = usuario?.cpf || 'marcio';
-  const cargoUsuario = usuario?.cargo || 'Administrador';
+  const cargoUsuario = usuario?.cargo || 'Administrador - Márcio Rodrigues de Oliveira';
   const orgaoUsuario = usuario?.orgao || 'SEMMA';
   const perfilUsuario = usuario?.perfil || 'adm';
 
-  const isMarcioAdmin = perfilUsuario === 'adm' || nomeUsuario.toLowerCase() === 'marcio';
+  const isMarcioAdmin = perfilUsuario === 'adm' || loginUsuario.toLowerCase() === 'marcio';
 
   const perfilTitulos = {
     adm: '1. Administrador (Acesso Total)',
@@ -81,7 +78,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ usuario, onNavigate }) => 
           <div className="w-full lg:w-auto bg-slate-900/80 backdrop-blur-sm border border-slate-700/60 rounded-xl p-3.5 text-xs grid grid-cols-2 sm:grid-cols-3 gap-3 shadow-inner">
             <div>
               <p className="text-[10px] text-slate-400 font-semibold uppercase">CPF / CNPJ / Login</p>
-              <p className="font-mono font-bold text-emerald-400 mt-0.5">{cpfUsuario}</p>
+              <p className="font-mono font-bold text-emerald-400 mt-0.5">{loginUsuario}</p>
             </div>
             <div>
               <p className="text-[10px] text-slate-400 font-semibold uppercase">E-mail de Acesso</p>
